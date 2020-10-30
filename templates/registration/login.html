@@ -1,0 +1,139 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<style>
+  body {
+    max-height: 0;
+    padding:0;
+    background-image: url('../../static/img/Tainan-1.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment:fixed;
+    background-position: center;
+    font-family: sans-serif;
+  } 
+  
+  .login-box {
+    width: 320px;
+    height: 420px;
+    background: #000;
+    color:#fff;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    box-sizing: border-box;
+    padding: 70px 30px;
+  }
+  
+  .avatar {
+    width: 50%;
+    height: auto;
+    border-radius: 10px;
+    position: absolute;
+    top: -60px;
+    left:calc(50% - 77.5px);
+  } 
+  
+  h1 {
+    margin: 0;
+    padding: 0 0 20px;
+    text-align: center;
+    font-size: 22px;
+  }
+  
+  .login-box p {
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+  }
+  
+  .login-box input {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .login-box input[type="text"], input[type="password"]
+  {
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #0f0;
+    font-size: 16px;
+  }
+  
+  .login-box input[type="text"]:visited , input[type="password"]:visited 
+  {
+    border: none;
+    border-bottom: 1px solid #fff;
+    background: transparent;
+    outline: none;
+    height: 40px;
+    color: #0f0;
+    font-size: 16px;
+  }
+  
+  .login-box input[type="submit"]
+  {
+    border: none;
+    outline:none;
+    height: 40px;
+    background: #fb2525;
+    color: #fff;
+    font-size: 18px;
+    border-radius: 20px;
+  }
+  
+  .login-box input[type="submit"]:hover
+  {
+    cursor: pointer;
+    background: #ffc107;
+    color: #000;
+  }
+  
+  .login-box a{
+    text-decoration: none;
+    font-size: 12px;
+    line-height: 20px;
+    color: darkgrey;
+  }
+  
+  .login-box a:hover
+  {
+    color:#ffc107;
+  }
+
+</style>
+
+<body>
+  <div class="login-box">
+    <img src="{% static 'img/BJ.png' %}" class="avatar"/>
+    <h1>登入頁面</h1>
+    <form method="post">{% csrf_token %}
+
+      <p>帳號</p>
+      <input type="text" name="username" id="id_username" placeholder="請輸入帳號" autofill="off" />
+      <p>密碼</p>
+      <input type="password" name="password" id="id_password" placeholder="請輸入密碼" autocomplete="new-password" autofill="off" />
+      <input type="submit" name="" value="登入">
+    </form>
+    
+  </div>
+
+  <!-- 參考https://terrylinooo.github.io/jquery.disableAutoFill/ -->
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript">
+    $(function() {
+      $('input[autofill="off"]').disableAutofill();
+    });
+  </script>
+</body>
+</html>
+

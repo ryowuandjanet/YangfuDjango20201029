@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load widget_tweaks %}
+{% block title %}Sign Up{% endblock %}
+
+
+
+{% block content %}
+<style type="text/css">
+  .baserow {
+    padding-bottom:10px;
+  }
+</style>
+
+	<h2>註冊新會員</h2>
+	<form method="post">
+		{% csrf_token %}
+		
+		<div class="accordion" id="accordionExample">
+      <div class="card">
+        <div class="card-header bg-success" id="headingOne" style="padding:0px;">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left text-white" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+              <i class="fas fa-notes-medical"></i> 基本資料(必填)
+            </button>
+          </h2>
+        </div>
+
+        <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6" style="background-color:BurlyWood;">
+                
+                <div class="baserow">
+             
+                  <label for="id_username">姓名(英文-登入用)</label>
+                  <input type="text" name="username"  autocapitalize="none" autocomplete="username" autofocus required id="id_username" /><br />
+                  <span class="helptext">
+                    <small style="color:red;">
+                      <ul>
+                        <li>
+                          需要。150個字符以內。僅允許字母、數字和 @/./+/-/_
+                        </li>
+                      </ul>
+                    </small>
+                  </span>
+                </div>
+                
+                <div class="baserow">
+                  <label for="id_userFullName">姓名(中文全名):</label>
+                  <input type="text" name="userFullName" maxlength="50" id="id_userFullName" />
+                </div>
+                
+                <div class="baserow">
+                  <label for="id_email">信箱:</label>
+                  <input type="email" name="email" maxlength="254" id="id_email" />
+                </div>
+                
+                <div class="baserow">
+                  <label for="id_userWorkArea">工作轄區:</label>
+                  <input type="text" name="userWorkArea" maxlength="50" id="id_userWorkArea" />
+                </div>
+                
+                <div class="baserow">
+                  <label for="id_userRole">權限:</label>
+                  <input type="number" name="userRole" value="0" min="0" required id="id_userRole" />
+                </div>
+                
+              </div>
+              
+              <div class="col-md-6" style="background-color:BlanchedAlmond;">
+
+                <div class="baserow">
+                  <label for="id_password1">登入密碼:</label>
+                  <input type="password" name="password1" autocomplete="new-password" required id="id_password1" /><br />
+                  <span class="helptext">
+                    <small style="color:red;">
+                      <ul>
+                          <li>您的密碼不能與其他個人信息太相似.</li>
+                          <li>您的密碼必須至少包含8個字元.</li>
+                          <li>您的密碼不能是常用密碼.</li>
+                          <li>您的密碼不能全是數字.</li>
+                      </ul>
+                    </small>
+                  </span>
+                </div>
+                
+                <div class="baserow">
+                  <label for="id_password2">密碼確認:</label>
+                  <input type="password" name="password2" autocomplete="new-password" required id="id_password2" /><br />
+                  <span class="helptext">
+                    <small style="color:red;">
+                      <ul>
+                        <li>
+                          輸入與登入密碼相同的密碼進行驗證。
+                        </li>
+                      </ul>
+                    </small>
+                  </span>
+                </div>
+                
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header bg-info" id="headingTwo" style="padding:0px;">
+          <h2 class="mb-0">
+            <button class="btn btn-link btn-block text-left collapsed text-white" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              <i class="fas fa-window-restore"></i> 進階資料(選填)
+            </button>
+          </h2>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <div class="card-body">
+             <div class="row">
+              <div class="col-md-4" style="background-color:LightGrey;">
+                <div class="baserow">
+                  <label for="id_userIdentityCard">身分証號:</label>
+                  <input type="text" name="userIdentityCard" maxlength="50" id="id_userIdentityCard" class="form-control" />
+                </div>
+                <div class="baserow">
+                  <label for="id_userBirthday">生日:</label>
+                  <input type="text" name="userBirthday" id="id_userBirthday" class="form-control" />
+                </div>
+                <div class="baserow">
+                  <label for="id_userLocalPhone">市話:</label>
+                  <input type="text" name="userLocalPhone" maxlength="50" id="id_userLocalPhone" class="form-control" />
+                </div>
+                <div class="baserow">
+                  <label for="id_userMobilePhone">手機:</label>
+                  <input type="text" name="userMobilePhone" maxlength="50" id="id_userMobilePhone" class="form-control" />
+                </div>
+                <div class="baserow">
+                  <label for="id_userPublicOrPrivate">身分別:</label>
+                  <input type="text" name="userPublicOrPrivate" maxlength="50" id="id_userPublicOrPrivate" class="form-control" />
+                </div>
+              </div>
+              <div class="col-md-8" style="background-color:LightSteelBlue;">
+                <div class="baserow">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="id_userCountry">縣市:</label>
+                      <input type="text" name="userCountry" maxlength="50" id="id_userCountry" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="id_userTownship">鄉鎮:</label>
+                      <input type="text" name="userTownship" maxlength="50" id="id_userTownship" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+              
+                <div class="baserow">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="id_userVillage">村里:</label>
+                      <input type="text" name="userVillage" maxlength="50" id="id_userVillage" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="id_userNeighbor">鄰:</label>
+                      <input type="text" name="userNeighbor" maxlength="50" id="id_userNeighbor" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="baserow">
+                  <div class="row">
+                    <div class="col-md-6">
+                      <label for="id_userStreet">街路:</label>
+                      <input type="text" name="userStreet" maxlength="50" id="id_userStreet" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                      <label for="id_userSection">段:</label>
+                      <input type="text" name="userSection" maxlength="50" id="id_userSection" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="baserow">
+                  <div class="row">
+                    <div class="col-md-3">
+                      <label for="id_userLane">巷:</label>
+                      <input type="text" name="userLane" maxlength="50" id="id_userLane" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="id_userAlley">弄:</label>
+                      <input type="text" name="userAlley" maxlength="50" id="id_userAlley" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="id_userNumber">號:</label>
+                      <input type="text" name="userNumber" maxlength="50" id="id_userNumber" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                      <label for="id_userFloor">樓:</label>
+                      <input type="text" name="userFloor" maxlength="50" id="id_userFloor" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn btn-secondary" type="submit">註冊</button>
+	</form>
+</div>
+{% endblock %}

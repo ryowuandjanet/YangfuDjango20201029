@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['*']
 
 
 # Application definition
-
+    
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +38,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'crispy_forms',
+    'widget_tweaks',
+    'users',
     'yfcases',
 ]
 
@@ -51,7 +54,22 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
+
 ROOT_URLCONF = 'src.urls'
+AUTH_USER_MODEL = 'users.CustomUser'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'ryowu0329'
+EMAIL_HOST_PASSWORD = 'leo140814'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+
 
 TEMPLATES = [
     {
