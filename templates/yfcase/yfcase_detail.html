@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+
+{% block style %}
+  <style>
+    * {
+      font-family:'RobotoMedium', 'NotoSansTCMedium', sans-serif;
+    }
+    .fieldcolor {
+      background-color: Cornsilk;
+    }
+    label {
+      margin-bottom: 2px;
+      color:Navy;
+    }
+    .yfratingscalePDFTitle {
+      font-size: 30pt;
+      font-weight: bolder;
+      text-align: center;
+      vertical-align: bottom;
+    }
+
+    .yfratingscalePDFBaseData, .yfratingscalePDFLand , .yfratingscalePDFBuild, .yfratingscalePDFAction, .yfratingscalePDFAttachment, .yfratingscalePDFBuildCheckList, .yfratingscalePDFFinaldecision, .yfratingscalePDFObjectBuild {
+      border-collapse:collapse;
+      border:3px solid black;
+      margin-bottom:5px;
+      width:100%;
+    }
+    .yfratingscalePDFBaseData th {
+      background-color: AntiqueWhite;
+      border: 1px solid black;
+      text-align:center;
+      padding:0px;
+    }
+    .yfratingscalePDFBaseData td {
+      padding:0px 5px;
+      text-align:left;
+      border: 1px solid black;
+      font-size: 12pt;
+    }
+    
+    .yfratingscalePDFLand th {
+      background-color: Aquamarine;
+      border: 1px solid black;
+      text-align:center;
+      padding:0px;
+    }
+    .yfratingscalePDFBuild th {
+      background-color: DeepSkyBlue;
+      border: 1px solid black;
+      text-align: center;
+      padding:0px;
+    }
+    .yfratingscalePDFAction th {
+      background-color: Gainsboro;
+      border: 1px solid black;
+      text-align: center;
+      padding: 0px;
+    }
+    .yfratingscalePDFAttachment th {
+      background-color: Khaki;
+      border: 1px solid black;
+      text-align: center;
+      padding:0px;
+    }
+    .yfratingscalePDFBuildCheckList th {
+      background-color: LightSteelBlue;
+      border: 1px solid black;
+      text-align: center;
+      padding: 0px;
+    }
+    .yfratingscalePDFObjectBuild th{
+      background-color: Thistle;
+      border: 1px solid black;
+      text-align: center;
+      font-size: 12pt;
+      padding: 0px;
+      height:32px;
+    }
+    .yfratingscalePDFFinaldecision th {
+      background-color: YellowGreen;
+      border: 1px solid black;
+      text-align: center;
+      padding: 0px;
+    }
+    .yfratingscalePDFLand td, .yfratingscalePDFBuild td, .yfratingscalePDFBuildCheckList td {
+      padding:0px 5px;
+      text-align:center;
+      border: 1px solid black;
+      font-size: 12pt;
+    }
+    .yfratingscalePDFAction td {
+      padding:0px 5px;
+      text-align:center;
+      border: 1px solid black;
+      font-size: 12pt;
+    }
+    .yfratingscalePDFObjectBuild td {
+      padding:0px 5px;
+      text-align:center;
+      border: 1px solid black;
+      font-size: 12pt;
+      height:32px;
+    }
+    .yfratingscalePDFFinaldecision td {
+      padding:0px 5px;
+      text-align:center;
+      border: 1px solid black;
+      font-size: 10pt;
+      height:35px;
+    }
+    td.landEmpty {
+      border-top:hidden;
+      border-bottom:hidden;
+      border-left:3px solid black;
+      border-right:3px solid black;
+    }
+    .yfratingscalePDFBuildCheckList .yfratingscalePDFBuildCheckListItem {
+      background-color:LightCyan;
+      padding: 2px 5px;
+      text-align:left;
+      font-size:12pt;
+    }
+    
+    .yfratingscalePDFFinaldecision .yfratingscalePDFPerson {
+      padding:14px 20px;
+    }
+    .yfratingscalePDFPersonCircle {
+      border:5px solid red;
+      border-radius:50%;
+    }
+    .yfratingscalePDFPersonTable {
+      border-collapse:collapse;
+      width:100%;
+    }
+    .yfratingscalePDFPersonTable .yfratingscalePDFPersonName {
+      text-align:center;
+      border:none;
+      vertical-align: middle;
+      font-size:20pt;
+      color:red;
+    }
+    .yfratingscalePDFPersonTable .yfratingscalePDFPersonDate {
+      border:none;
+      text-align:center;
+      font-weight: bolder ;
+      vertical-align: middle;
+      color:red;
+      font-size:14pt;
+    }
+    .yfratingscalePDFAttachmentContent {
+      padding:0px 5px;
+      border: 1px solid black;
+      font-size: 12pt;
+      text-align:left;
+      height:40px;
+    }
+    .yfratingscalePDFFinaldecisionJudgment {
+      text-align: center;
+      font-size: 36px;
+      border:5px solid black;
+      border-radius: 10px;
+      padding:30px;
+    }
+  </style>
+{% endblock style %}
+{% block content %}
+
+  <!-- 標頭 -->
+  <div class="col">
+    <div class="yfratingscalePDFTitle" style="text-align: center;">
+      {{object.yfcaseCaseNumber}} YF評量表
+    </div>
+  </div>
+  
+  <div class="col">
+    <div class="container col">
+      <!--基本資料-->
+      <div class="row">
+        <div class="minBaseData" style="font-size:24pt;padding-left:0px;">
+          基本資料
+          <span style="font-size: 12pt;vertical-align: middle;">
+            <a href="javascript:void(0)" onclick="yfcase_modal_edit('{% url 'yfcase:yfcase_edit' yfcase.id %}')">
+              <span class="fa-stack" style="color:DarkGreen;">
+                <i class="far fa-circle fa-stack-2x" ></i>
+                <i class="fas fa-pen fa-stack-1x"></i>
+              </span>
+            </a>
+          </span>
+        </div>
+      </div>
+      <div class="row">
+        <!--基本資料樣版-->
+        {% include "./partials/baseData.html" %}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Yfcase Modal -->
+  <div class="modal fade" id="editYfcaseModal" role="dialog"></div>
+
+{% endblock content %}
+
+{% block javascript %}
+  <script>
+    // Yfcase JS
+    function yfcase_modal_edit(url) {
+      $('#editYfcaseModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+  </script>
+{% endblock %}
+
+
+
+
+

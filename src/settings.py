@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'widget_tweaks',
+    'bootstrap_modal_forms',
     'users',
     'yfcases',
 ]
@@ -66,9 +67,9 @@ EMAIL_HOST_PASSWORD = 'leo140814'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 
-
-LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'home'
+LOGIN_URL='login'
+LOGIN_REDIRECT_URL = 'yfcase:home'
+LOGOUT_REDIRECT_URL = 'yfcase:home'
 
 
 TEMPLATES = [

@@ -7,7 +7,7 @@
     {% if user.is_authenticated %}
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <button type="button" class="btn btn-link text-white"  style="font-size:18pt;" onclick="">
+          <button type="button" class="btn btn-link text-white"  style="font-size:18pt;" onclick="yfcase_modal_create('{% url 'yfcase:yfcase_new' %}')">
             新增評量表
           </button>
         </li>
@@ -16,7 +16,7 @@
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
             <a class="nav-link dropdown-toggle" href="#" id="userMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              
+              ({{user.userFullName}})
             </a>
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userMenu">
               <a class="dropdown-item" href="{% url 'password_change' %}">
@@ -42,3 +42,16 @@
     </div>
   </div>
 </nav>
+
+<div class="modal fade" id="createYfcaseModal" role="dialog"></div>
+
+<script>
+  function yfcase_modal_create(url) {
+    $('#createYfcaseModal').load(url,function() {
+      $(this).modal('show');
+    });
+  }
+</script>
+
+
+

@@ -1,0 +1,171 @@
+{% load widget_tweaks %}
+
+<style type="text/css">
+  .help-block{
+    color:red;
+  }
+</style>
+
+<!-- 程式主題的部份 -->
+<form action="{% url 'yfcase:yfcase_edit' yfcase.id %}" method="post" id="yfcaseUpdateForm" data-townships-url="{% url 'yfcase:ajax_load_townships' %}" novalidate>{% csrf_token %}
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <!-- body -->
+      <div class="modal-body">
+
+        <table>
+        <!-- {{ form.as_table }} -->
+        </table>
+
+        <input type="hidden" id="user" name="user" value={{author_id}}>
+        <!-- {{ form.user|attr:"type:text value:1" }} -->
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseCaseNumber.id_for_label }}">{{ form.yfcaseCaseNumber.label }}</label>
+          {{ form.yfcaseCaseNumber|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseCaseNumber.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseCompany.id_for_label }}">{{ form.yfcaseCompany.label }}</label>
+          {{ form.yfcaseCompany|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseCompany.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseCity.id_for_label }}">{{ form.yfcaseCity.label }}</label>
+          {{ form.yfcaseCity|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseCity.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseTownship.id_for_label }}">{{ form.yfcaseTownship.label }}</label>
+          {{ form.yfcaseTownship|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseTownship.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseBigSection.id_for_label }}">{{ form.yfcaseBigSection.label }}</label>
+          {{ form.yfcaseBigSection|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseBigSection.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseSmallSection.id_for_label }}">{{ form.yfcaseSmallSection.label }}</label>
+          {{ form.yfcaseSmallSection|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseSmallSection.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseOtherAddress.id_for_label }}">{{ form.yfcaseOtherAddress.label }}</label>
+          {{ form.yfcaseOtherAddress|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseOtherAddress.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseDebtor.id_for_label }}">{{ form.yfcaseDebtor.label }}</label>
+          {{ form.yfcaseDebtor|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDebtor.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseCreditor.id_for_label }}">{{ form.yfcaseCreditor.label }}</label>
+          {{ form.yfcaseCreditor|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseCreditor.error }}</span>
+        </div>
+
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary col" data-dismiss="modal">返回</button>
+        <input class="btn btn-primary col-md-3" type="submit" value="更新" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+  $(document).ready(function() {
+    $('#yfcaseUpdateForm').bootstrapValidator({
+      // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        yfcaseCaseNumber: {
+          validators: {
+            notEmpty: {
+              message: '此一欄位不得為空'
+            },
+            stringLength: {
+              min: 5,
+              max: 50,
+              message: '案件名稱必需介於5-50個文字'
+            }
+          }
+        },
+        yfcaseCity: {
+          validators: {
+            notEmpty: {
+              message: '此為必要欄位'
+            }
+          }
+        },
+        yfcaseTownship: {
+          validators: {
+            notEmpty: {
+              message: '此為必要欄位'
+            }
+          }
+        },
+        yfcaseOtherAddress: {
+          validators: {
+            notEmpty: {
+              message: '此為必要欄位'
+            }
+          }
+        },
+        yfcaseCompany: {
+          validators: {
+            notEmpty: {
+              message: '必選欄位'
+            }
+          }
+        }
+      }
+    });
+
+  });
+
+  // JS觸發事件來使yfcaseCity/yfcaseTownship這兩個欄位動作
+  $("#id_yfcaseCity").click(function () {
+    var url = $("#yfcaseUpdateForm").attr("data-townships-url");
+    var cityId = $(this).val();
+
+    $.ajax({
+      url: url,
+      data: {
+        'city': cityId
+      },
+      success: function (data) {
+        $("#id_yfcaseTownship").html(data);
+      }
+    });
+  });
+</script>
+{% endblock javascript %}

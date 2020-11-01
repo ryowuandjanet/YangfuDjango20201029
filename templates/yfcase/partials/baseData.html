@@ -1,0 +1,22 @@
+<!--基本資料-->
+<table class="yfratingscalePDFBaseData">
+  <tr>
+    <th style="width:10%;">案號</th>
+    <td style="width:35%;">{{object.yfcaseCaseNumber|default_if_none:"" }}</td>
+    <th style="width:10%;">債務人</th>
+    <td style="width:15%;">{{ object.yfcaseDebtor|default_if_none:"" }}</td>
+    <th style="width:10%;">債權人</th>
+    <td>
+      {% if object.yfcaseCreditor == None %}
+        {{ object.yfcaseCompany }}
+      {% else %}
+        {{ object.yfcaseCreditor|default_if_none:"" }}
+      {% endif %}
+  </tr>
+  <tr>
+    <th>住址</th>
+    <td colspan="5">
+      {{object.yfcaseCity|default_if_none:""}}{{object.yfcaseTownship|default_if_none:""}}{{object.yfcaseBigSection|default_if_none:""}}{{object.yfcaseSmallSectiion|default_if_none:""}}{{object.yfcaseOtherAddress|default_if_none:""}}
+    </td>
+  </tr>
+</table>

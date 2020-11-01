@@ -1,12 +1,195 @@
 {% extends 'base.html' %}
 {% block title %}Home{% endblock %}
+
+{% block style %}
+<style>
+  .y20000{
+    border:2px solid black;
+    border-radius:10px;
+    color:white;
+    width:35px;
+    height:35px;
+    padding:0px;
+    margin: 0px;
+    text-align: center;
+    vertical-align: middle;
+    /*font-weight:bold;*/
+    font-size: 14pt;
+    font-width: bold;
+  }
+
+  .hometable th {
+    border:1px solid grey;
+    padding:2px;
+  }
+  .hometable td {
+    border:1px solid lightgrey;
+    padding:3px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  .homeItem td{
+    border:none;
+    padding: 0px 5px;
+  }
+  .btn-group {
+    padding-right:10px;
+  }
+</style>
+{% endblock style %}
 {% block content %}
-{% if user.is_authenticated %}
-	Hi {{ user.username }}!
-	<p><a href="{% url 'logout' %}">logout</a></p>
-{% else %}
-	<p>You are not logged in</p>
-	<a href="{% url 'login' %}">login</a> |
-	<a href="{% url 'signup' %}">signup</a>
-{% endif %}
+  <h1 style="text-align: center;">案件清單</h1>
+  <div style="margin-bottom:3px;">
+
+  <form method="get">
+    <div class="row">
+      <div style="padding-left:15px;padding-right:0px;margin-right:0px;">
+        <h3 style="padding-right:5px;">篩選條件：</h3>
+      </div>
+      <div class="col-sm-2" style="padding-left:0px;">
+        <!-- 案號篩選欄位 -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend">
+            <span class="input-group-text bg-primary text-white" id="inputGroup-sizing-default" style="border:1px solid black;">案號</span>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="col-sm-2" style="padding-left:0px;">
+        <!-- 縣市篩選欄位 -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend" >
+            <label class="input-group-text bg-success text-white" for="id_yfcaseCity" style="border:1px solid black;">縣市</label>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="col-sm-2" style="padding-left:0px;">
+        <!-- 人員篩選欄位 -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend" >
+            <label class="input-group-text bg-info text-white" for="id_yfcaseCity" style="border:1px solid black;">人員</label>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="col-sm-2" style="padding-left:0px;">
+        <!-- 最終判定篩選欄位 -->
+        <div class="input-group mb-3">
+          <div class="input-group-prepend" >
+            <label class="input-group-text bg-warning text-white" for="id_yfcaseCity" style="border:1px solid black;">最終判定</label>
+          </div>
+          
+        </div>
+      </div>
+
+      <div class="col-sm-2" style="padding-left:0px;">
+        <button type="submit" class="btn btn-primary" style="background-color: brown; border:1px solid chocolate;">篩選</button>
+        <input type ="button"  class="btn btn-primary class_on_first_link" style="background-color: dimgrey; border:1px solid lightgrey;" value="取消篩選"></input>
+
+      </div>
+
+    </div>
+  </form>
+
+
+  <table class="table table-hover hometable">
+    <thead style="background-color: darkblue;color:white;">
+      <tr >
+        <th scope="col" style="text-align: center;vertical-align: middle;width:5%;">操作</th>
+        <th scope="col" style="text-align: center;vertical-align: middle;width:30%;">案號</th>
+        <th scope="col" style="text-align: center;vertical-align: middle;width:7%;">兩週內<br>提醒</th>
+        <th style="text-align: center;vertical-align: middle;width:6%;">負責人</th>
+        <th style="text-align: center;vertical-align: middle;" colspan="2">最終判定</th>
+        <th style="text-align: center;vertical-align: middle;width:10%;">執行結果</th>
+        <th style="text-align: center;vertical-align: middle;width:10%;" colspan="2">優購結果</th>
+        <th style="text-align: center;vertical-align: middle;">標的編號</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for yfcase in object_list %}
+        <tr>
+          <td scope="row" style="padding: 0px;text-align: center;vertical-align: middle;">
+            <a href="javascript:void(0)" onclick="yfcase_modal_delete('{% url 'yfcase:yfcase_delete' yfcase.id %}')" class="btn btn-outline-danger btn-sm delete-btn">
+              <i class="fas fa-trash-alt fa-lg"></i>
+            </a>
+          </td>
+          <td style="text-align: left;">
+            <a href="{% url 'yfcase:yfcase_detail' yfcase.id %}">{{yfcase.yfcaseCaseNumber}}</a><br>
+            &emsp;&#10149;{{yfcase.yfcaseCity|default_if_none:""}}{{yfcase.yfcaseTownship|default_if_none:""}}{{yfcase.yfcaseBigSection|default_if_none:""}}{{yfcase.yfcaseSmallSectiion|default_if_none:""}}{{yfcase.yfcaseOtherAddress|default_if_none:""}}
+          </td>
+          <td>
+           
+          </td>
+          <td>
+            {{ yfcase.user.userFullName }}
+          </td>
+          <td style="width:6%;border-right:none;">
+            
+          </td>
+          <td style="width:3%;border-left:none;">
+            <div class="y20000" style="border-color:lightblue;background-color: blue;">評</div>
+          </td>
+          <td style="width:7%;">第三人<br>搶標</td>
+          <td style="width:6%;">
+            無人<br>優購
+          </td>
+          <td style="width:10%;">
+            <table class="homeItem">
+              <tr>
+                <td><div class="y20000" style="border-color:lightpink;background-color: red;">契</div></td>
+                <td><div class="y20000" style="border-color:lightgreen;background-color: green;">動</div></td>
+                <td><div class="y20000" style="border-color:grey;background-color: black;">狀</div></td>
+                <td><div class="y20000" style="border-color:mediumpurple;background-color: indigo;">函</div></td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            KH001
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <div>
+    <button type="button" class="btn btn-link " style="font-size:18pt;" onclick="post_modal_create('{% url 'yfcase:yfcase_new' %}')">
+      + New Post
+    </button>
+  </div>
+  <div class="modal fade" id="createModal" role="dialog"></div>
+  <div class="modal fade" id="deleteYfcaseModal" role="dialog"></div>
+  
 {% endblock %}
+
+
+{% block javascript %}
+  <script>
+    $(function() {
+      $('.class_on_first_link').click(function(){
+        window.location = window.location.protocol + '//' + window.location.hostname + ':3000';
+      });
+    });
+    
+    function post_modal_create(url) {
+      $('#createModal').load(url,function() {
+        $(this).modal('show');
+      });
+    } 
+
+    function yfcase_modal_delete(url) {
+      $('#deleteYfcaseModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+
+    function gohome(){
+      window.location.hostname
+    }
+
+  </script>
+{% endblock javascript %}
