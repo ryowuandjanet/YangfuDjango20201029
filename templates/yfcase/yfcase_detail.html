@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load urlify %}
 {% load widget_tweaks %}
 
 {% block style %}
@@ -193,11 +194,78 @@
         <!--基本資料樣版-->
         {% include "./partials/baseData.html" %}
       </div>
+      
+      <!-- 土地 -->
+      <div class="row">
+        <div class="col-md-6" style="font-size:24pt;padding-left:0px;">
+          土地
+          <span style="font-size: 12pt;vertical-align: middle;">
+            <a href="javascript:void(0)" onclick="land_modal_create('{% url 'yfcase:land_new' %}')">
+              <span class="fa-stack">
+                <i class="far fa-circle fa-stack-2x"></i>
+                <i class="fas fa-plus fa-stack-1x"></i>
+              </span>
+            </a>
+          </span>
+        </div>
+        <div class="col-md-6" style="text-align: right;padding-right:0px;">
+          <div class="pt-2">
+            <span style="font-size: 18pt;vertical-align: middle;">
+
+            </span>
+          </div>
+        </div>
+      </div>
+      <!--土地樣版-->
+      <div class="row">
+        {% include "./partials/land.html" %}
+      </div>
+      
+      <!-- 建物 -->
+    <div class="row">
+      <div class="col-md-6" style="font-size:24pt;padding-left:0px;">
+        建物
+        <span style="font-size: 12pt;vertical-align: middle;">
+          <a href="javascript:void(0)" onclick="build_modal_create('{% url 'yfcase:build_new' %}')">
+            <span class="fa-stack">
+              <i class="far fa-circle fa-stack-2x"></i>
+              <i class="fas fa-plus fa-stack-1x"></i>
+            </span>
+          </a>
+        </span>
+      </div>
+      <div class="col-md-6" style="text-align: right;padding-right:0px;">
+        <div class="pt-2">
+          <span style="font-size: 18pt;vertical-align: middle;">
+            {% if object.builds.count > 0 %}
+              合計：{{ object.get_build_holding_point_after_group_total|floatformat:"2" }} m<sup>2</sup> 
+              ({{ object.get_build_holding_point_after_group_total|m2toping|floatformat:"2" }} 坪)
+            {% endif %}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <!--建物樣版-->
+      {% include "./partials/build.html" %}
+    </div>
+      
     </div>
   </div>
   
   <!-- Yfcase Modal -->
   <div class="modal fade" id="editYfcaseModal" role="dialog"></div>
+  
+  <!-- Land Modal -->
+	<div class="modal fade" id="createlandModal" role="dialog"></div>
+	<div class="modal fade" id="editLandModal" role="dialog"></div>
+	<div class="modal fade" id="deleteLandModal" role="dialog"></div>
+	
+	<!-- Build Modal -->
+  <div class="modal fade" id="createBuildModal" role="dialog"></div>
+  <div class="modal fade" id="editBuildModal" role="dialog"></div>
+  <div class="modal fade" id="deleteBuildModal" role="dialog"></div>
+
 
 {% endblock content %}
 
@@ -206,6 +274,40 @@
     // Yfcase JS
     function yfcase_modal_edit(url) {
       $('#editYfcaseModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    
+    // Land JS
+    function land_modal_create(url) {
+      $('#createlandModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function land_modal_edit(url) {
+      $('#editLandModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function land_modal_delete(url) {
+      $('#deleteLandModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    
+    // Build JS
+    function build_modal_create(url) {
+      $('#createBuildModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function build_modal_edit(url) {
+      $('#editBuildModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function build_modal_delete(url) {
+      $('#deleteBuildModal').load(url,function() {
         $(this).modal('show')
       })
     }

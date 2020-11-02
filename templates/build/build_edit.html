@@ -1,0 +1,155 @@
+{% load widget_tweaks %}
+<style type="text/css">
+  .help-block{
+    color:red;
+  }
+</style>
+<form action="{% url 'yfcase:build_edit' build.id %}" method="post" id="buildUpdateForm">{% csrf_token %}
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+
+        {{ form.yfcase|attr:"type:hidden" }}
+
+        <div class="form-row">
+          <div class="form-group col">
+              <label style="margin-bottom: 2px;">{{ form.buildNumber.label }}</label>
+              {{ form.buildNumber|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+              <label style="margin-bottom: 2px;">{{ form.buildUrl.label }}</label>
+              {{ form.buildUrl|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+              <label style="margin-bottom: 2px;">{{ form.buildArea.label }}</label>
+              {{ form.buildArea|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>{{ form.buildHoldingPointPersonal.label }}</label>
+            {{ form.buildHoldingPointPersonal|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-6">
+            <label>{{ form.buildHoldingPointAll.label }}</label>
+            {{ form.buildHoldingPointAll|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-6">
+            <label>{{ form.buildTypeUse.label }}</label>
+            {{ form.buildTypeUse|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-6">
+            <label>{{ form.buildUsePartition.label }}</label>
+            {{ form.buildUsePartition|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary col" data-dismiss="modal">返回</button>
+        <input class="btn btn-primary col-md-3" type="submit" value="更新" />
+      </div>
+
+    </div>
+  </div>
+</form>
+{% block javascript %}
+<script>
+  $(document).ready(function(){
+    // 此為欄位驗証的JS
+    $('#buildUpdateForm').bootstrapValidator({
+        // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+        feedbackIcons: {
+          valid: 'glyphicon glyphicon-ok',
+          invalid: 'glyphicon glyphicon-remove',
+          validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+          buildNumber: {
+            validators: {
+              notEmpty: {
+                message: '此一欄位不得為空'
+              }
+            }
+          },
+          buildArea: {
+            validators: {
+              notEmpty: {
+                message: '此一欄位不得為空'
+              },
+              between: {
+                min: 0.01,
+                max: 99999.99,
+                message: '此欄需為數字(小數點最多兩位)，且需介於 0.01 - 99999.99 之間'
+              },
+              regexp: {
+                regexp: /^\d{1,5}(\.\d{1,2})?$/i,
+                message: '此欄需為數字(小數點最多兩位)，且需介於 0.01 - 99999.99 之間'
+              }
+            }
+          },
+          buildHoldingPointPersonal: {
+            validators: {
+              notEmpty: {
+                message: '此一欄位不得為空'
+              },
+              integer: {
+                message: '此欄需為正整數，且需大於 1 '
+              },
+              between: {
+                min: 1,
+                max: 100000,
+                message: '此欄需為正整數，且需大於 1 '
+              }
+            }
+          },
+          buildHoldingPointAll: {
+            validators: {
+              notEmpty: {
+                message: '此一欄位不得為空'
+              },
+              integer: {
+                message: '此欄需為正整數，且需大於 1 '
+              },
+              between: {
+                min: 1,
+                max: 100000,
+                message: '此欄需為正整數，且需大於 1 '
+              }
+            }
+          },
+          buildTypeUse: {
+            validators: {
+              notEmpty: {
+                message: '此為必選欄位'
+              }
+            }
+          }
+        }
+      });
+  });
+</script>
+{% endblock javascript %}

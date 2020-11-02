@@ -69,3 +69,71 @@ class YfcaseDeleteView(DeleteView):
   model=Yfcase
   template_name="yfcase/yfcase_delete.html"
   success_url=reverse_lazy('yfcase:home')
+
+
+# Land
+class LandCreateView(CreateView):
+  model=Land
+  form_class = LandForm
+  template_name="land/land_new.html"
+
+  def get_success_url(self, **kwargs):
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id,})
+
+  def get_context_data(self, **kwargs):
+    context = super(LandCreateView,self).get_context_data(**kwargs)
+    context['value'] = '建立'
+    context['title'] = '新增土地項目'
+    return context
+    
+class LandUpdateView(UpdateView):
+  model=Land
+  form_class = LandForm
+  template_name="land/land_edit.html"
+  def get_success_url(self, **kwargs):
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['value'] = '建立'
+    context['title'] = '更新土地項目'
+    return context
+
+class LandDeleteView(DeleteView):
+  model=Land
+  template_name="land/land_delete.html"
+  def get_success_url(self, **kwargs):
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+    
+# Build
+class BuildCreateView(CreateView):
+  model=Build
+  form_class = BuildForm
+  template_name="build/build_new.html"
+  def get_success_url(self, **kwargs):
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['value'] = '建立'
+    context['title'] = '建立建物項目'
+    return context
+    
+class BuildUpdateView(UpdateView):
+  model=Build
+  form_class = BuildForm
+  template_name="build/build_edit.html"
+  def get_success_url(self, **kwargs):
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    context['value'] = '建立'
+    context['title'] = '更新建物項目'
+    return context
+    
+class BuildDeleteView(DeleteView):
+  model=Build
+  template_name="build/build_delete.html"
+  def get_success_url(self, **kwargs):
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})

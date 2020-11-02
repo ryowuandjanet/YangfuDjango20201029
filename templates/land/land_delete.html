@@ -1,0 +1,26 @@
+<form action="{% url 'yfcase:land_delete' land.id %}" method="post">{% csrf_token %}
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">刪除</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+       <p>你確定要刪除 "{{land.landNumber}}" ?</p>
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+        <input class="btn btn-success col-md-3" type="submit" value="刪除" />
+      </div>
+
+    </div>
+  </div>
+</form>

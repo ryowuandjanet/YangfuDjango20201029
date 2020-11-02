@@ -1,0 +1,73 @@
+<!-- 土地 -->
+{% load urlify %}
+
+<div class="container col">
+  <div class="row">
+      <table class="yfratingscalePDFLand col">
+        <tr>
+          <th style="width:20%;">地號</th>
+          <th style="width:7%;">地號<br>謄本</th>
+          <th style="width:15%;">地坪(面積)<br>平方公尺(坪)</th>
+          <th style="width:9%;">持分</th>
+          <th style="width:15%;">地坪(持分)<br>平方公尺(坪)</th>
+        </tr>
+        {% for land in object.lands.all %}
+          <tr>
+            <td style="text-align:left; ">
+              <div style="font-size:12pt;">
+                <span style="font-size: 10pt;vertical-align: middle;">
+                  <a href="javascript:void(0)" onclick="land_modal_edit('{% url 'yfcase:land_edit' land.id %}')">
+                    <span class="fa-stack" style="color:DarkGreen;">
+                      <i class="far fa-circle fa-stack-2x" ></i>
+                      <i class="fas fa-pen fa-stack-1x"></i>
+                    </span>
+                  </a>
+                  <a href="javascript:void(0)" onclick="land_modal_delete('{% url 'yfcase:land_delete' land.id %}')">
+                    <span class="fa-stack" style="color:DarkRed;">
+                      <i class="far fa-circle fa-stack-2x" ></i>
+                      <i class="fas fa-trash fa-stack-1x"></i>
+                    </span>
+                  </a>
+                </span>
+                {{ land.landNumber }}
+              </div>
+            </td>
+            <td>
+              {% if land.landUrl != None %}
+                <a href="{{ land.landUrl }}" target="_blank">
+                  <span style="font-size: 20pt;">
+                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-paperclip" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd" d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z"/>
+                    </svg>
+                  </span>
+                </a>
+              {% endif %}
+            </td>
+            <td>
+              {% if land.landArea != 0 %}
+                {{ land.landArea }} m<sup>2</sup><br> 
+                ({{ land.landArea|m2toping|floatformat:"2" }} 坪)
+              {% endif %}
+            </td>
+            <td>
+              {% if land.landHoldingPointPersonal > 0 and land.landHoldingPointAll > 0 %}
+                <div style="margin: 0px 10px;">{{ land.landHoldingPointPersonal }}</div>
+                <div style="border-top: 1px solid black;width:auto; display:inline-block !important; display:inline;padding:0px 10px;">{{ land.landHoldingPointAll }}</div>
+              {% endif %}
+            </td>
+            <td>
+              {% if land.landHoldingPointPersonal > 0 and land.landHoldingPointAll > 0 %}
+                {{ land.get_land_holding_point_area|floatformat:"2" }} m<sup>2</sup><br> 
+                ({{ land.get_land_holding_point_area|m2toping|floatformat:"2" }} 坪)
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+        
+      </table>
+
+  </div>
+</div>
+
+
+
