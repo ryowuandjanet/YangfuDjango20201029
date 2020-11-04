@@ -1,0 +1,132 @@
+{% load widget_tweaks %}
+<form action="{% url 'yfcase:score_b_edit' objectbuild.id %}" method="post">{% csrf_token %}
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}-評比人員：{{ user.fullname }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+       
+        {{ form.objectBuildScorerB|attr:"type:hidden" }}
+        {{ form.objectBuildScorRateB|attr:"type:hidden" }}
+        {{ form.objectBuildScorReasonB|attr:"type:hidden" }}
+
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>項目1</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusItemB1|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>加成係數</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusValueB1|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>項目2</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusItemB2|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>加成係數</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusValueB2|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>項目3</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusItemB3|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>加成係數</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusValueB3|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>項目4</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusItemB4|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>加成係數</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusValueB4|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>項目5</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusItemB5|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>加成係數</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusValueB5|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col-md-2">
+            <label>其他</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusItemOtherB|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>加成係數</label>
+          </div>
+          <div class="form-group col-md-4">
+            {{ form.plusValueOtherB|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+        {{ request.user.userFullName|json_script:"author_fullname" }}
+
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary col" data-dismiss="modal">返回</button>
+        <input class="btn btn-primary col-md-3" type="submit" onclick="post_score_b_edit_submit()" value="加入評比" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+  function post_score_b_edit_submit() {
+    const author_fullname = JSON.parse(document.getElementById('author_fullname').textContent);
+    document.getElementById("id_objectBuildScorerB").value = author_fullname;
+  }
+</script>
+{% endblock javascript %}

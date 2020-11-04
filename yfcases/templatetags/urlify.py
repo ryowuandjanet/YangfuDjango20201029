@@ -26,7 +26,12 @@ def decimaltofloat(value):
 
 @register.filter
 def multiplication(value, arg):
-  return value * arg
+  newlist=[]
+  try:
+    return value * arg
+  except:
+    newlist.append(0)
+  
 
 @register.filter
 def m2toping(value):

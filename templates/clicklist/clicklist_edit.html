@@ -1,0 +1,177 @@
+{% load widget_tweaks %}
+<form action="{% url 'yfcase:clicklist_edit' clicklist.id %}" method="post">{% csrf_token %}
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+
+        {{ form.yfcase|attr:"type:hidden" }}
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistOccupy|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistOccupy">{{ form.clicklistOccupy.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistEegister|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistEegister">{{ form.clicklistEegister.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistParkingSpace|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistParkingSpace">{{ form.clicklistParkingSpace.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistManagementFee|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistManagementFee">{{ form.clicklistManagementFee.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistRent|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistRent">{{ form.clicklistRent.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistLeak|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistLeak">{{ form.clicklistLeak.label }}</label>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistEasyParking|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistEasyParking">{{ form.clicklistEasyParking.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistRailway|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistRailway">{{ form.clicklistRailway.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistVegetableMarket|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistVegetableMarket">{{ form.clicklistVegetableMarket.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistSupermarket|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistSupermarket">{{ form.clicklistSupermarket.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistSchool|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistSchool">{{ form.clicklistSchool.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistPark|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistPark">{{ form.clicklistPark.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistPostOffice|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistPostOffice">{{ form.clicklistPostOffice.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistMainRoad|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistMainRoad">{{ form.clicklistMainRoad.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistWaterAndPowerFailure|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistWaterAndPowerFailure">{{ form.clicklistWaterAndPowerFailure.label }}</label>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <div class="custom-control custom-checkbox">
+              {{ form.clicklistGoodVision|attr:"type:checkbox"|add_class:"custom-control-input" }}
+              <label class="custom-control-label m-1" for="id_clicklistGoodVision">{{ form.clicklistGoodVision.label }}</label>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary col" data-dismiss="modal">返回</button>
+        <input class="btn btn-primary col-md-3" type="submit" value="更新" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+

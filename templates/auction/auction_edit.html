@@ -1,0 +1,146 @@
+{% load widget_tweaks %}
+<form action="{% url 'yfcase:auction_edit' auction.id %}" method="post">{% csrf_token %}
+
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+        
+        {{ form.yfcase|attr:"type:hidden" }}
+
+        <!-- 第一拍 -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label>{{ form.auctionDateFirst.label }}</label>
+            {{ form.auctionDateFirst|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-3">
+            <label>{{ form.auctionFloorPriceFirst.label }}</label>
+            {{ form.auctionFloorPriceFirst|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionClickFirst.label }}</label>
+            {{ form.auctionClickFirst|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionMonitorFirst.label }}</label>
+            {{ form.auctionMonitorFirst|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionMarginFirst.label }}</label>
+            {{ form.auctionMarginFirst|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- 第二拍 -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label>{{ form.auctionDateSecond.label }}</label>
+            {{ form.auctionDateSecond|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-3">
+            <label>{{ form.auctionFloorPriceSecond.label }}</label>
+            {{ form.auctionFloorPriceSecond|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionClickSecond.label }}</label>
+            {{ form.auctionClickSecond|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionMonitorSecond.label }}</label>
+            {{ form.auctionMonitorSecond|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionMarginSecond.label }}</label>
+            {{ form.auctionMarginSecond|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- 第三拍 -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label>{{ form.auctionDateThird.label }}</label>
+            {{ form.auctionDateThird|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-3">
+            <label>{{ form.auctionFloorPriceThird.label }}</label>
+            {{ form.auctionFloorPriceThird|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionClickThird.label }}</label>
+            {{ form.auctionClickThird|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionMonitorThird.label }}</label>
+            {{ form.auctionMonitorThird|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionMarginThird.label }}</label>
+            {{ form.auctionMarginThird|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <hr>
+
+        <!-- 第四拍 -->
+        <div class="form-row">
+          <div class="form-group col-md-3">
+            <label>{{ form.auctionDateFourth.label }}</label>
+            {{ form.auctionDateFourth|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-3">
+            <label>{{ form.auctionFloorPriceFourth.label }}</label>
+            {{ form.auctionFloorPriceFourth|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionClickFourth.label }}</label>
+            {{ form.auctionClickFourth|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionMonitorFourth.label }}</label>
+            {{ form.auctionMonitorFourth|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+          <div class="form-group col-md-2">
+            <label>{{ form.auctionMarginFourth.label }}</label>
+            {{ form.auctionMarginFourth|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary col" data-dismiss="modal">返回</button>
+        <input class="btn btn-primary col-md-3" type="submit" value="更新" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+ $(function() {
+    $( ".datepicker" ).datepicker({
+      dateFormat: "yy-mm-dd"
+    });
+  });
+</script>
+{% endblock javascript %}
+
+
+
+

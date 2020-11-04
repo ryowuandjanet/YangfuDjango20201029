@@ -1,0 +1,81 @@
+{% load widget_tweaks %}
+<form action="{% url 'yfcase:survey_edit' survey.id %}" method="post">{% csrf_token %}
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+
+        {{ form.yfcase|attr:"type:hidden" }}
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.surveyFirstDay.label }}</label>
+            {{ form.surveyFirstDay|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.surveySecondDay.label }}</label>
+            {{ form.surveySecondDay|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.surveyForeclosureAnnouncementLink.label }}</label>
+            {{ form.surveyForeclosureAnnouncementLink|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.survey988Link.label }}</label>
+            {{ form.survey988Link|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.surveyObjectPhotoLink.label }}</label>
+            {{ form.surveyObjectPhotoLink|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.surveyForeclosureRecordLink.label }}</label>
+            {{ form.surveyForeclosureRecordLink|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary col" data-dismiss="modal">返回</button>
+        <input class="btn btn-primary col-md-3" type="submit" value="更新" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+ $(function() {
+    $( ".datepicker" ).datepicker({
+      dateFormat: "yy-mm-dd"
+    });
+  });
+</script>
+{% endblock javascript %}

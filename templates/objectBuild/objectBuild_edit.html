@@ -1,0 +1,161 @@
+{% load widget_tweaks %}
+<style type="text/css">
+  .help-block{
+    color:red;
+  }
+</style>
+<form action="{% url 'yfcase:objectbuild_edit' objectbuild.id %}" method="post" id="objectBuildUpdateForm">{% csrf_token %}
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+
+        {{ form.yfcase|attr:"type:hidden" }}
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.objectBuildAddress.label }}</label>
+            {{ form.objectBuildAddress|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.objectBuildTotalPrice.label }}</label>
+            {{ form.objectBuildTotalPrice|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.objectBuildBuildArea.label }}</label>
+            {{ form.objectBuildBuildArea|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.objectBuildHouseAge.label }}</label>
+            {{ form.objectBuildHouseAge|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.objectBuildFloorHeight.label }}</label>
+            {{ form.objectBuildFloorHeight|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.objectBuildStatus.label }}</label>
+            {{ form.objectBuildStatus|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.objectBuildTransactionDate.label }}</label>
+            {{ form.objectBuildTransactionDate|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label style="margin-bottom: 2px;">{{ form.objectBuildUrl.label }}</label>
+            {{ form.objectBuildUrl|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+        
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary col" data-dismiss="modal">返回</button>
+        <input class="btn btn-primary col-md-3" type="submit" value="更新" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+ $(function() {
+    $('#objectBuildUpdateForm').bootstrapValidator({
+      // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+      feedbackIcons: {
+        valid: 'glyphicon glyphicon-ok',
+        invalid: 'glyphicon glyphicon-remove',
+        validating: 'glyphicon glyphicon-refresh'
+      },
+      fields: {
+        objectBuildAddress: {
+          validators: {
+            notEmpty: {
+              message: '此一欄位不得為空'
+            }
+          }
+        },
+        objectBuildTotalPrice: {
+          validators: {
+            notEmpty: {
+              message: '此一欄位不得為空'
+            },
+            integer: {
+              message: '此欄需為正整數，且需大於 1 '
+            },
+            between: {
+              min: 1,
+              max: 99999999,
+              message: '此欄需為正整數，且需介於 1 - 99999999 '
+            }
+          }
+        },
+        objectBuildBuildArea: {
+          validators: {
+            notEmpty: {
+              message: '此一欄位不得為空'
+            },
+            between: {
+              min: 0.01,
+              max: 99999.99,
+              message: '此欄需為數字(小數點最多兩位)，且需介於 0.01 - 99999.99 之間'
+            },
+            regexp: {
+              regexp: /^\d{1,5}(\.\d{1,2})?$/i,
+              message: '此欄需為數字(小數點最多兩位)，且需介於 0.01 - 99999.99 之間'
+            }
+          }
+        },
+        objectBuildHouseAge: {
+          validators: {
+            regexp: {
+              regexp: /^\d{1,2}(\.\d{1,2})?$/i,
+              message: '無法取得屋齡則為空格，此欄需為數字(小數點最多兩位)，且需介於 0.01 - 99.99 之間'
+            }
+          }
+        }
+      }
+    });
+
+    $( ".datepicker" ).datepicker({
+      dateFormat: "yy-mm-dd"
+    });
+  });
+</script>
+{% endblock javascript %}
+
+
+

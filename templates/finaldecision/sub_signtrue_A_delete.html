@@ -1,0 +1,41 @@
+{% load widget_tweaks %}
+<form action="{% url 'yfcase:subsigntruea_delete' finaldecision.id %}" method="post">{% csrf_token %}
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">刪除</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+        <p>你確定要刪除 "{{finaldecision.subSigntrueA}}" ?</p>
+        {{ form.yfcase|attr:"type:hidden" }}
+        {{ form.subSigntrueA|attr:"type:hidden" }}
+        {{ form.subSigntrueDateA|attr:"type:hidden" }}
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+        <input class="btn btn-success col-md-3" type="submit" onclick="set_subsigntruea_empty()" value="刪除" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+  function set_subsigntruea_empty() {
+
+     document.getElementById("id_subSigntrueA").value = "";
+     document.getElementById("id_subSigntrueDateA").value = "";
+
+  }
+</script>
+{% endblock javascript %}

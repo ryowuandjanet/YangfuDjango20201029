@@ -1,0 +1,27 @@
+<table class="yfratingscalePDFBuildCheckList col">
+  <tr>
+    <th style="height: 40px;">
+      查檢項目
+    </th>
+  </tr>
+  <tr>
+    <td style="height: 200px;">
+      {% if object.clicklists.first.clicklistOccupy %} 01.占用鄰地<br> {% endif %}
+      {% if object.clicklists.first.clicklistEegister %} 02.無未保存登記建物<br> {% endif %}
+      {% if object.clicklists.first.clicklistParkingSpace %} 03.附停車位(機車/汽車)<br> {% endif %}
+      {% if object.clicklists.first.clicklistManagementFee %} 04.積欠管理費<br> {% endif %}
+      {% if object.clicklists.first.clicklistRent %} 05.出租/出借/佔用<br> {% endif %}
+      {% if object.clicklists.first.clicklistLeak %} 06.無嚴重漏水現象<br> {% endif %}
+      {% if object.clicklists.first.clicklistEasyParking %} 07.停車方便<br> {% endif %}
+      {% if object.clicklists.first.clicklistRailway %} 08.鄰近捷運站/台鐵站<br> {% endif %}
+      {% if object.clicklists.first.clicklistVegetableMarket %} 09.鄰近菜市場<br> {% endif %}
+      {% if object.clicklists.first.clicklistSupermarket %} 10.鄰近大賣場<br> {% endif %}
+      {% if object.clicklists.first.clicklistSchool %} 11.鄰近學校<br> {% endif %}
+      {% if object.clicklists.first.clicklistPark %} 12.鄰近公園<br> {% endif %}
+      {% if object.clicklists.first.clicklistPostOffice %} 13.鄰近郵局/機關<br> {% endif %}
+      {% if object.clicklists.first.clicklistMainRoad %} 14.鄰近幹道<br> {% endif %}
+      {% if object.clicklists.first.clicklistWaterAndPowerFailure %} 15.斷水斷電<br>   {% endif %}
+      {% if object.clicklists.first.clicklistGoodVision %} 16.採光視野良好<br> {% endif %}
+    </td> 
+  </tr>
+</table>

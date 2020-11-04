@@ -1,0 +1,59 @@
+{% load widget_tweaks %}
+<form action="{% url 'yfcase:subsigntruea_new' %}" method="post">{% csrf_token %}
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+        
+        {{ form.yfcase|attr:"type:hidden" }}
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label>{{ form.subSigntrueA.label }}</label>
+            {{ form.subSigntrueA|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label>{{ form.subSigntrueDateA.label }}</label>
+            {{ form.subSigntrueDateA|add_class:"form-control fieldcolor pt-0" }}
+          </div>
+        </div>
+
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <input class="btn btn-success col-md-3" type="submit" onclick="get_signtruea_yfcase()" value="Save Change" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+ $(function() {
+    $( ".datepicker" ).datepicker({
+      dateFormat: "yy-mm-dd"
+    });
+  });
+  function get_signtruea_yfcase() {
+
+      var url = (window.location.pathname).replace("/yfcase/","").replace("/",""); 
+      document.getElementById("id_yfcase").value = url;
+
+  }
+</script>
+{% endblock javascript %}

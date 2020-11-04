@@ -1,0 +1,60 @@
+<table class="yfratingscalePDFAttachment col">
+  <tr>
+    <th style="width:45%">
+      初勘日
+    </th>
+    <td class="yfratingscalePDFAttachmentContent">
+      {% for survey in object.surveys.all %}
+        {{survey.surveyFirstDay}}
+      {% endfor %}
+    </td>
+  </tr>
+  <tr>
+    <th>會勘日</th>
+    <td class="yfratingscalePDFAttachmentContent">
+      {% for survey in object.surveys.all %}
+        {{survey.surveySecondDay}}
+      {% endfor %}
+    </td>
+  </tr>
+  <tr>
+    <th>法拍公告<small>(證物三)</small></th>
+    <td class="yfratingscalePDFAttachmentContent">
+      {% for survey in object.surveys.all %}
+        {% if survey.surveyForeclosureAnnouncementLink %}
+          <a href="{{survey.surveyForeclosureAnnouncementLink}}" target="_blank">法拍公告</a>
+        {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+  <tr>
+    <th>998連結</th>
+    <td class="yfratingscalePDFAttachmentContent">
+      {% for survey in object.surveys.all %}
+        {% if survey.survey988Link %}
+          <a href="{{survey.survey988Link}}" target="_blank">998連結</a>
+        {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+  <tr>
+    <th>物件照片<small>(證物四)</small></th>
+    <td class="yfratingscalePDFAttachmentContent">
+      {% for survey in object.surveys.all %}
+        {% if survey.surveyObjectPhotoLink %}
+          <a href="{{object.surveys.surveyObjectPhotoLink}}" target="_blank">物件照片</a>
+        {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+  <tr>
+    <th>法拍記錄<small>(證物七)</small></th>
+    <td class="yfratingscalePDFAttachmentContent">
+      {% for survey in object.surveys.all %}
+        {% if survey.surveyForeclosureRecordLink %}
+          <a href="{{survey.surveyForeclosureRecordLink}}" target="_blank">法拍記錄</a>
+        {% endif %}
+      {% endfor %}
+    </td>
+  </tr>
+</table>

@@ -1,0 +1,433 @@
+{% load humanize %}
+{% load urlify %}
+<div class="col" style="padding:0px;">
+  {% for objectbuild in object.objectbuilds.all %}
+    <table class="yfratingscalePDFObjectBuild">
+      <tr>
+        <th rowspan="11" style="width:3%;">
+          參<br>考<br>物<br>件
+          <div style="font-size:12pt;text-align: left;">
+            <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+            {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+
+              <a href="javascript:void(0)" onclick="land_modal_edit('{% url 'yfcase:objectbuild_edit' objectbuild.id %}')">
+                <span class="fa-stack" style="color:DarkGreen;">
+                  <i class="far fa-circle fa-stack-2x" ></i>
+                  <i class="fas fa-pen fa-stack-1x"></i>
+                </span>
+              </a>
+
+              <br>
+
+              <a href="javascript:void(0)" onclick="land_modal_delete('{% url 'yfcase:objectbuild_delete' objectbuild.id %}')">
+                <span class="fa-stack" style="color:DarkRed;">
+                  <i class="far fa-circle fa-stack-2x" ></i>
+                  <i class="fas fa-trash fa-stack-1x"></i>
+                </span>
+              </a>
+
+            {% endif %}
+           </div>
+        </th>
+        <th style="width:8%;">狀態</th>
+        <td style="width:21%;">{{objectbuild.objectBuildStatus}}</td>
+        <th style="background-color:lightgrey; width:5%;">勘查員</th>
+        <td style="width:13%;">
+          {% if object.get_floor_price_from_auction_date >= 1000000 %}
+            {% if objectbuild.objectBuildScorerA == None %}
+              {% if request.user.userFullName == objectbuild.objectBuildScorerB or request.user.userFullName == objectbuild.objectBuildScorerC %}
+                <div style="color:brown;">該員已評</div>
+              {% endif %}
+            {% else %}
+              {{ objectbuild.objectBuildScorerA }}
+            {% endif %}
+          {% else %}
+            {% if objectbuild.objectBuildScorerA == None %}
+              {% if request.user.userFullName == objectbuild.objectBuildScorerB %}
+                <div style="color:brown;">該員已評</div>
+              {% endif %}
+            {% else %}
+              {{ objectbuild.objectBuildScorerA }}
+            {% endif %}
+          {% endif %}
+        </td>
+        <td style="width:4%;">
+          {% if objectbuild.objectBuildScorerA != None %}
+            <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+            {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+              <a href="javascript:void(0)" onclick="land_modal_delete('{% url 'yfcase:score_a_delete' objectbuild.id %}')">
+                <span class="fa-stack" style="color:DarkRed;">
+                  <i class="far fa-circle fa-stack-2x" ></i>
+                  <i class="fas fa-trash fa-stack-1x"></i>
+                </span>
+              </a>
+            {% endif %}
+          {% endif %}
+        </td>
+        <td style="width:4%;">
+          {% if objectbuild.objectBuildScorerA == request.user.userFullName or objectbuild.objectBuildScorerA == None %}
+            {% if objectbuild.objectBuildScorerB != request.user.userFullName and objectbuild.objectBuildScorerC != request.user.userFullName %}
+              <a href="javascript:void(0)" onclick="land_modal_edit('{% url 'yfcase:score_a_edit' objectbuild.id %}')">
+                <span class="fa-stack" style="color:DarkGreen;">
+                  <i class="far fa-circle fa-stack-2x" ></i>
+                  <i class="fas fa-pen fa-stack-1x"></i>
+                </span>
+              </a>
+            {% endif %}
+          {% endif %}
+        </td>
+
+        <!-- 評分人員B -->
+        <td style="width:13%;">
+          {% if object.get_floor_price_from_auction_date >= 1000000 %}
+            {% if objectbuild.objectBuildScorerB == None %}
+              {% if request.user.userFullName == objectbuild.objectBuildScorerA or request.user.userFullName == objectbuild.objectBuildScorerC %}
+                <div style="color:brown;">該員已評</div>
+              {% endif %}
+            {% else %}
+              {{ objectbuild.objectBuildScorerB }}
+            {% endif %}
+          {% else %}
+            {% if objectbuild.objectBuildScorerB == None %}
+              {% if request.user.userFullName == objectbuild.objectBuildScorerA %}
+                <div style="color:brown;">該員已評</div>
+              {% endif %}
+            {% else %}
+              {{ objectbuild.objectBuildScorerB }}
+            {% endif %}
+          {% endif %}
+        </td>
+        <td style="width:4%;">
+          {% if objectbuild.objectBuildScorerB != None %}
+            <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+            {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+              <a href="javascript:void(0)" onclick="land_modal_delete('{% url 'yfcase:score_b_delete' objectbuild.id %}')">
+                <span class="fa-stack" style="color:DarkRed;">
+                  <i class="far fa-circle fa-stack-2x" ></i>
+                  <i class="fas fa-trash fa-stack-1x"></i>
+                </span>
+              </a>
+            {% endif %}
+          {% endif %}
+        </td>
+        <td style="width:4%;">
+          {% if objectbuild.objectBuildScorerB == request.user.userFullName or objectbuild.objectBuildScorerB == None %}
+            {% if objectbuild.objectBuildScorerA != request.user.userFullName and objectbuild.objectBuildScorerC != request.user.userFullName %}
+              <a href="javascript:void(0)" onclick="land_modal_edit('{% url 'yfcase:score_b_edit' objectbuild.id %}')">
+                <span class="fa-stack" style="color:DarkGreen;">
+                  <i class="far fa-circle fa-stack-2x" ></i>
+                  <i class="fas fa-pen fa-stack-1x"></i>
+                </span>
+              </a>
+            {% endif %}
+          {% endif %}
+        </td>
+
+        <!-- 評分人員C -->
+        <td style="width:13%;">
+          {% if object.get_floor_price_from_auction_date >= 1000000 %}
+            {% if objectbuild.objectBuildScorerC == None %}
+              {% if request.user.userFullName == objectbuild.objectBuildScorerA or request.user.userFullName == objectbuild.objectBuildScorerB %}
+                <div style="color:brown;">該員已評</div>
+              {% endif %}
+            {% else %}
+              {{ objectbuild.objectBuildScorerC }}
+            {% endif %}
+          {% endif %}
+        </td>
+        <td style="width:4%;">
+          {% if object.get_floor_price_from_auction_date >= 1000000 %}
+            {% if objectbuild.objectBuildScorerC != None %}
+              <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+              {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+                <a href="javascript:void(0)" onclick="land_modal_delete('{% url 'yfcase:score_c_delete' objectbuild.id %}')">
+                  <span class="fa-stack" style="color:DarkRed;">
+                    <i class="far fa-circle fa-stack-2x" ></i>
+                    <i class="fas fa-trash fa-stack-1x"></i>
+                  </span>
+                </a>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        </td>
+        <td style="width:4%;">
+          {% if object.get_floor_price_from_auction_date >= 1000000 %}
+            {% if objectbuild.objectBuildScorerC == request.user.userFullName or objectbuild.objectBuildScorerC == None %}
+              {% if objectbuild.objectBuildScorerA != request.user.userFullName and objectbuild.objectBuildScorerB != request.user.userFullName %}
+                <a href="javascript:void(0)" onclick="land_modal_edit('{% url 'yfcase:score_c_edit' objectbuild.id %}')">
+                  <span class="fa-stack" style="color:DarkGreen;">
+                    <i class="far fa-circle fa-stack-2x" ></i>
+                    <i class="fas fa-pen fa-stack-1x"></i>
+                  </span>
+                </a>
+              {% endif %}
+            {% endif %}
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>附件</th>
+        <td>
+          {% if objectbuild.objectBuildUrl %}
+            <a href="{{ objectbuild.objectBuildUrl }}" target="_blank">
+              <i class="fas fa-camera-retro fa-2x"></i>
+            </a>
+          {% endif %}
+        </td>
+        <th rowspan="8" style="background-color:lightgrey;">加成<br>原因</th>
+        <td colspan="3" rowspan="8" style="vertical-align: top;">
+          <!-- 測試加成項目係數顯示格式 -->
+          {% if objectbuild.plusItemA1 %}
+            {% if objectbuild.plusValueA1 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueA1 }}){{ objectbuild.plusItemA1 }}<br></div>
+            {% elif objectbuild.plusValueA1 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueA1|zeroNegative }}){{ objectbuild.plusItemA1 }}<br></div>
+            {% endif %}
+          {% endif %}
+          {% if objectbuild.plusItemA2 %}
+            {% if objectbuild.plusValueA2 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueA2 }}){{ objectbuild.plusItemA2 }}<br></div>
+            {% elif objectbuild.plusValueA2 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueA2|zeroNegative }}){{ objectbuild.plusItemA2 }}<br></div>
+            {% endif %}
+          {% endif %}
+          {% if objectbuild.plusItemA3 %}
+            {% if objectbuild.plusValueA3 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueA3 }}){{ objectbuild.plusItemA3 }}<br></div>
+            {% elif objectbuild.plusValueA3 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueA3|zeroNegative }}){{ objectbuild.plusItemA3 }}<br></div>
+            {% endif %}
+          {% endif %}
+          {% if objectbuild.plusItemA4 %}
+            {% if objectbuild.plusValueA4 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueA4 }}){{ objectbuild.plusItemA4 }}<br></div>
+            {% elif objectbuild.plusValueA4 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueA4|zeroNegative }}){{ objectbuild.plusItemA4 }}<br></div>
+            {% endif %}
+          {% endif %}
+          {% if objectbuild.plusItemA5 %}
+            {% if objectbuild.plusValueA5 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueA5 }}){{ objectbuild.plusItemA5 }}<br></div>
+            {% elif objectbuild.plusValueA5 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueA5|zeroNegative }}){{ objectbuild.plusItemA5 }}<br></div>
+            {% endif %}
+          {% endif %}
+
+          {% if objectbuild.plusItemOtherA %}
+            {% if objectbuild.plusValueOtherA >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueOtherA }}){{ objectbuild.plusItemOtherA }}<br></div>
+            {% elif objectbuild.plusValueOtherA < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueOtherA|zeroNegative }}){{ objectbuild.plusItemOtherA }}<br></div>
+            {% endif %}
+          {% endif %}
+          <hr>
+          {% if objectbuild.plusItemA1 != None or objectbuild.plusItemA2 != None or objectbuild.plusItemA3 != None or objectbuild.plusItemA4 != None or objectbuild.plusItemA5 != None or objectbuild.plusItemOtherA != None %}
+            <h5 style="text-align: left;vertical-align: bottom;">計算加成係數(相乘後)：{{objectbuild.get_a_plus_value_total|floatformat:0|intcomma}}</h5>
+          {% endif %}
+        </td>
+        <td colspan="3" rowspan="8" style="vertical-align: top;">
+          <!-- 測試加成項目係數顯示格式 -->
+          {% if objectbuild.plusItemB1 %}
+            {% if objectbuild.plusValueB1 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueB1 }}){{ objectbuild.plusItemB1 }}<br></div>
+            {% elif objectbuild.plusValueB1 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueB1|zeroNegative }}){{ objectbuild.plusItemB1 }}<br></div>
+            {% endif %}
+          {% endif %}
+          {% if objectbuild.plusItemB2 %}
+            {% if objectbuild.plusValueB2 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueB2 }}){{ objectbuild.plusItemB2 }}<br></div>
+            {% elif objectbuild.plusValueB2 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueB2|zeroNegative }}){{ objectbuild.plusItemB2 }}<br></div>
+            {% endif %}
+          {% endif %}
+          {% if objectbuild.plusItemB3 %}
+            {% if objectbuild.plusValueB3 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueB3 }}){{ objectbuild.plusItemB3 }}<br></div>
+            {% elif objectbuild.plusValueB3 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueB3|zeroNegative }}){{ objectbuild.plusItemB3 }}<br></div>
+            {% endif %}
+          {% endif %}
+          {% if objectbuild.plusItemB4 %}
+            {% if objectbuild.plusValueB4 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueB4 }}){{ objectbuild.plusItemB4 }}<br></div>
+            {% elif objectbuild.plusValueB4 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueB4|zeroNegative }}){{ objectbuild.plusItemB4 }}<br></div>
+            {% endif %}
+          {% endif %}
+          {% if objectbuild.plusItemB5 %}
+            {% if objectbuild.plusValueB5 >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueB5 }}){{ objectbuild.plusItemB5 }}<br></div>
+            {% elif objectbuild.plusValueB5 < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueB5|zeroNegative }}){{ objectbuild.plusItemB5 }}<br></div>
+            {% endif %}
+          {% endif %}
+
+          {% if objectbuild.plusItemOtherB %}
+            {% if objectbuild.plusValueOtherA >= 0 %}
+              <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueOtherB }}){{ objectbuild.plusItemOtherB }}<br></div>
+            {% elif objectbuild.plusValueOtherA < 0 %}
+              <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueOtherB|zeroNegative }}){{ objectbuild.plusItemOtherB }}<br></div>
+            {% endif %}
+          {% endif %}
+          <hr>
+          {% if objectbuild.plusItemB1 != None or objectbuild.plusItemB2 != None or objectbuild.plusItemB3 != None or objectbuild.plusItemB4 != None or objectbuild.plusItemB5 != None or objectbuild.plusItemOtherB != None %}
+            <h5 style="text-align: left;">計算加成係數(相乘後)：{{objectbuild.get_b_plus_value_total|floatformat:0|intcomma}}</h5>
+          {% endif %}
+
+        </td>
+        <td colspan="3" rowspan="8" style="vertical-align: top;">
+          <!-- 測試加成項目係數顯示格式 -->
+          {% if object.get_floor_price_from_auction_date >= 1000000 %}
+            {% if objectbuild.plusItemC1 %}
+              {% if objectbuild.plusValueC1 >= 0 %}
+                <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueC1 }}){{ objectbuild.plusItemC1 }}<br></div>
+              {% elif objectbuild.plusValueC1 < 0 %}
+                <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueC1|zeroNegative }}){{ objectbuild.plusItemC1 }}<br></div>
+              {% endif %}
+            {% endif %}
+            {% if objectbuild.plusItemC2 %}
+              {% if objectbuild.plusValueC2 >= 0 %}
+                <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueC2 }}){{ objectbuild.plusItemC2 }}<br></div>
+              {% elif objectbuild.plusValueC2 < 0 %}
+                <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueC2|zeroNegative }}){{ objectbuild.plusItemC2 }}<br></div>
+              {% endif %}
+            {% endif %}
+            {% if objectbuild.plusItemC3 %}
+              {% if objectbuild.plusValueC3 >= 0 %}
+                <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueC3 }}){{ objectbuild.plusItemC3 }}<br></div>
+              {% elif objectbuild.plusValueC3 < 0 %}
+                <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueC3|zeroNegative }}){{ objectbuild.plusItemC3 }}<br></div>
+              {% endif %}
+            {% endif %}
+            {% if objectbuild.plusItemC4 %}
+              {% if objectbuild.plusValueC4 >= 0 %}
+                <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueC4 }}){{ objectbuild.plusItemC4 }}<br></div>
+              {% elif objectbuild.plusValueC4 < 0 %}
+                <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueC4|zeroNegative }}){{ objectbuild.plusItemC4 }}<br></div>
+              {% endif %}
+            {% endif %}
+            {% if objectbuild.plusItemC5 %}
+              {% if objectbuild.plusValueC5 >= 0 %}
+                <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueC5 }}){{ objectbuild.plusItemC5 }}<br></div>
+              {% elif objectbuild.plusValueC5 < 0 %}
+                <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueC5|zeroNegative }}){{ objectbuild.plusItemC5 }}<br></div>
+              {% endif %}
+            {% endif %}
+
+            {% if objectbuild.plusItemOtherC %}
+              {% if objectbuild.plusValueOtherA >= 0 %}
+                <div style="color:blue;text-align: left;">&#10148 (+{{ objectbuild.plusValueOtherC }}){{ objectbuild.plusItemOtherC }}<br></div>
+              {% elif objectbuild.plusValueOtherA < 0 %}
+                <div style="color:red;text-align: left;">&#10148 (&#8211;{{ objectbuild.plusValueOtherC|zeroNegative }}){{ objectbuild.plusItemOtherC }}<br></div>
+              {% endif %}
+            {% endif %}
+            <hr>
+            {% if objectbuild.plusItemC1 != None or objectbuild.plusItemC2 != None or objectbuild.plusItemC3 != None or objectbuild.plusItemC4 != None or objectbuild.plusItemC5 != None or objectbuild.plusItemOtherC != None %}
+              <h5 style="text-align: left;">計算加成係數(相乘後)：{{objectbuild.get_c_plus_value_total|floatformat:0|intcomma}}</h5>
+            {% endif %}
+          {% endif%}
+        </td>
+      </tr>
+      <tr>
+        <th>地址</th>
+        <td>{{objectbuild.objectBuildAddress}}</td>
+      </tr>
+      <tr>
+        <th>屋齡(年)</th>
+        <td>
+          {% if objectbuild.objectBuildHouseAge %}
+            {{objectbuild.objectBuildHouseAge}}
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>樓高</th>
+        <td>
+          {% if objectbuild.objectBuildFloorHeight %}
+            {{objectbuild.objectBuildFloorHeight}}
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>成交日期</th>
+        <td>
+          {% if objectbuild.objectBuildTransactionDate %}
+            {{ objectbuild.objectBuildTransactionDate }}
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>總價(元)</th>
+        <td>{{ objectbuild.objectBuildTotalPrice|floatformat:0|intcomma }}</td>
+      </tr>
+      <tr>
+        <th>建坪(坪)</th>
+        <td>{{ objectbuild.objectBuildBuildArea }}</td>
+      </tr>
+      <tr>
+        <th>單價(元)</th>
+        <td>{{ objectbuild.get_objectbuild_ping_price|floatformat:0|intcomma }}</td>
+      </tr>
+      <tr>
+        <th style="background-color:lightgreen;">平均加成</th>
+        <td>
+          {% if object.get_floor_price_from_auction_date >= 1000000 %}
+            {{ objectbuild.get_score_plus_abc_rate_average_calculation|floatformat:2 }}
+          {% else %}
+            {{ objectbuild.get_score_plus_ab_rate_average_calculation|floatformat:2 }}
+          {% endif %}
+        </td>
+        <th rowspan="2" style="background-color:lightgrey;">加成</th>
+        <td colspan="3" rowspan="2">
+          {% if objectbuild.objectBuildScorerA != None %}
+            {{ objectbuild.get_a_plus_value|floatformat:2 }}
+          {% endif %}
+        </td>
+        <td colspan="3" rowspan="2">
+          {% if objectbuild.objectBuildScorerB != None %}
+            {{objectbuild.get_b_plus_value|floatformat:2 }}
+          {% endif %}
+        </td>
+        <td colspan="3" rowspan="2">
+          {% if object.get_floor_price_from_auction_date >= 1000000 %}
+            {% if objectbuild.objectBuildScorerC != None %}
+              {{objectbuild.get_c_plus_value|floatformat:2 }}
+            {% endif %}
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th style="background-color:lightblue;">計算</th>
+        <td>
+          {% if object.get_floor_price_from_auction_date >= 1000000 %}
+            {{ objectbuild.get_objectbuild_ping_price_abc_calculation|floatformat:0|intcomma }}
+          {% else %}
+            {{ objectbuild.get_objectbuild_ping_price_ab_calculation|floatformat:0|intcomma }}
+          {% endif %}
+        </td>
+      </tr>
+    </table>
+  {% endfor %}
+</div>
+
+
+<!-- Build Modal -->
+<div class="modal fade" id="editScoreModal" role="dialog"></div>
+<div class="modal fade" id="deleteScoreModal" role="dialog"></div>
+
+{% block javascript %}
+  <script>
+    // Build JS
+    function score_modal_edit(url) {
+      $('#editScoreModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function score_modal_delete(url) {
+      $('#deleteScoreModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+  </script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% load widget_tweaks %}
+<form action="{% url 'yfcase:subsigntruea_edit' finaldecision.id %}" method="post">{% csrf_token %}
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+        
+        {{ form.yfcase|attr:"type:hidden" }}
+        {{ form.subSigntrueA|attr:"type:hidden" }}
+
+        <div class="form-row">
+          <div class="form-group col">
+            <label>{{ form.subSigntrueDateA.label }}</label>
+            {{ form.subSigntrueDateA|add_class:"form-control fieldcolor pt-0" }}
+            <small style="color:blue;">*若此欄位為空值，則日期以當天的日期為主</small>
+          </div>
+        </div>
+        {{ request.user.userFullName|json_script:"author_fullname" }} 
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary col" data-dismiss="modal">關閉</button>
+        <input class="btn btn-primary col-md-3" type="submit" onclick="post_sub_signtrue_a_submit()" value="更新" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+ $(function() {
+    $( ".datepicker" ).datepicker({
+      dateFormat: "yy-mm-dd"
+    });
+  });
+
+  function post_sub_signtrue_a_submit() {
+      var Today = new Date();
+      var addToday = Today.getFullYear()+ "-" + ("0" + (Today.getMonth() + 1)).slice(-2) + "-" + ("0" + Today.getDate()).slice(-2)
+      const author_fullname = JSON.parse(document.getElementById('author_fullname').textContent);
+      document.getElementById("id_subSigntrueA").value = author_fullname;
+      if (document.getElementById("id_subSigntrueDateA").value == "") {
+        document.getElementById("id_subSigntrueDateA").value = addToday;
+      } else {
+        document.getElementById("id_subSigntrueDateA").value = document.getElementById("id_subSigntrueDateA").value;
+      }
+  }
+</script>
+{% endblock javascript %}

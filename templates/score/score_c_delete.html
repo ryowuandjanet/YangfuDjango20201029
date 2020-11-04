@@ -1,0 +1,66 @@
+{% load widget_tweaks %}
+<form action="{% url 'yfcase:score_c_delete' objectbuild.id %}" method="post">{% csrf_token %}
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">刪除</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+        <p>你確定要刪除勘查者 "{{objectbuild.objectBuildScorerC}}" 的評比 ?</p>
+        {{ form.objectBuildScorerC|attr:"type:hidden" }}
+        {{ form.objectBuildScorRateC|attr:"type:hidden" }}
+        {{ form.objectBuildScorReasonC|attr:"type:hidden" }}
+        {{ form.plusItemC1|attr:"type:hidden" }}
+        {{ form.plusItemC2|attr:"type:hidden" }}
+        {{ form.plusItemC3|attr:"type:hidden" }}
+        {{ form.plusItemC4|attr:"type:hidden" }}
+        {{ form.plusItemC5|attr:"type:hidden" }}
+        {{ form.plusItemOtherC|attr:"type:hidden" }}
+        {{ form.plusValueC1|attr:"type:hidden" }}
+        {{ form.plusValueC2|attr:"type:hidden" }}
+        {{ form.plusValueC3|attr:"type:hidden" }}
+        {{ form.plusValueC4|attr:"type:hidden" }}
+        {{ form.plusValueC5|attr:"type:hidden" }}
+        {{ form.plusValueOtherC|attr:"type:hidden" }}
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">關閉</button>
+        <input class="btn btn-success col-md-3" type="submit" onclick="set_value_empty()" value="刪除" />
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+  function set_value_empty() {
+   $(function() {
+     document.getElementById("id_objectBuildScorerC").value = "";
+     document.getElementById("id_objectBuildScorRateC").value = 0;
+     document.getElementById("id_objectBuildScorReasonC").value = "";
+     document.getElementById("id_plusItemC1").value = "";
+     document.getElementById("id_plusItemC2").value = "";
+     document.getElementById("id_plusItemC3").value = "";
+     document.getElementById("id_plusItemC4").value = "";
+     document.getElementById("id_plusItemC5").value = "";
+     document.getElementById("id_plusItemOtherC").value = "";
+     document.getElementById("id_plusValueC1").value = 0;
+     document.getElementById("id_plusValueC2").value = 0;
+     document.getElementById("id_plusValueC3").value = 0;
+     document.getElementById("id_plusValueC4").value = 0;
+     document.getElementById("id_plusValueC5").value = 0;
+     document.getElementById("id_plusValueOtherC").value = 0;
+    });
+  }
+</script>
+{% endblock javascript %}

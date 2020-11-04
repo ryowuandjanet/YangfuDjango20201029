@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load urlify %}
+{% load humanize %}
 {% load widget_tweaks %}
 
 {% block style %}
@@ -180,14 +181,17 @@
       <div class="row">
         <div class="minBaseData" style="font-size:24pt;padding-left:0px;">
           基本資料
-          <span style="font-size: 12pt;vertical-align: middle;">
-            <a href="javascript:void(0)" onclick="yfcase_modal_edit('{% url 'yfcase:yfcase_edit' yfcase.id %}')">
-              <span class="fa-stack" style="color:DarkGreen;">
-                <i class="far fa-circle fa-stack-2x" ></i>
-                <i class="fas fa-pen fa-stack-1x"></i>
-              </span>
-            </a>
-          </span>
+          <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+          {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+            <span style="font-size: 12pt;vertical-align: middle;">
+              <a href="javascript:void(0)" onclick="yfcase_modal_edit('{% url 'yfcase:yfcase_edit' yfcase.id %}')">
+                <span class="fa-stack" style="color:DarkGreen;">
+                  <i class="far fa-circle fa-stack-2x" ></i>
+                  <i class="fas fa-pen fa-stack-1x"></i>
+                </span>
+              </a>
+            </span>
+          {% endif %}
         </div>
       </div>
       <div class="row">
@@ -199,19 +203,25 @@
       <div class="row">
         <div class="col-md-6" style="font-size:24pt;padding-left:0px;">
           土地
-          <span style="font-size: 12pt;vertical-align: middle;">
-            <a href="javascript:void(0)" onclick="land_modal_create('{% url 'yfcase:land_new' %}')">
-              <span class="fa-stack">
-                <i class="far fa-circle fa-stack-2x"></i>
-                <i class="fas fa-plus fa-stack-1x"></i>
-              </span>
-            </a>
-          </span>
+          <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+          {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+            <span style="font-size: 12pt;vertical-align: middle;">
+              <a href="javascript:void(0)" onclick="land_modal_create('{% url 'yfcase:land_new' %}')">
+                <span class="fa-stack">
+                  <i class="far fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-plus fa-stack-1x"></i>
+                </span>
+              </a>
+            </span>
+          {% endif %}
         </div>
         <div class="col-md-6" style="text-align: right;padding-right:0px;">
           <div class="pt-2">
             <span style="font-size: 18pt;vertical-align: middle;">
-
+              {% if object.lands.count > 0 %}
+                合計：{{ object.get_land_holding_point_area_total|floatformat:"2" }} m<sup>2</sup> 
+                ({{ object.get_land_holding_point_area_total|m2toping|floatformat:"2" }} 坪)
+              {% endif %}
             </span>
           </div>
         </div>
@@ -222,34 +232,256 @@
       </div>
       
       <!-- 建物 -->
-    <div class="row">
-      <div class="col-md-6" style="font-size:24pt;padding-left:0px;">
-        建物
-        <span style="font-size: 12pt;vertical-align: middle;">
-          <a href="javascript:void(0)" onclick="build_modal_create('{% url 'yfcase:build_new' %}')">
-            <span class="fa-stack">
-              <i class="far fa-circle fa-stack-2x"></i>
-              <i class="fas fa-plus fa-stack-1x"></i>
+      <div class="row">
+        <div class="col-md-6" style="font-size:24pt;padding-left:0px;">
+          建物
+          <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+          {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+            <span style="font-size: 12pt;vertical-align: middle;">
+              <a href="javascript:void(0)" onclick="build_modal_create('{% url 'yfcase:build_new' %}')">
+                <span class="fa-stack">
+                  <i class="far fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-plus fa-stack-1x"></i>
+                </span>
+              </a>
             </span>
-          </a>
-        </span>
-      </div>
-      <div class="col-md-6" style="text-align: right;padding-right:0px;">
-        <div class="pt-2">
-          <span style="font-size: 18pt;vertical-align: middle;">
-            {% if object.builds.count > 0 %}
-              合計：{{ object.get_build_holding_point_after_group_total|floatformat:"2" }} m<sup>2</sup> 
-              ({{ object.get_build_holding_point_after_group_total|m2toping|floatformat:"2" }} 坪)
-            {% endif %}
-          </span>
+          {% endif %}
+        </div>
+        <div class="col-md-6" style="text-align: right;padding-right:0px;">
+          <div class="pt-2">
+            <span style="font-size: 18pt;vertical-align: middle;">
+              {% if object.builds.count > 0 %}
+                合計：{{ object.get_build_holding_point_after_group_total|floatformat:"2" }} m<sup>2</sup> 
+                ({{ object.get_build_holding_point_after_group_total|m2toping|floatformat:"2" }} 坪)
+              {% endif %}
+            </span>
+          </div>
         </div>
       </div>
-    </div>
-    <div class="row">
-      <!--建物樣版-->
-      {% include "./partials/build.html" %}
-    </div>
+      <div class="row">
+        <!--建物樣版-->
+        {% include "./partials/build.html" %}
+      </div>
+    
+      <!-- 拍賣資訊 -->
+      <div class="row">
+        <div style="font-size:24pt;">
+          拍賣資訊
+          <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+          {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+            {% if object.auctions.count %}
+              {% for auction in object.auctions.all %}
+                <span style="font-size: 12pt;vertical-align: middle;">
+                  <a href="javascript:void(0)" onclick="auction_modal_edit('{% url 'yfcase:auction_edit' auction.id %}')">
+                    <span class="fa-stack" style="color:DarkGreen;">
+                      <i class="far fa-circle fa-stack-2x" ></i>
+                      <i class="fas fa-pen fa-stack-1x"></i>
+                    </span>
+                  </a> 
+                </span>
+              {% endfor %}
+            {% else %}
+              <span style="font-size: 12pt;vertical-align: middle;">
+                <a href="javascript:void(0)" onclick="auction_modal_edit('{% url 'yfcase:auction_new' %}')">
+                  <span class="fa-stack">
+                    <i class="far fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-plus fa-stack-1x"></i>
+                  </span>
+                </a> 
+              </span>
+            {% endif %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="row">
+        <!--拍賣樣版-->
+        {% include "./partials/auction.html" %}
+      </div>
+
+      <!-- 勘查記錄 + 查檢表 -->
+      <div class="row">
+        <div class="col">
+          <!-- 勘查記錄 -->
+          <div class="row">
+            <div style="font-size:24pt;">
+              勘查記錄
+                <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+                {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+                  <span style="font-size: 12pt;vertical-align: middle;">
+                    {% if object.surveys.count %}
+                      {% for survey in object.surveys.all %}
+                        <a href="javascript:void(0)" onclick="survey_modal_edit('{% url 'yfcase:survey_edit' survey.id %}')">
+                          <span class="fa-stack" style="color:DarkGreen;">
+                            <i class="far fa-circle fa-stack-2x" ></i>
+                            <i class="fas fa-pen fa-stack-1x"></i>
+                          </span>
+                        </a> 
+                      {% endfor %}
+                    {% else %}
+                      <a href="javascript:void(0)" onclick="survey_modal_create('{% url 'yfcase:survey_new' %}')">
+                        <span class="fa-stack" style="vertical-align: middle;">
+                          <i class="far fa-circle fa-stack-2x"></i>
+                          <i class="fas fa-plus fa-stack-1x"></i>
+                        </span>
+                      </a>
+                    {% endif %}
+                  </span>
+                {% endif %}
+            </div>
+          </div>
+          <div class="row">
+            <!--實勘樣版-->
+            {% include "./partials/survey.html" %}
+          </div>
+        </div>
+        <div class="col">
+          <!-- 查檢表 -->
+          <div class="row">
+            <div style="font-size:24pt;">
+              查檢表
+              <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+              {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+                <span style="font-size: 12pt;vertical-align: middle;">
+                  {% if object.clicklists.count %}
+                    {% for clicklist in object.clicklists.all %}
+                      <a href="javascript:void(0)" onclick="clicklist_modal_create('{% url 'yfcase:clicklist_edit' clicklist.id %}')">
+                        <span class="fa-stack" style="color:DarkGreen;">
+                          <i class="far fa-circle fa-stack-2x" ></i>
+                          <i class="fas fa-pen fa-stack-1x"></i>
+                        </span>
+                      </a>
+                    {% endfor %}
+                  {% else %}
+                    <a href="javascript:void(0)" onclick="survey_modal_create('{% url 'yfcase:clicklist_new' %}')">
+                      <span class="fa-stack" style="vertical-align: middle;">
+                        <i class="far fa-circle fa-stack-2x"></i>
+                        <i class="fas fa-plus fa-stack-1x"></i>
+                      </span>
+                    </a>
+                  {% endif %}
+                </span>
+              {% endif %}
+            </div>
+          </div>
+          <!--查檢表樣版-->
+          <div class="row">
+            {% include "./partials/build_clicklist.html" %}
+          </div>
+        </div>
+      </div>
+
+      <!-- 參考物件 -->
+      <div class="row">
+        <div class="col-md-6" style="font-size:24pt;padding-left:0px;">
+          參考物件
+          <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+          {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+            <span style="font-size: 12pt;vertical-align: middle;">
+              <a href="javascript:void(0)" onclick="objectbuild_modal_create('{% url 'yfcase:objectbuild_new' %}')" class="btn-sm delete-btn">
+                <span class="fa-stack">
+                  <i class="far fa-circle fa-stack-2x"></i>
+                  <i class="fas fa-plus fa-stack-1x"></i>
+                </span>
+              </a>
+            </span>
+          {% endif %}
+        </div>
+        <div class="col-md-6" style="text-align: right;padding-right:0px;">
+          <div class="pt-2">
+            <span style="font-size: 18pt;vertical-align: middle;">
+              {% if object.objectbuilds.count > 0 %}
+                時價：{{object.pbk|floatformat:0|intcomma}}元
+              {% endif %}
+            </span>
+          </div>
+        </div>
+  
+      </div>
+    
+      <div class="row">
+        <!-- 參考物件分離樣版 -->
+        {% include "./partials/object_building.html" %}
+      </div> 
+    
+      <!-- 最終判定 -->
+      <div class="row">
+        <div style="font-size:24pt;">
+          最終判定
+          <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
+          {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
+            <span style="font-size: 12pt;vertical-align: middle;">
+              {% if object.finaldecisions.count %}
+                {% for finaldecision in object.finaldecisions.all %}
+                  <a href="javascript:void(0)" onclick="regionalhead_modal_edit('{% url 'yfcase:regionalhead_edit' finaldecision.id %}')">
+                    <span class="fa-stack" style="color:DarkGreen;">
+                      <i class="far fa-circle fa-stack-2x" ></i>
+                      <i class="fas fa-pen fa-stack-1x"></i>
+                    </span>
+                  </a>
+                {% endfor %}
+              {% else %}
+                <a href="javascript:void(0)" onclick="regionalhead_modal_create('{% url 'yfcase:regionalhead_new' %}')" class="btn-sm delete-btn">
+                  <span class="fa-stack">
+                    <i class="far fa-circle fa-stack-2x"></i>
+                    <i class="fas fa-plus fa-stack-1x"></i>
+                  </span>
+                </a>
+              {% endif %}
+            </span>
+          {% else %}
+            {% if request.user.userFullName == object.get_user_username and object.get_floor_price_from_auction_date >= 1000000 %}
+              {% if object.objectbuilds.first.objectBuildScorerA and object.objectbuilds.first.objectBuildScorerB and object.objectbuilds.first.objectBuildScorerC %}
+                <span style="font-size: 12pt;vertical-align: middle;">
+                  {% if object.finaldecisions.count %}
+                    {% for finaldecision in object.finaldecisions.all %}
+                      <a href="javascript:void(0)" onclick="regionalhead_modal_edit('{% url 'yfcase:regionalhead_edit' finaldecision.id %}')">
+                        <span class="fa-stack" style="color:DarkGreen;">
+                          <i class="far fa-circle fa-stack-2x" ></i>
+                          <i class="fas fa-pen fa-stack-1x"></i>
+                        </span>
+                      </a>
+                    {% endfor %}
+                  {% else %}
+                    <a href="javascript:void(0)" onclick="regionalhead_modal_create('{% url 'yfcase:regionalhead_new' %}')" class="btn-sm delete-btn">
+                      <span class="fa-stack">
+                        <i class="far fa-circle fa-stack-2x"></i>
+                        <i class="fas fa-plus fa-stack-1x"></i>
+                      </span>
+                    </a>
+                  {% endif %}
+                </span>
+              {% endif %}
+            {% elif request.user.userFullName == object.get_user_username and object.get_floor_price_from_auction_date < 1000000 and object.get_floor_price_from_auction_date > 0 %}
+              <span style="font-size: 12pt;vertical-align: middle;">
+                {% if object.finaldecisions.count %}
+                  {% for finaldecision in object.finaldecisions.all %}
+                    <a href="javascript:void(0)" onclick="regionalhead_modal_edit('{% url 'yfcase:regionalhead_edit' finaldecision.id %}')">
+                      <span class="fa-stack" style="color:DarkGreen;">
+                        <i class="far fa-circle fa-stack-2x" ></i>
+                        <i class="fas fa-pen fa-stack-1x"></i>
+                      </span>
+                    </a>
+                  {% endfor %}
+                {% else %}
+                  <a href="javascript:void(0)" onclick="regionalhead_modal_create('{% url 'yfcase:regionalhead_new' %}')" class="btn-sm delete-btn">
+                    <span class="fa-stack">
+                      <i class="far fa-circle fa-stack-2x"></i>
+                      <i class="fas fa-plus fa-stack-1x"></i>
+                    </span>
+                  </a>
+                {% endif %}
+              </span>
+            {% endif %}
+          {% endif %}
+  
+        </div>
+      </div>
       
+      <div class="row">
+        <!-- 最終判定樣版 -->
+        {% include "./partials/finalDecision.html" %}
+      </div>
+    
     </div>
   </div>
   
@@ -266,6 +498,37 @@
   <div class="modal fade" id="editBuildModal" role="dialog"></div>
   <div class="modal fade" id="deleteBuildModal" role="dialog"></div>
 
+  <!-- Auction Modal -->
+  <div class="modal fade" id="createAuctionModal" role="dialog"></div>
+  <div class="modal fade" id="editAuctionModal" role="dialog"></div>
+  
+  <!-- Survey Modal -->
+  <div class="modal fade" id="createSurveyModal" role="dialog"></div>
+  <div class="modal fade" id="editSurveyModal" role="dialog"></div>
+  
+  <!-- ClickList Modal -->
+  <div class="modal fade" id="createClickListModal" role="dialog"></div>
+  <div class="modal fade" id="editClickListModal" role="dialog"></div>
+  
+  <!-- ObjectBuild Modal -->
+  <div class="modal fade" id="createObjectBuildModal" role="dialog"></div>
+  <div class="modal fade" id="editObjectBuildModal" role="dialog"></div>
+  <div class="modal fade" id="deleteObjectBuildModal" role="dialog"></div>
+
+  <!-- RegionalHead Modal -->
+  <div class="modal fade" id="createRegionalHeadModal" role="dialog"></div>
+  <div class="modal fade" id="editRegionalHeadModal" role="dialog"></div>
+  <div class="modal fade" id="deleteRegionalHeadModal" role="dialog"></div>
+  
+  <!-- SubSigntrueA Modal -->
+  <div class="modal fade" id="createSubSigntrueAModal" role="dialog"></div>
+  <div class="modal fade" id="editSubSigntrueAModal" role="dialog"></div>
+  <div class="modal fade" id="deleteSubSigntrueAModal" role="dialog"></div>
+  
+  <!-- SubSigntrueB Modal -->
+  <div class="modal fade" id="createSubSigntrueBModal" role="dialog"></div>
+  <div class="modal fade" id="editSubSigntrueBModal" role="dialog"></div>
+  <div class="modal fade" id="deleteSubSigntrueBModal" role="dialog"></div>
 
 {% endblock content %}
 
@@ -308,6 +571,110 @@
     }
     function build_modal_delete(url) {
       $('#deleteBuildModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    
+    // Auction JS
+    function auction_modal_create(url) {
+      $('#createClickListModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function auction_modal_edit(url) {
+      $('#editAuctionModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    
+    // Survey JS
+    function survey_modal_create(url) {
+      $('#createSurveyModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function survey_modal_edit(url) {
+      $('#editSurveyModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    
+    // ClickList Js
+    function clicklist_modal_create(url) {
+      $('#createObjectBuildModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function clicklist_modal_edit(url) {
+      $('#editClickListModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    
+    // ObjectBuild JS
+    function objectbuild_modal_create(url) {
+      $('#createObjectBuildModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function objectbuild_modal_edit(url) {
+      $('#editObjectBuildModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function objectbuild_modal_delete(url) {
+      $('#deleteObjectBuildModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    
+    // RegionalHead JS
+    function regionalhead_modal_create(url) {
+      $('#createRegionalHeadModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function regionalhead_modal_edit(url) {
+      $('#editRegionalHeadModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function regionalhead_modal_delete(url) {
+      $('#deleteRegionalHeadModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    
+    // SubSigntrueA JS
+    function subsigntruea_modal_create(url) {
+      $('#createSubSigntrueAModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function subsigntruea_modal_edit(url) {
+      $('#editSubSigntrueAModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function subsigntruea_modal_delete(url) {
+      $('#deleteSubSigntrueAModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+
+    // SubSigntrueB JS
+    function subsigntrueb_modal_create(url) {
+      $('#createSubSigntrueBModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function subsigntrueb_modal_edit(url) {
+      $('#editSubSigntrueBModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function subsigntrueb_modal_delete(url) {
+      $('#deleteSubSigntrueBModal').load(url,function() {
         $(this).modal('show')
       })
     }
