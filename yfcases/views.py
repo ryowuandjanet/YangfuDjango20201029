@@ -8,6 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy,reverse
 from .models import *
 from .forms import *
+from .filters import YfcaseFilter
+
 
 def load_townships(request):
   city_id = request.GET.get('city')
@@ -18,6 +20,18 @@ def load_townships(request):
 class YfcaseListView(ListView):
   model=Yfcase
   template_name="home.html"
+  filter_class = YfcaseFilter
+			
+  def get_queryset(self):
+    return Yfcase.objects.all()
+
+  def get_context_data(self, *args, **kwargs):
+    context = super(YfcaseListView,self).get_context_data(**kwargs)
+    myFilter = self.filter_class(self.request.GET, queryset=self.get_queryset())
+    object_list = myFilter.qs
+    context['myFilter'] = myFilter
+    context['object_list'] = object_list
+    return context 
 
 @method_decorator(login_required,name='dispatch')
 class YfcaseDetailView(DetailView):

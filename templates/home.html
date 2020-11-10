@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
+{% load urlify %}
+
 {% block title %}Home{% endblock %}
 
 {% block style %}
@@ -52,7 +55,7 @@
           <div class="input-group-prepend">
             <span class="input-group-text bg-primary text-white" id="inputGroup-sizing-default" style="border:1px solid black;">案號</span>
           </div>
-          
+          {% render_field myFilter.form.yfcaseCaseNumber type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" style="border:1px solid black;" %}
         </div>
       </div>
 
@@ -62,7 +65,7 @@
           <div class="input-group-prepend" >
             <label class="input-group-text bg-success text-white" for="id_yfcaseCity" style="border:1px solid black;">縣市</label>
           </div>
-          
+          {% render_field myFilter.form.yfcaseCity class="custom-select" style="border:1px solid black;" %}
         </div>
       </div>
 
@@ -72,7 +75,7 @@
           <div class="input-group-prepend" >
             <label class="input-group-text bg-info text-white" for="id_yfcaseCity" style="border:1px solid black;">人員</label>
           </div>
-          
+          {% render_field myFilter.form.user class="custom-select" style="border:1px solid black;" %}
         </div>
       </div>
 
@@ -82,16 +85,15 @@
           <div class="input-group-prepend" >
             <label class="input-group-text bg-warning text-white" for="id_yfcaseCity" style="border:1px solid black;">最終判定</label>
           </div>
-          
+          <!--{% render_field myFilter.form.yfcaseFinalDecision class="custom-select" style="border:1px solid black;" %}-->
         </div>
       </div>
 
       <div class="col-sm-2" style="padding-left:0px;">
         <button type="submit" class="btn btn-primary" style="background-color: brown; border:1px solid chocolate;">篩選</button>
         <input type ="button"  class="btn btn-primary class_on_first_link" style="background-color: dimgrey; border:1px solid lightgrey;" value="取消篩選"></input>
-
       </div>
-
+    
     </div>
   </form>
 
@@ -129,7 +131,7 @@
             {{ yfcase.user.userFullName }}
           </td>
           <td style="width:6%;border-right:none;">
-            
+            {{ yfcase.finaldecisions.first.finalDecision }}
           </td>
           <td style="width:3%;border-left:none;">
             <div class="y20000" style="border-color:lightblue;background-color: blue;">評</div>
@@ -171,7 +173,7 @@
   <script>
     $(function() {
       $('.class_on_first_link').click(function(){
-        window.location = window.location.protocol + '//' + window.location.hostname + ':3000';
+        window.location = window.location.protocol + '//' + window.location.hostname;
       });
     });
     
