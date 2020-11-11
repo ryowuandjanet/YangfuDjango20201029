@@ -114,6 +114,7 @@
 
     <tbody>
       {% for yfcase in object_list %}
+        
         <tr>
           <td scope="row" style="padding: 0px;text-align: center;vertical-align: middle;">
             <a href="javascript:void(0)" onclick="yfcase_modal_delete('{% url 'yfcase:yfcase_delete' yfcase.id %}')" class="btn btn-outline-danger btn-sm delete-btn">
@@ -125,7 +126,17 @@
             &emsp;&#10149;{{yfcase.yfcaseCity|default_if_none:""}}{{yfcase.yfcaseTownship|default_if_none:""}}{{yfcase.yfcaseBigSection|default_if_none:""}}{{yfcase.yfcaseSmallSectiion|default_if_none:""}}{{yfcase.yfcaseOtherAddress|default_if_none:""}}
           </td>
           <td>
-           
+            <span style="color:red;">
+              {% if yfcase.finaldecisions.first.finalDecision == "1拍進場" and yfcase.auctions.first.auctionDateFirst != "" %}
+                {{ yfcase.auctions.first.auctionDateFirst|less_two_week|default_if_none:"" }}
+              {% elif yfcase.finaldecisions.first.finalDecision == "2拍進場" and yfcase.auctions.first.auctionDateSecond != "" %}
+                {{ yfcase.auctions.first.auctionDateSecond|less_two_week|default_if_none:"" }}
+              {% elif yfcase.finaldecisions.first.finalDecision == "3拍進場" and yfcase.auctions.first.auctionDateThird != "" %}
+                {{ yfcase.auctions.first.auctionDateThird|less_two_week|default_if_none:"" }}
+              {% elif yfcase.finaldecisions.first.finalDecision == "4拍進場" and yfcase.auctions.first.auctionDateFourth != "" %}
+                {{ yfcase.auctions.first.auctionDateFourth|less_two_week|default_if_none:"" }}
+              {% endif %}
+            </span>
           </td>
           <td>
             {{ yfcase.user.userFullName }}

@@ -1,5 +1,6 @@
 from django.db import models
 from decimal import *
+from datetime import datetime
 import math
 
 class City(models.Model):
@@ -145,34 +146,35 @@ class Yfcase(models.Model):
       return auctionDateFirst_price
     else:
       return 0
-      
-  # 判斷是否為兩週內
-  def two_weeks(self):
-    # 取得目前的日期，要用form dateteim import datetime,不可用import datetime
-    today = datetime.now()
-    finaldecision_content = self.finaldecisions.first().finalDecision
-    auctionDateFirst_day = self.auctions.first().auctionDateFirst
-    auctionDateSecond_day = self.auctions.first().auctionDateSecond
-    auctionDateThird_day = self.auctions.first().auctionDateThird
-    auctionDateFourth_day = self.auctions.first().auctionDateFourth
-    if finaldecision_content == "1拍進場" and auctionDateFirst_day != None:
-      # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
-      other_day = datetime.strptime(auctionDateFirst_day,'%Y-%m-%d')
-      return (other_day-today).days + 1
-    elif finaldecision_content == "2拍進場" and auctionDateSecond_day != None:
-      # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
-      other_day = datetime.strptime(auctionDateSecond_day,'%Y-%m-%d')
-      return (other_day-today).days + 1
-    elif finaldecision_content == "3拍進場" and auctionDateThird_day != None:
-      # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
-      other_day = datetime.strptime(auctionDateThird_day,'%Y-%m-%d')
-      return (other_day-today).days + 1
-    elif finaldecision_content == "4拍進場" and auctionDateFourth_day != None:
-      # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
-      other_day = datetime.strptime(auctionDateFourth_day,'%Y-%m-%d')
-      return (other_day-today).days + 1
-    else:
-      return ""
+    
+
+  # # 判斷是否為兩週內
+  # def two_weeks(self):
+  #   # 取得目前的日期，要用form dateteim import datetime,不可用import datetime
+  #   today = datetime.now()
+  #   finaldecision_content = self.finaldecisions.first().finalDecision
+  #   auctionDateFirst_day = self.auctions.first().auctionDateFirst
+  #   auctionDateSecond_day = self.auctions.first().auctionDateSecond
+  #   auctionDateThird_day = self.auctions.first().auctionDateThird
+  #   auctionDateFourth_day = self.auctions.first().auctionDateFourth
+  #   if finaldecision_content == "1拍進場" and auctionDateFirst_day != None:
+  #     # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
+  #     other_day = datetime.strptime(auctionDateFirst_day,'%Y-%m-%d')
+  #     return (other_day-today).days + 1
+  #   elif finaldecision_content == "2拍進場" and auctionDateSecond_day != None:
+  #     # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
+  #     other_day = datetime.strptime(auctionDateSecond_day,'%Y-%m-%d')
+  #     return (other_day-today).days + 1
+  #   elif finaldecision_content == "3拍進場" and auctionDateThird_day != None:
+  #     # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
+  #     other_day = datetime.strptime(auctionDateThird_day,'%Y-%m-%d')
+  #     return (other_day-today).days + 1
+  #   elif finaldecision_content == "4拍進場" and auctionDateFourth_day != None:
+  #     # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
+  #     other_day = datetime.strptime(auctionDateFourth_day,'%Y-%m-%d')
+  #     return (other_day-today).days + 1
+  #   else:
+  #     return ""
       
   # 在編輯finalDecision設定
   # 取得區域負責人的全名
