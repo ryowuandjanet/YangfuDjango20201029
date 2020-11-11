@@ -100,8 +100,10 @@
 
   <table class="table table-hover hometable">
     <thead style="background-color: darkblue;color:white;">
-      <tr >
-        <th scope="col" style="text-align: center;vertical-align: middle;width:5%;">操作</th>
+      <tr>
+        {% if request.user.userFullName == "管理者" %}
+          <th scope="col" style="text-align: center;vertical-align: middle;width:5%;">操作</th>
+        {% endif %}
         <th scope="col" style="text-align: center;vertical-align: middle;width:30%;">案號</th>
         <th scope="col" style="text-align: center;vertical-align: middle;width:7%;">兩週內<br>提醒</th>
         <th style="text-align: center;vertical-align: middle;width:6%;">負責人</th>
@@ -116,11 +118,13 @@
       {% for yfcase in object_list %}
         
         <tr>
-          <td scope="row" style="padding: 0px;text-align: center;vertical-align: middle;">
-            <a href="javascript:void(0)" onclick="yfcase_modal_delete('{% url 'yfcase:yfcase_delete' yfcase.id %}')" class="btn btn-outline-danger btn-sm delete-btn">
-              <i class="fas fa-trash-alt fa-lg"></i>
-            </a>
-          </td>
+          {% if request.user.userFullName == "管理者" %}
+            <td scope="row" style="padding: 0px;text-align: center;vertical-align: middle;">
+              <a href="javascript:void(0)" onclick="yfcase_modal_delete('{% url 'yfcase:yfcase_delete' yfcase.id %}')" class="btn btn-outline-danger btn-sm delete-btn">
+                <i class="fas fa-trash-alt fa-lg"></i>
+              </a>
+            </td>
+          {% endif %}
           <td style="text-align: left;">
             <a href="{% url 'yfcase:yfcase_detail' yfcase.id %}">{{yfcase.yfcaseCaseNumber}}</a><br>
             &emsp;&#10149;{{yfcase.yfcaseCity|default_if_none:""}}{{yfcase.yfcaseTownship|default_if_none:""}}{{yfcase.yfcaseBigSection|default_if_none:""}}{{yfcase.yfcaseSmallSectiion|default_if_none:""}}{{yfcase.yfcaseOtherAddress|default_if_none:""}}

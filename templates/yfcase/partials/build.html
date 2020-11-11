@@ -38,7 +38,7 @@
                 </span>
               </a>
           </span>
-        {{ build.buildNumber }}
+        {{object.yfcaseBigSection|default_if_none:""}}{{ build.buildNumber }}
         </div>
       </td>
       <td>
