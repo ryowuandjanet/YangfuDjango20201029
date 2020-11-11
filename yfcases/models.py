@@ -640,6 +640,9 @@ class FinalDecision(models.Model):
   regionalHeadDate = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
   subSigntrueDateA = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
   subSigntrueDateB = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
+  regionalHeadWorkArea = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
+  subSigntrueWorkAreaA = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
+  subSigntrueWorkAreaB = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
 
   def __str__(self):
     return self.finalDecision

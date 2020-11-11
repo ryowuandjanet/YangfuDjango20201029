@@ -16,6 +16,7 @@
         
         {{ form.yfcase|attr:"type:hidden" }}
         {{ form.regionalHead|attr:"type:hidden" }}
+        {{ form.regionalHeadWorkArea|attr:"type:hidden" }}
         
        
             
@@ -35,6 +36,7 @@
         </div>
 
         {{ request.user.userFullName|json_script:"author_fullname" }} 
+        {{ request.user.userWorkArea|json_script:"author_workarea" }} 
 
       </div>
 
@@ -62,6 +64,8 @@
     var addToday = Today.getFullYear()+ "-" + ("0" + (Today.getMonth() + 1)).slice(-2) + "-" + ("0" + Today.getDate()).slice(-2)
     const author_fullname = JSON.parse(document.getElementById('author_fullname').textContent);
     document.getElementById("id_regionalHead").value = author_fullname;
+    const author_workarea = JSON.parse(document.getElementById('author_workarea').textContent);
+    document.getElementById("id_regionalHeadWorkArea").value = author_workarea;
     if (document.getElementById("id_regionalHeadDate").value == "") {
       document.getElementById("id_regionalHeadDate").value = addToday;
     } else {

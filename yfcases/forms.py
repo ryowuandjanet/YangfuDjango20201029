@@ -176,7 +176,7 @@ class RegionalHeadForm(forms.ModelForm):
   # regionalHead = forms.ModelChoiceField(CustomUser.objects.all(), widget=forms.HiddenInput())
   class Meta:
     model=FinalDecision
-    fields = ['yfcase','regionalHead','finalDecision','regionalHeadDate']
+    fields = ['yfcase','regionalHead','finalDecision','regionalHeadDate','regionalHeadWorkArea']
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -188,7 +188,7 @@ class SubSigntrueAForm(forms.ModelForm):
   subSigntrueDateA = forms.CharField(label="簽核日期",widget=forms.TextInput(attrs={'class': 'form-control datepicker'}),required=False)
   class Meta:
     model=FinalDecision
-    fields = ['yfcase','subSigntrueA','subSigntrueDateA']
+    fields = ['yfcase','subSigntrueA','subSigntrueDateA','subSigntrueWorkAreaA']
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
@@ -198,7 +198,7 @@ class SubSigntrueBForm(forms.ModelForm):
   subSigntrueDateB = forms.CharField(label="簽核日期",widget=forms.TextInput(attrs={'class': 'form-control datepicker'}),required=False)
   class Meta:
     model=FinalDecision
-    fields = ['yfcase','subSigntrueB','subSigntrueDateB']
+    fields = ['yfcase','subSigntrueB','subSigntrueDateB','subSigntrueWorkAreaB']
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)

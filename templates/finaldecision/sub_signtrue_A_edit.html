@@ -17,6 +17,7 @@
         
         {{ form.yfcase|attr:"type:hidden" }}
         {{ form.subSigntrueA|attr:"type:hidden" }}
+        {{ form.subSigntrueWorkAreaA|attr:"type:hidden" }}
 
         <div class="form-row">
           <div class="form-group col">
@@ -26,7 +27,7 @@
           </div>
         </div>
         {{ request.user.userFullName|json_script:"author_fullname" }} 
-
+        {{ request.user.userWorkArea|json_script:"author_workarea" }} 
       <!-- footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary col" data-dismiss="modal">關閉</button>
@@ -46,15 +47,17 @@
   });
 
   function post_sub_signtrue_a_submit() {
-      var Today = new Date();
-      var addToday = Today.getFullYear()+ "-" + ("0" + (Today.getMonth() + 1)).slice(-2) + "-" + ("0" + Today.getDate()).slice(-2)
-      const author_fullname = JSON.parse(document.getElementById('author_fullname').textContent);
-      document.getElementById("id_subSigntrueA").value = author_fullname;
-      if (document.getElementById("id_subSigntrueDateA").value == "") {
-        document.getElementById("id_subSigntrueDateA").value = addToday;
-      } else {
-        document.getElementById("id_subSigntrueDateA").value = document.getElementById("id_subSigntrueDateA").value;
-      }
+    var Today = new Date();
+    var addToday = Today.getFullYear()+ "-" + ("0" + (Today.getMonth() + 1)).slice(-2) + "-" + ("0" + Today.getDate()).slice(-2)
+    const author_fullname = JSON.parse(document.getElementById('author_fullname').textContent);
+    document.getElementById("id_subSigntrueA").value = author_fullname;
+    const author_workarea = JSON.parse(document.getElementById('author_workarea').textContent);
+    document.getElementById("id_subSigntrueWorkAreaA").value = author_workarea;
+    if (document.getElementById("id_subSigntrueDateA").value == "") {
+      document.getElementById("id_subSigntrueDateA").value = addToday;
+    } else {
+      document.getElementById("id_subSigntrueDateA").value = document.getElementById("id_subSigntrueDateA").value;
+    }
   }
 </script>
 {% endblock javascript %}
