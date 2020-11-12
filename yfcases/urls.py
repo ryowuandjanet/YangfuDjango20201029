@@ -42,4 +42,5 @@ urlpatterns = [
   path('subsigntrueb/<int:pk>/edit/',views.SubSigntrueBUpdateView.as_view(),name="subsigntrueb_edit" ),
   path('subsigntrueb/<int:pk>/delete/',views.SubSigntrueBDeleteView.as_view(),name="subsigntrueb_delete" ),
   path('ajax/load-townships/', views.load_townships, name='ajax_load_townships'),
+  path('yfratingscalePDF/<int:pk>/', views.yfratingscale_pdf_view, name='yfratingscale_pdf_view'),
 ]

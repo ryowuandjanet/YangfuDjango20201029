@@ -1,4 +1,6 @@
-from django.shortcuts import render
+# encoding: utf-8
+from django.conf import settings
+from django.shortcuts import render,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
@@ -6,10 +8,20 @@ from django.views.generic import ListView,DetailView
 from django.views.generic.edit import CreateView,UpdateView,DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy,reverse
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase import pdfmetrics
+from xhtml2pdf.default import DEFAULT_FONT
 from .models import *
 from .forms import *
 from .filters import YfcaseFilter
 
+def font_path():
+  # pdfmetrics.registerFont(TTFont('yh', '{}/fonts/msyh.ttf'.format(settings.STATICFILES_DIRS[0])))
+  pdfmetrics.registerFont(TTFont('yh', '{}/fonts/TaipeiSansTCBeta-Regular.ttf'.format(settings.STATICFILES_DIRS[0])))
+  DEFAULT_FONT['helvetica'] = 'yh'
 
 def load_townships(request):
   city_id = request.GET.get('city')
@@ -456,3 +468,30 @@ class SubSigntrueBDeleteView(UpdateView):
   template_name="finaldecision/sub_signtrue_B_delete.html"
   def get_success_url(self, **kwargs):
     return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+
+
+# 複製到最下面去修改
+def yfratingscale_pdf_view(request, *args, **kwargs):
+  pk = kwargs.get('pk')
+  yfcase = get_object_or_404(Yfcase,pk=pk)
+  
+  font_path()
+  
+  template_path = 'pdf/yfratingscale_pdf.html'
+  context = {'yfcase': yfcase }
+  # Create a Django response object, and specify content_type as pdf
+  response = HttpResponse(content_type='application/pdf')
+  # 如果要把yfcase_pdf.html下載後再手動打開的話
+  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+  # 如果要把yfcase_pdf.html直接顥示的話
+  response['Content-Disposition'] = 'filename="report.pdf"'
+  # find the template and render it.
+  template = get_template(template_path)
+  html = template.render(context)
+
+  # create a pdf
+  pisa_status = pisa.CreatePDF(html, dest=response)
+  # if error then show some funy view
+  if pisa_status.err:
+    return HttpResponse('We had some errors <pre>' + html + '</pre>')
+  return response

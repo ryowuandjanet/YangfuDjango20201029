@@ -1,7 +1,14 @@
+/*註釋掉*/
+/*@font-face { */
+/*  font-family: 'Noto Sans TC'; */
+/*  src: url('../fonts/NotoSansTC-Medium.otf') format("opentype"), */
+/*  local('Noto Sans TC'); */
+/*}*/
+
 @font-face { 
-  font-family: 'Noto Sans TC'; 
-  src: url('../fonts/NotoSansTC-Medium.otf') format("opentype"), 
-  local('Noto Sans TC'); 
+  font-family: 'TaipeiSansTCRegular'; 
+  src: url('../fonts/TaipeiSansTCBeta-Regular.ttf') format("truetype"), 
+  local('TaipeiSansTC Regular'); 
 } 
 
 @font-face { 
@@ -11,7 +18,7 @@
 }
 
 body {
-  font-family: 'Roboto-Medium','Noto Sans TC', sans-serif;
+  font-family: 'Roboto-Medium','TaipeiSansTCRegular', sans-serif;
 }
 
 h1 {

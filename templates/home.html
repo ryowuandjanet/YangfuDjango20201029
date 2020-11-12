@@ -39,7 +39,7 @@
     padding-right:10px;
   }
 </style>
-{% endblock style %}
+{% endblock %}
 {% block content %}
   <h1 style="text-align: center;">案件清單</h1>
   <div style="margin-bottom:3px;">
@@ -154,20 +154,26 @@
               {% if yfcase.auctions.first.auctionFloorPriceFirst > 999999 or yfcase.auctions.first.auctionFloorPriceSecond > 999999 or yfcase.auctions.first.auctionFloorPriceThird > 999999 or yfcase.auctions.first.auctionFloorPriceFourth > 999999 %}
                 {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None and yfcase.finaldecisions.first.subSigntrueB != None %}
                   	<!--此區：最終判定後面3個字=拍進場 && 拍賣金額>=1000000 && 區域負責人+副署人員1+副署人員2-->
-                    <div class="y20000" style="border-color:lightblue;background-color: blue;">評</div>
+                    <div class="y20000" style="border-color:lightblue;background-color: blue;">
+                      <a href="{% url 'yfcase:yfratingscale_pdf_view' yfcase.pk %}" class="text-white">評</a>
+                    </div>
                 {% endif %}
               {% elif yfcase.auctions.first.auctionFloorPriceFirst < 1000000 or yfcase.auctions.first.auctionFloorPriceSecond < 1000000 or yfcase.auctions.first.auctionFloorPriceThird < 1000000 or yfcase.auctions.first.auctionFloorPriceFourth < 1000000 %}
                 {% if yfcase.auctions.first.auctionFloorPriceFirst > 0 or yfcase.auctions.first.auctionFloorPriceSecond > 0 or yfcase.auctions.first.auctionFloorPriceThird > 0 or yfcase.auctions.first.auctionFloorPriceFourth > 0 %}
                   {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None %}
                     <!--此區：拍賣金額<1000000 && 拍賣金額>0 && 區域負責人+副署人員1-->
-                    <div class="y20000" style="border-color:lightblue;background-color: blue;">評</div>
+                    <div class="y20000" style="border-color:lightblue;background-color: blue;">
+                      <a href="{% url 'yfcase:yfratingscale_pdf_view' yfcase.pk %}" class="text-white">評</a>
+                    </div>
                   {% endif %}
                 {% endif %}
               {% endif %}
             {% elif yfcase.finaldecisions.first.finalDecision == "放棄" %}
               {% if yfcase.finaldecisions.first.regionalHead != None %}
                 <!--此區：最終判定=放棄 && 區域負責人-->
-                <div class="y20000" style="border-color:lightblue;background-color: blue;">評</div>   
+                <div class="y20000" style="border-color:lightblue;background-color: blue;">
+                  <a href="{% url 'yfcase:yfratingscale_pdf_view' yfcase.pk %}" class="text-white">評</a>
+                </div>  
               {% endif %}
             {% endif %}
           </td>

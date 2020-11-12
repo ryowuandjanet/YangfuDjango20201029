@@ -266,7 +266,7 @@
       <!-- 拍賣資訊 -->
       <div class="row">
         <div style="font-size:24pt;">
-          拍賣資訊
+          拍賣資��
           <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
           {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
             {% if object.auctions.count %}
