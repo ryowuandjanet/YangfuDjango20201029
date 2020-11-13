@@ -7,7 +7,7 @@
 
 @font-face { 
   font-family: 'TaipeiSansTCRegular'; 
-  src: url('../fonts/kaiu.ttf') format("truetype"), 
+  src: url('../fonts/TaipeiSansTCBeta-Regular.ttf') format("truetype"), 
   local('TaipeiSansTC Regular'); 
 } 
 
@@ -18,7 +18,7 @@
 }
 
 body {
-  font-family: 'TaipeiSansTCRegular';
+  font-family: 'Roboto-Medium','TaipeiSansTCRegular', sans-serif;
 }
 
 h1 {

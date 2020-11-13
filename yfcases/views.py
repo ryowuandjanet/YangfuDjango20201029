@@ -478,7 +478,9 @@ def yfratingscale_pdf_view(request, *args, **kwargs):
   font_path()
   
   template_path = 'pdf/yfratingscale_pdf.html'
-  context = {'yfcase': yfcase }
+  context = {
+    'yfcase': yfcase, 
+  }
   # Create a Django response object, and specify content_type as pdf
   response = HttpResponse(content_type='application/pdf')
   # 如果要把yfcase_pdf.html下載後再手動打開的話
