@@ -1,0 +1,324 @@
+{% load widget_tweaks %}
+
+<style type="text/css">
+  .help-block{
+    color:red;
+  }
+</style>
+
+
+<!-- 程式主題的部份 -->
+<form action="{% url 'yfcase:afterwinner_edit' yfcase.id %}" method="post" id="editAfterWinnerModal" data-townships-url="{% url 'yfcase:ajax_load_townships' %}" >{% csrf_token %}
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- header -->
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      
+      <!-- body -->
+      <div class="modal-body">
+        契稅申請書基本資料 - 案號：{{ yfcase.yfcaseCaseNumber }}
+        <!--基本資料欄位-->
+        <div class="form-group">
+        <label for="{{ form.yfcaseDeedtaxAgent.id_for_label }}">{{ form.yfcaseDeedtaxAgent.label }}</label>
+          {{ form.yfcaseDeedtaxAgent|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxAgent.error }}</span>
+        </div>
+
+         <div class="form-group">
+        <label for="{{ form.yfcaseDeedtaxDateOfCause.id_for_label }}">{{ form.yfcaseDeedtaxDateOfCause.label }}</label>
+          {{ form.yfcaseDeedtaxDateOfCause|add_class:"form-control fieldcolor datepicker pt-0" }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDateOfCause.error }}</span>
+        </div>
+        
+         <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxReasonForRegistration.id_for_label }}">{{ form.yfcaseDeedtaxReasonForRegistration.label }}</label>
+          {{ form.yfcaseDeedtaxReasonForRegistration|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxReasonForRegistration.error }}</span>
+        </div>
+        
+        <div class="form-group">
+        <label for="{{ form.yfcaseDeedtaxRegistrationNote.id_for_label }}">{{ form.yfcaseDeedtaxRegistrationNote.label }}</label>
+          {{ form.yfcaseDeedtaxRegistrationNote|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxRegistrationNote.error }}</span>
+        </div>
+        
+        契稅申請書 - 義務人：{{yfcase.yfcaseDebtor|default_if_none:""}} <br>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorIdentityCard.id_for_label }}">{{ form.yfcaseDeedtaxDebtorIdentityCard.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorIdentityCard|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorIdentityCard.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorBirthday.id_for_label }}">{{ form.yfcaseDeedtaxDebtorBirthday.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorBirthday|add_class:"form-control fieldcolor datepicker pt-0" }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorBirthday.error }}</span>
+        </div>
+         <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorLocalPhone.id_for_label }}">{{ form.yfcaseDeedtaxDebtorLocalPhone.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorLocalPhone|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorLocalPhone.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorMobilePhone.id_for_label }}">{{ form.yfcaseDeedtaxDebtorMobilePhone.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorMobilePhone|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorMobilePhone.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorCity.id_for_label }}">{{ form.yfcaseDeedtaxDebtorCity.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorCity|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorCity.error }}</span>
+        </div>
+         <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorTownship.id_for_label }}">{{ form.yfcaseDeedtaxDebtorTownship.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorTownship|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorTownship.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorVillage.id_for_label }}">{{ form.yfcaseDeedtaxDebtorVillage.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorVillage|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorVillage.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorNeighbor.id_for_label }}">{{ form.yfcaseDeedtaxDebtorNeighbor.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorNeighbor|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorNeighbor.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorStreet.id_for_label }}">{{ form.yfcaseDeedtaxDebtorStreet.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorStreet|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorStreet.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorSection.id_for_label }}">{{ form.yfcaseDeedtaxDebtorSection.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorSection|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorSection.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorLane.id_for_label }}">{{ form.yfcaseDeedtaxDebtorLane.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorLane|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorLane.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorAlley.id_for_label }}">{{ form.yfcaseDeedtaxDebtorAlley.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorAlley|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorAlley.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorNumber.id_for_label }}">{{ form.yfcaseDeedtaxDebtorNumber.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorNumber|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorNumber.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorFloor.id_for_label }}">{{ form.yfcaseDeedtaxDebtorFloor.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorFloor|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorFloor.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorLandHoldingPointPersonal.id_for_label }}">{{ form.yfcaseDeedtaxDebtorLandHoldingPointPersonal.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorLandHoldingPointPersonal|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorLandHoldingPointPersonal.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorLandHoldingPointAll.id_for_label }}">{{ form.yfcaseDeedtaxDebtorLandHoldingPointAll.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorLandHoldingPointAll|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorLandHoldingPointAll.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorBuildHoldingPointPersonal.id_for_label }}">{{ form.yfcaseDeedtaxDebtorBuildHoldingPointPersonal.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorBuildHoldingPointPersonal|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorBuildHoldingPointPersonal.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxDebtorBuildHoldingPointAll.id_for_label }}">{{ form.yfcaseDeedtaxDebtorBuildHoldingPointAll.label }}</label>
+          {{ form.yfcaseDeedtaxDebtorBuildHoldingPointAll|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDebtorBuildHoldingPointAll.error }}</span>
+        </div>
+        
+        契稅申請書 - 
+        {% if yfcase.yfcaseCreditor %}
+          權利人：{{yfcase.yfcaseCreditor}}
+        {% else %}
+          權利人：{{yfcase.yfcaseCompany}}
+        {% endif %}
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorIdentityCard.id_for_label }}">{{ form.yfcaseDeedtaxCreditorIdentityCard.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorIdentityCard|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorIdentityCard.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorBirthday.id_for_label }}">{{ form.yfcaseDeedtaxCreditorBirthday.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorBirthday|add_class:"form-control fieldcolor datepicker pt-0" }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorBirthday.error }}</span>
+        </div>
+         <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorLocalPhone.id_for_label }}">{{ form.yfcaseDeedtaxCreditorLocalPhone.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorLocalPhone|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorLocalPhone.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorMobilePhone.id_for_label }}">{{ form.yfcaseDeedtaxCreditorMobilePhone.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorMobilePhone|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorMobilePhone.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorCity.id_for_label }}">{{ form.yfcaseDeedtaxCreditorCity.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorCity|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorCity.error }}</span>
+        </div>
+         <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorTownship.id_for_label }}">{{ form.yfcaseDeedtaxCreditorTownship.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorTownship|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorTownship.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorVillage.id_for_label }}">{{ form.yfcaseDeedtaxCreditorVillage.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorVillage|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorVillage.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorNeighbor.id_for_label }}">{{ form.yfcaseDeedtaxCreditorNeighbor.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorNeighbor|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorNeighbor.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorStreet.id_for_label }}">{{ form.yfcaseDeedtaxCreditorStreet.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorStreet|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorStreet.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorSection.id_for_label }}">{{ form.yfcaseDeedtaxCreditorSection.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorSection|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorSection.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorLane.id_for_label }}">{{ form.yfcaseDeedtaxCreditorLane.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorLane|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorLane.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorAlley.id_for_label }}">{{ form.yfcaseDeedtaxCreditorAlley.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorAlley|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorAlley.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorNumber.id_for_label }}">{{ form.yfcaseDeedtaxCreditorNumber.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorNumber|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorNumber.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorFloor.id_for_label }}">{{ form.yfcaseDeedtaxCreditorFloor.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorFloor|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorFloor.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorLandHoldingPointPersonal.id_for_label }}">{{ form.yfcaseDeedtaxCreditorLandHoldingPointPersonal.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorLandHoldingPointPersonal|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorLandHoldingPointPersonal.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorLandHoldingPointAll.id_for_label }}">{{ form.yfcaseDeedtaxCreditorLandHoldingPointAll.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorLandHoldingPointAll|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorLandHoldingPointAll.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorBuildHoldingPointPersonal.id_for_label }}">{{ form.yfcaseDeedtaxCreditorBuildHoldingPointPersonal.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorBuildHoldingPointPersonal|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorBuildHoldingPointPersonal.error }}</span>
+        </div>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxCreditorBuildHoldingPointAll.id_for_label }}">{{ form.yfcaseDeedtaxCreditorBuildHoldingPointAll.label }}</label>
+          {{ form.yfcaseDeedtaxCreditorBuildHoldingPointAll|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxCreditorBuildHoldingPointAll.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          {% render_field form.yfcaseDeedtaxCoOwnerMatch|attr:"multiple:multiple"|attr:"data-plugin-multiselect" %} <span style="color:red;">土地 / 建物共有人是否一致</span>
+          <span class="help-block">{{ form.yfcaseDeedtaxCoOwnerMatch.error }}</span>
+        </div>
+
+      </div>
+
+      <!-- footer -->
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-secondary col" data-dismiss="modal">返回</button>
+        <input class="btn btn-primary col-md-3" type="submit" value="建立" />
+        
+      </div>
+
+    </div>
+  </div>
+</form>
+
+{% block javascript %}
+<script>
+  // $(document).ready(function(){
+  
+  //   // 此為欄位驗証的JS
+  //   $('#yfcaseCreateForm').bootstrapValidator({
+  //     // To use feedback icons, ensure that you use Bootstrap v3.1.0 or later
+  //     feedbackIcons: {
+  //         valid: 'glyphicon glyphicon-ok',
+  //         invalid: 'glyphicon glyphicon-remove',
+  //         validating: 'glyphicon glyphicon-refresh'
+  //     },
+  //     fields: {
+  //         yfcaseCaseNumber: {
+  //           validators: {
+  //             notEmpty: {
+  //               message: '此一欄位不得為空'
+  //             },
+  //             stringLength: {
+  //               min: 5,
+  //               max: 50,
+  //               message: '案件名稱必需介於5-50個文字'
+  //             }
+  //           }
+  //         },
+  //         yfcaseCity: {
+  //           validators: {
+  //             notEmpty: {
+  //               message: '此為必要欄位'
+  //             }
+  //           }
+  //         },
+  //         yfcaseTownship: {
+  //           validators: {
+  //             notEmpty: {
+  //               message: '此為必要欄位'
+  //             }
+  //           }
+  //         },
+  //         yfcaseOtherAddress: {
+  //           validators: {
+  //             notEmpty: {
+  //               message: '此為必要欄位'
+  //             }
+  //           }
+  //         },
+  //         yfcaseCompany: {
+  //           validators: {
+  //             notEmpty: {
+  //               message: '必選欄位'
+  //             }
+  //           }
+  //         }
+  //     }
+  //   });
+
+  // });
+  $(function() {
+    $(".datepicker").datepicker({
+      dateFormat: "yy-mm-dd"
+    });
+  });
+
+</script>
+{% endblock javascript %}
+  

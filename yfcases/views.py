@@ -470,6 +470,20 @@ class SubSigntrueBDeleteView(UpdateView):
     return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
 
 
+### After Winner #######################################################################
+class AfterWinnerUpdateView(UpdateView):
+  model=Yfcase
+  form_class = AfterWinnerForm
+  template_name="yfcase/afterwinner/AfterWinner_edit.html"
+  success_url = reverse_lazy('yfcase:home')
+
+  def get_context_data(self, **kwargs):
+    context = super(AfterWinnerUpdateView,self).get_context_data(**kwargs)
+    context["author_id"]=self.request.user.id
+    context['value'] = '編輯'
+    context['title'] = '編輯得標後相關資料'
+    return context
+
 # 複製到最下面去修改
 def yfratingscale_pdf_view(request, *args, **kwargs):
   pk = kwargs.get('pk')
@@ -478,6 +492,36 @@ def yfratingscale_pdf_view(request, *args, **kwargs):
   font_path()
   
   template_path = 'pdf/yfratingscale_pdf.html'
+  context = {
+    'yfcase': yfcase, 
+  }
+  # Create a Django response object, and specify content_type as pdf
+  response = HttpResponse(content_type='application/pdf')
+  # 如果要把yfcase_pdf.html下載後再手動打開的話
+  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
+  # 如果要把yfcase_pdf.html直接顥示的話
+  response['Content-Disposition'] = 'filename="report.pdf"'
+  # find the template and render it.
+  template = get_template(template_path)
+  html = template.render(context)
+
+  # create a pdf
+  pisa_status = pisa.CreatePDF(html, dest=response)
+  # if error then show some funy view
+  if pisa_status.err:
+    return HttpResponse('We had some errors <pre>' + html + '</pre>')
+  return response
+  
+
+
+# 複製到最下面去修改
+def deedtax_pdf_view(request, *args, **kwargs):
+  pk = kwargs.get('pk')
+  yfcase = get_object_or_404(Yfcase,pk=pk)
+  
+  font_path()
+  
+  template_path = 'pdf/deedtax_pdf.html'
   context = {
     'yfcase': yfcase, 
   }

@@ -5,7 +5,7 @@
 {% block title %}Home{% endblock %}
 
 {% block style %}
-<style>
+  <style>
   .y20000{
     border:2px solid black;
     border-radius:10px;
@@ -116,7 +116,6 @@
 
     <tbody>
       {% for yfcase in object_list %}
-        
         <tr>
           {% if request.user.userFullName == "管理者" %}
             <td scope="row" style="padding: 0px;text-align: center;vertical-align: middle;">
@@ -178,13 +177,26 @@
             {% endif %}
           </td>
           <td style="width:7%;">第三人<br>搶標</td>
-          <td style="width:6%;">
-            無人<br>優購
+          <td style="width:10%;">
+            <div class="row">
+              <div class="col-md-7">
+                無人<br>優購
+              </div>
+              <div class="co-md-5" style="margin-top:3px;">
+                <a href="javascript:void(0)" onclick="afterwinner_modal_update('{% url 'yfcase:afterwinner_edit' yfcase.id %}')" class="btn btn-outline-secondary btn-sm delete-btn">
+                  <i class="fas fa-list-alt fa-2x"></i>
+                </a>
+              </div>
+            </div>
           </td>
           <td style="width:10%;">
             <table class="homeItem">
               <tr>
-                <td><div class="y20000" style="border-color:lightpink;background-color: red;">契</div></td>
+                <td>
+                  <div class="y20000" style="border-color:lightpink;background-color: red;">
+                    <a href="{% url 'yfcase:deedtax_pdf_view' yfcase.pk %}" class="text-white">契</a>
+                  </div>
+                </td>
                 <td><div class="y20000" style="border-color:lightgreen;background-color: green;">動</div></td>
                 <td><div class="y20000" style="border-color:grey;background-color: black;">狀</div></td>
                 <td><div class="y20000" style="border-color:mediumpurple;background-color: indigo;">函</div></td>
@@ -206,6 +218,7 @@
   </div>
   <div class="modal fade" id="createModal" role="dialog"></div>
   <div class="modal fade" id="deleteYfcaseModal" role="dialog"></div>
+  <div class="modal fade" id="editAfterWinnerModal" role="dialog"></div>
   
 {% endblock %}
 
@@ -226,6 +239,12 @@
 
     function yfcase_modal_delete(url) {
       $('#deleteYfcaseModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    
+    function afterwinner_modal_update(url) {
+      $('#editAfterWinnerModal').load(url,function() {
         $(this).modal('show')
       })
     }

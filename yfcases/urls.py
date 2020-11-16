@@ -43,4 +43,6 @@ urlpatterns = [
   path('subsigntrueb/<int:pk>/delete/',views.SubSigntrueBDeleteView.as_view(),name="subsigntrueb_delete" ),
   path('ajax/load-townships/', views.load_townships, name='ajax_load_townships'),
   path('yfratingscalePDF/<int:pk>/', views.yfratingscale_pdf_view, name='yfratingscale_pdf_view'),
+  path('deedTaxPDF/<int:pk>/', views.deedtax_pdf_view, name='deedtax_pdf_view'),
+  path('afterwinner/<int:pk>/edit/', views.AfterWinnerUpdateView.as_view(), name='afterwinner_edit'),
 ]

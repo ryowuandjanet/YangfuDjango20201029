@@ -1,0 +1,423 @@
+{% load static %}
+{% load urlify %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>DeedTax</title>
+  <style type="text/css">
+    body {
+      font-size: 13px;
+    }
+    .deedtaxHeader{
+    	border-collapse:collapse;
+  		border:1px solid black;
+  		width:100%;
+    }
+    .deedtax123,.deedtax45,.deedtax6,.deedtax7,.deedtax8910,.deedtax11,.deedtax12,.deedtax13To19,.deedtaxFooter,.deedtaxNotWrite{
+    	border-collapse:collapse;
+  		border:1px solid black;
+  		width:100%;
+  		border-top:hidden;
+    }
+    .deedtax6 td,.deedtax7 td,.deedtax8910 td,.deedtax11 td,.deedtax12 td,.deedtax13To19 td,.deedtaxFooter td,.deedtaxNotWrite td{
+    	border-collapse:collapse;
+  		border:1px solid black;
+  		padding:0px;
+  		margin:0px;
+  		font-size:10.5pt;
+  		height:20px;
+  		text-align:center;
+    }
+    
+    .deedtaxHeader th,.deedtax123 th,.deedtax45 th,.deedtax6 th,.deedtax7 th,.deedtax8910 th,.deedtax11 th,.deedtax12 th,.deedtax13To19 th,.deedtaxFooter th,.deedtaxNotWrite th{
+    	border-collapse:collapse;
+  		border:1px solid black;
+  		margin:0px;
+  		padding-left:5px;
+    	text-align:left;
+  		font-size: 12pt;
+    }
+    .deedtaxHeader tr {
+    	height:40px;
+    }
+    .deedtaxHeader td {
+    	border-collapse:collapse;
+  		border:1px solid black;
+  		padding:0px;
+  		margin:0px;
+  		text-align:center;
+    }
+
+    .deedtax123 td {
+    	border-collapse:collapse;
+  		border:1px solid black;
+  		padding:0px;
+  		margin:0px;
+  		font-size:11pt;
+  		text-align:center;
+    }
+    .deedtax45 td {
+    	border-collapse:collapse;
+  		border:1px solid black;
+  		padding:0px;
+  		margin:0px;
+  		font-size:11pt;
+  		text-align:center;
+    }
+    .deedtaxNotWrite td{
+    	font-size:12pt;
+    	padding:2px 5px;
+    }
+    .bluefont{
+      color:blue;
+      font-weight:bolder;
+    }
+  </style>
+</head>
+<body>
+  <!-- 前導資料 -->
+	<table class="deedtaxHeader">
+		<tr>
+			<td rowspan="2" style="width:62.5%;border-top:hidden;border-left:hidden;font-size:30pt;padding-left:300px;">契稅申報書</td>
+			<td rowspan="2" style="width:2.5%;border-top:1px solid black;">申報人免填</td>
+			<td rowspan="2" style="width:4%;border-top:1px solid black;">(總收收件文號)</td>
+			<td style="width:3%;border-top:1px solid black;">日期</td>
+			<td style="font-size:14pt;border-top:1px solid black;">年　　月　　日</td>
+		</tr>
+		<tr>
+			<td>字號</td>
+			<td></td>
+		</tr>
+	</table>
+	
+	<!-- (1)房屋稅籍編號/(2)建號/(3)移轉房屋坐落 -->
+	<table class="deedtax123">
+		<tr>
+			<th rowspan="2" style="width:13%">(1)房　　屋<br>&nbsp;&nbsp;&nbsp;稅籍編號</th>
+			<td colspan="2">鄉鎮<br>市區</td>
+			<td colspan="2">村里</td>
+			<td colspan="4">冊頁(棟)</td>
+			<td colspan="3">分戶號</td>
+			<th rowspan="2" style="width:8%">(2)建號</th>
+			<td rowspan="2" style="width:17.8%" class="bluefont">        
+				{{ yfcase.yfcaseBigSection|default_if_none:"" }}{{ yfcase.builds.first.buildNumber|default_if_none:"" }}
+			</td>
+			<th rowspan="2" style="width:11%">(3)移　　轉<br>&nbsp;&nbsp;&nbsp;房屋坐落</th>
+			<td rowspan="2" class="bluefont">
+				{{ yfcase.yfcaseCity|default_if_none:"" }}{{ yfcase.yfcaseTownship|default_if_none:"" }}{{ yfcase.yfcaseOtherAddress|default_if_none:"" }}
+			</td>
+		</tr>
+		<tr>
+			<td style="width:2.2%;height:30px;"></td>
+			<td style="width:2.2%"></td>
+			<td style="width:2.2%"></td>
+			<td style="width:2.2%"></td>
+			<td style="width:2.2%"></td>
+			<td style="width:2.2%"></td>
+			<td style="width:2.2%"></td>
+			<td style="width:2.2%"></td>
+			<td style="width:2.2%"></td>
+			<td style="width:2.2%"></td>
+			<td style="width:2.2%"></td>
+		</tr>
+	</table>
+
+
+	<!-- (4)立契日期或使用執照核發日期（限房屋建造完成前取得所有權案件）/(5)申報日期 -->
+	<table class="deedtax45">
+		<tr>
+			<th style="width:33.5%;">(4)立契日期或使用執照核發日期（限房<br>&nbsp;&nbsp;&nbsp;屋建造完成前取得所有權案件）</th>
+			<td style="width:11.4%;"> 月 日</td>
+			<td style="width:30%;text-align:left;">&#9745 1.一般申報案件<br> &#9744 2.房屋建造完成前取得所有權案件</td>
+			<th style="width:12%;">(5)申報日期</th>
+			<td> 月 日</td>
+		</tr>
+	</table>
+
+	<!-- (6)移轉價格(新臺幣) -->
+	<table class="deedtax6">
+		<tr>
+			<th style="width:13%">(6)移轉價格<br>(新臺幣)</th>
+			<td style="width:20.5%;text-align:right;">元</td>
+			<td style="text-align:left;">1.&#9744請按照評定標準價格核課契稅。<br>2.&#9745本件係領買標購公產或法院拍賣案件請按照評定標準價格或申報移轉價格從低核課契稅。</td>
+		</tr>
+	</table>
+
+	<!-- (7)茲委託 -->
+	<table class="deedtax7">
+		<tr>
+			<th rowspan="2">(7)茲委託</th>
+			<td rowspan="2" style="width:10%;text-align:right;border-left:hidden;border-right:hidden;"></td>
+			<td style="border-bottom:hidden;">先生</td>
+			<td rowspan="2" style="border-left:hidden;">代辦契稅申報、領取契稅繳款書或免稅證明書、前業主應繳未繳之房屋稅繳款書及領回證件等事項。</td>
+		</tr>
+		<tr>
+			<td>女士</td>
+		</tr>
+	</table>
+	
+	
+	
+	<!--原所有權人：個人持分 / 所有持分-->
+	<table class="deedtax8910">
+		<!-- (8)原所有權人 -->
+		<tr>
+			<th rowspan="6" style="width:13%">(8)原所有權人</th>
+			<td rowspan="2" style="width:10%">姓名或名稱</td>
+			<td style="width:17.7%">國民身分證或統一編號</td>
+			<td colspan="2">出生年</td>
+			<td rowspan="2" style="width:8%">權利移<br>轉範圍</td>
+			<td rowspan="2">通訊地址/<small>新所有權人請填移轉後房屋稅繳款書送單地址</small</td>
+			<td rowspan="2" style="width:8%">蓋章或<br>簽名</td>
+		</tr>
+		<tr>
+			<td>電話</td>
+			<td>月</td>
+			<td>日</td>
+		</tr>
+		<tr>
+			<td rowspan="2"></td>
+			<td></td>
+			<td colspan="2"></td>
+			<td rowspan="2"></td>
+			<td rowspan="2"></td>
+			<td rowspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		<tr>
+			<td rowspan="2"></td>
+			<td></td>
+			<td colspan="2"></td>
+			<td rowspan="2"></td>
+			<td rowspan="2"></td>
+			<td rowspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+		
+		<!-- (9)新所有權人 -->
+		<tr>
+			<th rowspan="4">(9)新所有權人</th>
+			<td rowspan="2" style="text-align:left;">
+
+			</td>
+			<td>
+				
+			</td>
+			<td colspan="2">
+				
+      </td>
+			<td rowspan="2"></td>
+			<td rowspan="2">
+				
+			</td>
+			<td rowspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				
+      </td>
+			<td>
+				
+			</td>
+		</tr>
+		<tr>
+			<td rowspan="2">法定代理人<br>陳美純</td>
+			<td>L203130632</td>
+			<td colspan="2">30</td>
+			<td rowspan="2"></td>
+			<td rowspan="2">臺中市大里區西榮里7鄰新仁路三段72巷3號</td>
+			<td rowspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>10</td>
+			<td>31</td>
+		</tr>
+		
+		<!-- (10)代理人 -->
+		<tr>
+			<!--<th rowspan="4">(10)代理人</th>-->
+			<td rowspan="2"></td>
+			<td></td>
+			<td colspan="2"></td>
+			<td rowspan="2">----</td>
+			<td rowspan="2"></td>
+			<td rowspan="2"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+
+	</table>
+	
+	<!-- (11)案件類型 -->
+	<table class="deedtax11">
+		<tr>
+			<th style="width:13%;height:50px;">(11)案件類型</th>
+			<td>&#9744 1.買賣 &#9744 2.典權 &#9744 3.交換</td>
+			<td style="text-align:left;border-left:hidden;border-right:hidden;">&#9744 4.0贈與<br>&#9744 4.1夫妻贈與</td>
+			<td>&#9744 5.分割 &#9744 6.占有 &#9744 7.二親等間買賣</td>
+			<td style="text-align:left;border-left:hidden;border-right:hidden;">&#9744 8.1標購<br>&#9745 8.2拍賣<br>&#9744 8.3領買</td>
+			<td>&#9744 9.1判決<br>&#9744 9.2調解<br>&#9744 9.3和解</td>
+		</tr>
+	</table>
+	
+
+	
+	<!-- (12)移轉情形 -->
+	<table class="deedtax12">
+		<tr>
+			<th rowspan="3" style="width:13%;">(12)移轉情形</th>
+			<td style="width:10%;height:25px;">層次</td>
+			<td style="width:6%;"></td>
+			<td style="width:6%;"></td>
+			<td style="width:6%;"></td>
+			<td style="width:6%;"></td>
+			<td style="width:6%;"></td>
+			<td style="width:6%;"></td>
+			<td style="width:8%;">公設建號</td>
+			<td style="width:6%;"></td>
+			<td style="width:6%;"></td>
+			<td style="width:6%;"></td>
+			<td style="width:6%;"></td>
+			<td rowspan="3" style="text-align:left;">&#9745未辦保存登<br>&emsp;記部分一併<br>&emsp;移轉</td>
+		</tr>
+		<tr>
+			<td style="height:25px;">構造</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td rowspan="2">持分比例</td>
+			<td rowspan="2"></td>
+			<td rowspan="2"></td>
+			<td rowspan="2"></td>
+			<td rowspan="2"></td>
+		</tr>
+		<tr>
+			<td style="height:25px;">面&emsp;&emsp;積<br>(平方公尺)</td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+			<td></td>
+		</tr>
+	</table>
+	
+	<!--( 13-19 )-->
+	<table class="deedtax13To19">
+		<!-- (13)申請減免項目 -->
+		<tr>
+			<th style="width:13%;height:45px;">(13)申請減免<br>&emsp;&emsp;項&emsp;&emsp;目</th>
+			<td style="width:10%">&#9744 1.全免<br>&#9744 2.減徵</td>
+			<td colspan="3" style="text-align:left;">合於契稅條例第(　　   )條規定。<br>合於(　　              )條例第(　　  )條(　　  )款規定。</td>
+		</tr>
+		
+		<!-- (14)檢　　附 -->
+		<tr>
+			<th>(14)檢　　附</th>
+			<td colspan="4" style="text-align:left;">
+				&#9744契約書正本(查驗後退還)、影本（貼印花部分）1份，　□所有權狀影本共(　　)份。<br>
+				&#9745不動產權利移轉證明書影本1份，□法院判決書及判決確定證明書影本( 　 )份。<br>
+				&#9745身分證明文件影本(   　)份，□該移轉房屋已納房屋稅繳款書影本1份　□其他文件(　　　) 份。<br>
+				&#9744納稅者如有依納稅者權利保護法第7條第8項但書規定，為重要事項陳述者，請另填報「聲明事項表」並檢附相關證明文件。
+			</td>
+		</tr>
+		
+		<!-- (15)持分共有房屋繳款書填發方式		 -->
+		<tr>
+			<th>(15)持分共有<br>房屋繳款書填<br>發方式</th>
+			<td colspan="4" style="text-align:left;height:60px;">
+				&#9744本房屋為持分共有，已推定共有人           為管理人繳納房屋稅。<br>
+				&#9745本房屋為持分共有，請依稅捐稽徵法第12條規定，按持分比例分別發單課徵房屋稅。
+			</td>
+		</tr>
+		
+		<!-- (16)契稅繳款書領回方式 -->
+		<tr>
+			<th colspan="5" style="height:30px;">(16)契稅繳款書領回方式&emsp;
+			親領&emsp;
+			郵寄　   請寄：</th>
+		</tr>
+		
+		<!-- (17)結案簡訊通知+(18)備註 -->
+		<tr>
+			<th style="height:50px;">(17)結案簡訊<br>&emsp;&emsp;通&emsp;&emsp;知</th>
+			<td colspan="2" style="width:40%;text-align:left;">
+				
+			</td>
+			<th style="width:12%;">(18)備&emsp;&emsp;註</th>
+			<td></td>
+		</tr>
+		
+		<!-- (19)申報人取得房屋... -->
+		<tr>
+			<th colspan="5" style="height:70px;">
+				(19)申報人取得房屋，請依附聯填報不動產移轉後使用情形，供自住使用者，可申請按自住房屋稅率課徵房屋稅及自用住宅<br>&emsp;&emsp;用地稅率課徵地價稅。未填報附聯者，請於房屋移轉後，儘速向所屬稽徵機關申報移轉後的房屋使用情形，以維護您的<br>&emsp;&emsp;權益。
+				
+			</th>
+		</tr>
+
+	</table>
+
+
+	<table class="deedtaxFooter">
+    <tr>
+      <td style="height:90px;text-align:left;font-size:12pt;padding:0px 10px;">
+      	茲依照契稅條例第14條、第15條、第16條規定填具契稅申報書，請依法核定應納契稅，並依照房屋稅條例第7條之規定申請變更房屋稅納稅義務人名義。<br><br><br><br>
+        &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;申報人 揚富開發有限公司 法定代理人陳美純&emsp;&emsp;&emsp;&emsp;（蓋章或簽名）
+      </td>
+    </tr>
+	</table>
+	
+	<!--申報人免填-->
+	<table class="deedtaxNotWrite">
+    <tr>
+      <td rowspan="2" style="width:2.5%;height:100px;">
+      	申報人免填
+      </td>
+      <td rowspan="2" style="width:10%;">房&ensp;屋&ensp;稅<br>查欠情形</td>
+      <td rowspan="2" style="width:64%;text-align:left;">
+      	&#9744一般案件&emsp;&emsp;&#9744截至&emsp;&emsp;年&emsp;&emsp;月無欠繳房屋稅&emsp;&emsp;&#9744即予開徵&emsp;&emsp;&emsp;&emsp;元<br>
+      	&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#9744尚有欠繳房屋稅&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&#9744未即予開徵<br>
+      	&#9744法院拍賣案件<br>
+      	<br>
+      	查欠人員蓋章
+      </td>
+      <td>房屋稅承辦人員蓋章</td>
+    </tr>
+    <tr>
+    	<td></td>
+    </tr>
+	</table>
+	
+	<!--說明-->
+	<table style="width:100%;">
+		<tr>
+			<td style="vertical-align:text-top;width:6%;font-size:12pt;">說明：</td>
+			<td style="font-size:12pt;">
+				依據納稅者權利保護法第7 條規定，納稅者基於獲得租稅利益，違背稅法之立法目的，濫用法律形式，以非常規交易規避租稅構成要件之該當，以達成與交易常規相當之經濟效果，為租稅規避。稅捐稽徵機關仍根據與實質上經濟 利益相當之法律形式，成立租稅上請求權，並加徵滯納金及利息，不得另課予逃漏稅捐之處罰，但納稅者於申報或 調查時，對重要事項隱匿或為虛偽不實陳述或提供不正確資料，致使稅捐稽徵機關短漏核定稅捐者，不在此限。
+			</td>
+		</tr>
+	</table>	
+  
+</body>
+</html>

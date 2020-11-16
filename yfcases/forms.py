@@ -60,6 +60,12 @@ JUDGMENT_LIST=[
   ("放棄","放棄")
 ]
 
+REASONFORREGISTRATION_LIST =[
+  ("",""),
+  ("買賣","買賣"),
+  ("拍賣","拍賣"), 
+]
+
 class YfcaseForm(forms.ModelForm):
   yfcaseCompany = forms.ChoiceField(label="所屬公司",choices=COMPANY_LIST, required=False)
   class Meta:
@@ -202,3 +208,14 @@ class SubSigntrueBForm(forms.ModelForm):
 
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
+    
+class AfterWinnerForm(forms.ModelForm):
+  yfcaseDeedtaxReasonForRegistration = forms.ChoiceField(label="登記原因",choices=REASONFORREGISTRATION_LIST, required=False)
+  class Meta:
+    model=Yfcase
+    fields =[
+      'yfcaseDeedtaxAgent','yfcaseDeedtaxDateOfCause','yfcaseDeedtaxReasonForRegistration','yfcaseDeedtaxRegistrationNote', \
+      "yfcaseDeedtaxDebtorIdentityCard","yfcaseDeedtaxDebtorBirthday","yfcaseDeedtaxDebtorLocalPhone","yfcaseDeedtaxDebtorMobilePhone","yfcaseDeedtaxDebtorCity","yfcaseDeedtaxDebtorTownship","yfcaseDeedtaxDebtorVillage","yfcaseDeedtaxDebtorNeighbor","yfcaseDeedtaxDebtorStreet","yfcaseDeedtaxDebtorSection","yfcaseDeedtaxDebtorLane","yfcaseDeedtaxDebtorAlley","yfcaseDeedtaxDebtorNumber","yfcaseDeedtaxDebtorFloor","yfcaseDeedtaxDebtorLandHoldingPointPersonal","yfcaseDeedtaxDebtorLandHoldingPointAll","yfcaseDeedtaxDebtorBuildHoldingPointPersonal","yfcaseDeedtaxDebtorBuildHoldingPointAll", \
+      "yfcaseDeedtaxCreditorIdentityCard","yfcaseDeedtaxCreditorBirthday","yfcaseDeedtaxCreditorLocalPhone","yfcaseDeedtaxCreditorMobilePhone","yfcaseDeedtaxCreditorCity","yfcaseDeedtaxCreditorTownship","yfcaseDeedtaxCreditorVillage","yfcaseDeedtaxCreditorNeighbor","yfcaseDeedtaxCreditorStreet","yfcaseDeedtaxCreditorSection","yfcaseDeedtaxCreditorLane","yfcaseDeedtaxCreditorAlley","yfcaseDeedtaxCreditorNumber","yfcaseDeedtaxCreditorFloor","yfcaseDeedtaxCreditorLandHoldingPointPersonal","yfcaseDeedtaxCreditorLandHoldingPointAll","yfcaseDeedtaxCreditorBuildHoldingPointPersonal","yfcaseDeedtaxCreditorBuildHoldingPointAll", \
+      "yfcaseDeedtaxCoOwnerMatch"
+    ] 
