@@ -60,10 +60,22 @@ JUDGMENT_LIST=[
   ("放棄","放棄")
 ]
 
-REASONFORREGISTRATION_LIST =[
+DEED_TAX_RECLAIM_METHOD_LIST =[
   ("",""),
-  ("買賣","買賣"),
-  ("拍賣","拍賣"), 
+  ("親領","親領"),
+  ("郵寄","郵寄"), 
+]
+
+DEED_TAX_CLOSING_NEWSLETTER_LIST =[
+  ("",""),
+  ("需要","需要"),
+  ("不需要","不需要"), 
+]
+
+DEED_TAX_REPORT_ATTACHED_LIST =[
+  ("",""),
+  ("申請","申請"),
+  ("不申請","不申請"), 
 ]
 
 class YfcaseForm(forms.ModelForm):
@@ -210,12 +222,20 @@ class SubSigntrueBForm(forms.ModelForm):
     super().__init__(*args, **kwargs)
     
 class AfterWinnerForm(forms.ModelForm):
-  yfcaseDeedtaxReasonForRegistration = forms.ChoiceField(label="登記原因",choices=REASONFORREGISTRATION_LIST, required=False)
+  yfcaseDeedtaxReclaimMethod = forms.ChoiceField(label="契稅領回方式",choices=DEED_TAX_RECLAIM_METHOD_LIST, required=False)
+  yfcaseDeedtaxClosingNewsletter = forms.ChoiceField(label="契稅結案簡訊",choices=DEED_TAX_CLOSING_NEWSLETTER_LIST, required=False)
+  yfcaseDeedtaxReportAttached = forms.ChoiceField(label="契稅報附聯",choices=DEED_TAX_REPORT_ATTACHED_LIST, required=False)
   class Meta:
     model=Yfcase
     fields =[
-      'yfcaseDeedtaxAgent','yfcaseDeedtaxDateOfCause','yfcaseDeedtaxReasonForRegistration','yfcaseDeedtaxRegistrationNote', \
+      "yfcaseDeedtaxHouseTaxRegistrationNumber","yfcaseDeedtaxEstablishmentDate","yfcaseDeedtaxDeclarationDate","yfcaseDeedtaxClient","yfcaseDeedtaxTransferPrice","yfcaseDeedtaxReclaimMethod","yfcaseDeedtaxClosingNewsletter","yfcaseDeedtaxRemarks","yfcaseDeedtaxReportAttached", \
       "yfcaseDeedtaxDebtorIdentityCard","yfcaseDeedtaxDebtorBirthday","yfcaseDeedtaxDebtorLocalPhone","yfcaseDeedtaxDebtorMobilePhone","yfcaseDeedtaxDebtorCity","yfcaseDeedtaxDebtorTownship","yfcaseDeedtaxDebtorVillage","yfcaseDeedtaxDebtorNeighbor","yfcaseDeedtaxDebtorStreet","yfcaseDeedtaxDebtorSection","yfcaseDeedtaxDebtorLane","yfcaseDeedtaxDebtorAlley","yfcaseDeedtaxDebtorNumber","yfcaseDeedtaxDebtorFloor","yfcaseDeedtaxDebtorLandHoldingPointPersonal","yfcaseDeedtaxDebtorLandHoldingPointAll","yfcaseDeedtaxDebtorBuildHoldingPointPersonal","yfcaseDeedtaxDebtorBuildHoldingPointAll", \
       "yfcaseDeedtaxCreditorIdentityCard","yfcaseDeedtaxCreditorBirthday","yfcaseDeedtaxCreditorLocalPhone","yfcaseDeedtaxCreditorMobilePhone","yfcaseDeedtaxCreditorCity","yfcaseDeedtaxCreditorTownship","yfcaseDeedtaxCreditorVillage","yfcaseDeedtaxCreditorNeighbor","yfcaseDeedtaxCreditorStreet","yfcaseDeedtaxCreditorSection","yfcaseDeedtaxCreditorLane","yfcaseDeedtaxCreditorAlley","yfcaseDeedtaxCreditorNumber","yfcaseDeedtaxCreditorFloor","yfcaseDeedtaxCreditorLandHoldingPointPersonal","yfcaseDeedtaxCreditorLandHoldingPointAll","yfcaseDeedtaxCreditorBuildHoldingPointPersonal","yfcaseDeedtaxCreditorBuildHoldingPointAll", \
       "yfcaseDeedtaxCoOwnerMatch"
     ] 
+    
+
+
+
+
+

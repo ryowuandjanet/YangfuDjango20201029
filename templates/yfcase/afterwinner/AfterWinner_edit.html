@@ -25,28 +25,59 @@
         契稅申請書基本資料 - 案號：{{ yfcase.yfcaseCaseNumber }}
         <!--基本資料欄位-->
         <div class="form-group">
-        <label for="{{ form.yfcaseDeedtaxAgent.id_for_label }}">{{ form.yfcaseDeedtaxAgent.label }}</label>
-          {{ form.yfcaseDeedtaxAgent|add_class:'form-control' }}
-          <span class="help-block">{{ form.yfcaseDeedtaxAgent.error }}</span>
+          <label for="{{ form.yfcaseDeedtaxHouseTaxRegistrationNumber.id_for_label }}">{{ form.yfcaseDeedtaxHouseTaxRegistrationNumber.label }}</label>
+          {{ form.yfcaseDeedtaxHouseTaxRegistrationNumber|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxHouseTaxRegistrationNumber.error }}</span>
         </div>
 
-         <div class="form-group">
-        <label for="{{ form.yfcaseDeedtaxDateOfCause.id_for_label }}">{{ form.yfcaseDeedtaxDateOfCause.label }}</label>
-          {{ form.yfcaseDeedtaxDateOfCause|add_class:"form-control fieldcolor datepicker pt-0" }}
-          <span class="help-block">{{ form.yfcaseDeedtaxDateOfCause.error }}</span>
-        </div>
-        
-         <div class="form-group">
-          <label for="{{ form.yfcaseDeedtaxReasonForRegistration.id_for_label }}">{{ form.yfcaseDeedtaxReasonForRegistration.label }}</label>
-          {{ form.yfcaseDeedtaxReasonForRegistration|add_class:'form-control' }}
-          <span class="help-block">{{ form.yfcaseDeedtaxReasonForRegistration.error }}</span>
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxEstablishmentDate.id_for_label }}">{{ form.yfcaseDeedtaxEstablishmentDate.label }}</label>
+          {{ form.yfcaseDeedtaxEstablishmentDate|add_class:"form-control fieldcolor datepicker pt-0" }}
+          <span class="help-block">{{ form.yfcaseDeedtaxEstablishmentDate.error }}</span>
         </div>
         
         <div class="form-group">
-        <label for="{{ form.yfcaseDeedtaxRegistrationNote.id_for_label }}">{{ form.yfcaseDeedtaxRegistrationNote.label }}</label>
-          {{ form.yfcaseDeedtaxRegistrationNote|add_class:'form-control' }}
-          <span class="help-block">{{ form.yfcaseDeedtaxRegistrationNote.error }}</span>
+          <label for="{{ form.yfcaseDeedtaxDeclarationDate.id_for_label }}">{{ form.yfcaseDeedtaxDeclarationDate.label }}</label>
+          {{ form.yfcaseDeedtaxDeclarationDate|add_class:"form-control fieldcolor datepicker pt-0" }}
+          <span class="help-block">{{ form.yfcaseDeedtaxDeclarationDate.error }}</span>
         </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxClient.id_for_label }}">{{ form.yfcaseDeedtaxClient.label }}</label>
+          {{ form.yfcaseDeedtaxClient|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxClient.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxTransferPrice.id_for_label }}">{{ form.yfcaseDeedtaxTransferPrice.label }}</label>
+          {{ form.yfcaseDeedtaxTransferPrice|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxTransferPrice.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxReclaimMethod.id_for_label }}">{{ form.yfcaseDeedtaxReclaimMethod.label }}</label>
+          {{ form.yfcaseDeedtaxReclaimMethod|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxReclaimMethod.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxClosingNewsletter.id_for_label }}">{{ form.yfcaseDeedtaxClosingNewsletter.label }}</label>
+          {{ form.yfcaseDeedtaxClosingNewsletter|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxClosingNewsletter.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxRemarks.id_for_label }}">{{ form.yfcaseDeedtaxRemarks.label }}</label>
+          {{ form.yfcaseDeedtaxRemarks|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxRemarks.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseDeedtaxReportAttached.id_for_label }}">{{ form.yfcaseDeedtaxReportAttached.label }}</label>
+          {{ form.yfcaseDeedtaxReportAttached|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseDeedtaxReportAttached.error }}</span>
+        </div>
+        
         
         契稅申請書 - 義務人：{{yfcase.yfcaseDebtor|default_if_none:""}} <br>
         <div class="form-group">

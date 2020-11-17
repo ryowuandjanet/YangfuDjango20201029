@@ -15,6 +15,7 @@ from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfbase import pdfmetrics
 from xhtml2pdf.default import DEFAULT_FONT
 from .models import *
+from users.models import *
 from .forms import *
 from .filters import YfcaseFilter
 
@@ -518,12 +519,17 @@ def yfratingscale_pdf_view(request, *args, **kwargs):
 def deedtax_pdf_view(request, *args, **kwargs):
   pk = kwargs.get('pk')
   yfcase = get_object_or_404(Yfcase,pk=pk)
+  if yfcase.yfcaseDeedtaxClient:
+    customuser = CustomUser.objects.get(userFullName=yfcase.yfcaseDeedtaxClient)
+  else:
+    customuser = None
   
   font_path()
   
   template_path = 'pdf/deedtax_pdf.html'
   context = {
     'yfcase': yfcase, 
+    'customuser': customuser
   }
   # Create a Django response object, and specify content_type as pdf
   response = HttpResponse(content_type='application/pdf')
@@ -536,7 +542,8 @@ def deedtax_pdf_view(request, *args, **kwargs):
   html = template.render(context)
 
   # create a pdf
-  pisa_status = pisa.CreatePDF(html, dest=response)
+  pisa_status = pisa.CreatePDF(html.encode('UTF-8'), encoding="UTF-8", dest=response)
+  # pisa_status = pisa.CreatePDF(html, dest=response)
   # if error then show some funy view
   if pisa_status.err:
     return HttpResponse('We had some errors <pre>' + html + '</pre>')

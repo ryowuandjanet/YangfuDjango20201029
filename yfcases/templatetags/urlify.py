@@ -71,3 +71,10 @@ def maxvalue(arg1 ,arg2):
 def last_string(string):
   strvalue = string[1:]
   return strvalue
+
+# 民國年份
+@register.filter
+def chinese_year(chinese_date):
+  if chinese_date:
+    return int(chinese_date.year)-1911
+

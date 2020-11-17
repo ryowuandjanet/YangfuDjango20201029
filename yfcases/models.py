@@ -35,12 +35,18 @@ class Yfcase(models.Model):
   yfcaseDebtor=models.CharField(u'債務人',max_length=10,null=True,blank=True)
   yfcaseCreditor=models.CharField(u'債權人',max_length=10,null=True,blank=True)
   user = models.ForeignKey('users.CustomUser',verbose_name = u'區域負責人', on_delete=models.CASCADE)
-  yfcaseDeedtaxAgent=models.CharField(u'代理人',max_length=100,null=True,blank=True)
-  yfcaseDeedtaxDateOfCause=models.CharField(u'原因發生日期',max_length=100,null=True,blank=True)
-  yfcaseDeedtaxReasonForRegistration=models.CharField(u'登記原因',max_length=100,null=True,blank=True)
-  yfcaseDeedtaxRegistrationNote=models.CharField(u'登記備註',max_length=100,null=True,blank=True)
+  # 契稅申請單欄位
+  yfcaseDeedtaxHouseTaxRegistrationNumber=models.CharField(u'房屋稅籍編號',max_length=100,null=True,blank=True)
+  yfcaseDeedtaxEstablishmentDate=models.DateField(u'契稅建立日期',null=True,blank=True)
+  yfcaseDeedtaxDeclarationDate=models.DateField(u'契稅申報日期',null=True,blank=True)
+  yfcaseDeedtaxClient=models.CharField(u'契稅委託人',max_length=100,null=True,blank=True)
+  yfcaseDeedtaxTransferPrice= models.DecimalField(u'契稅移轉價格',default=0,max_digits=10,decimal_places=0,null=True,blank=True)
+  yfcaseDeedtaxReclaimMethod=models.CharField(u'契稅領回方式',max_length=100,null=True,blank=True)
+  yfcaseDeedtaxClosingNewsletter=models.CharField(u'契稅結案簡訊',max_length=100,null=True,blank=True)
+  yfcaseDeedtaxRemarks=models.CharField(u'契稅備註',max_length=100,null=True,blank=True)
+  yfcaseDeedtaxReportAttached=models.CharField(u'契稅報附聯',max_length=100,null=True,blank=True)
   yfcaseDeedtaxDebtorIdentityCard=models.CharField(u'身分証或統一編號',max_length=100,null=True,blank=True)
-  yfcaseDeedtaxDebtorBirthday=models.CharField(u'生日',max_length=100,null=True,blank=True)
+  yfcaseDeedtaxDebtorBirthday=models.DateField(u'生日',null=True,blank=True)
   yfcaseDeedtaxDebtorLocalPhone=models.CharField(u'市話',max_length=100,null=True,blank=True)
   yfcaseDeedtaxDebtorMobilePhone=models.CharField(u'手機',max_length=100,null=True,blank=True)
   yfcaseDeedtaxDebtorCity=models.CharField(u'縣市',max_length=100,null=True,blank=True)
@@ -58,7 +64,7 @@ class Yfcase(models.Model):
   yfcaseDeedtaxDebtorBuildHoldingPointPersonal=models.DecimalField(u'建物個人持分',default=0,max_digits=8,decimal_places=0,null=True,blank=True)
   yfcaseDeedtaxDebtorBuildHoldingPointAll=models.DecimalField(u'建物所有持分',default=0,max_digits=8,decimal_places=0,null=True,blank=True)
   yfcaseDeedtaxCreditorIdentityCard=models.CharField(u'身分証或統一編號',max_length=100,null=True,blank=True)
-  yfcaseDeedtaxCreditorBirthday=models.CharField(u'生日',max_length=100,null=True,blank=True)
+  yfcaseDeedtaxCreditorBirthday=models.DateField(u'生日',null=True,blank=True)
   yfcaseDeedtaxCreditorLocalPhone=models.CharField(u'市話',max_length=100,null=True,blank=True)
   yfcaseDeedtaxCreditorMobilePhone=models.CharField(u'手機',max_length=100,null=True,blank=True)
   yfcaseDeedtaxCreditorCity=models.CharField(u'縣市',max_length=100,null=True,blank=True)
@@ -76,6 +82,8 @@ class Yfcase(models.Model):
   yfcaseDeedtaxCreditorBuildHoldingPointPersonal=models.DecimalField(u'建物個人持分',default=0,max_digits=8,decimal_places=0,null=True,blank=True)
   yfcaseDeedtaxCreditorBuildHoldingPointAll=models.DecimalField(u'建物所有持分',default=0,max_digits=8,decimal_places=0,null=True,blank=True)
   yfcaseDeedtaxCoOwnerMatch=models.BooleanField(u'共有人一致',default=True)
+  
+  
 
   def __str__(self):  
     return self.yfcaseCaseNumber
