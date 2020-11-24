@@ -1,1 +1,1 @@
-web: gunicorn --pythonpath YangfuDjango YangfuDjango.wsgi --log-file -
+web: gunicorn --pythonpath src src.wsgi --log-file -
