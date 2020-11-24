@@ -65,11 +65,53 @@
           {{ form.yfcaseSmallSection|add_class:'form-control' }}
           <span class="help-block">{{ form.yfcaseSmallSection.error }}</span>
         </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseVillage.id_for_label }}">{{ form.yfcaseVillage.label }}</label>
+          {{ form.yfcaseVillage|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseVillage.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseNeighbor.id_for_label }}">{{ form.yfcaseNeighbor.label }}</label>
+          {{ form.yfcaseNeighbor|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseNeighbor.error }}</span>
+        </div>
 
         <div class="form-group">
-          <label for="{{ form.yfcaseOtherAddress.id_for_label }}">{{ form.yfcaseOtherAddress.label }}</label>
-          {{ form.yfcaseOtherAddress|add_class:'form-control' }}
-          <span class="help-block">{{ form.yfcaseOtherAddress.error }}</span>
+          <label for="{{ form.yfcaseStreet.id_for_label }}">{{ form.yfcaseStreet.label }}</label>
+          {{ form.yfcaseStreet|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseStreet.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseSection.id_for_label }}">{{ form.yfcaseSection.label }}</label>
+          {{ form.yfcaseSection|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseSection.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseLane.id_for_label }}">{{ form.yfcaseLane.label }}</label>
+          {{ form.yfcaseLane|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseLane.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseAlley.id_for_label }}">{{ form.yfcaseAlley.label }}</label>
+          {{ form.yfcaseAlley|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseAlley.error }}</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="{{ form.yfcaseNumber.id_for_label }}">{{ form.yfcaseNumber.label }}</label>
+          {{ form.yfcaseNumber|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseNumber.error }}</span>
+        </div>
+
+        <div class="form-group">
+          <label for="{{ form.yfcaseFloor.id_for_label }}">{{ form.yfcaseFloor.label }}</label>
+          {{ form.yfcaseFloor|add_class:'form-control' }}
+          <span class="help-block">{{ form.yfcaseFloor.error }}</span>
         </div>
 
         <div class="form-group">
@@ -133,7 +175,7 @@
             }
           }
         },
-        yfcaseOtherAddress: {
+        yfcaseNumber: {
           validators: {
             notEmpty: {
               message: '此為必要欄位'

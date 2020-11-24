@@ -16,6 +16,14 @@ class City(models.Model):
 class Township(models.Model):
   city = models.ForeignKey(City, on_delete=models.CASCADE)
   name = models.CharField(max_length=30)
+  city_name = models.CharField(max_length=30)
+  zip_code = models.CharField(max_length=30,null=True,blank=True)
+  district_court = models.CharField(max_length=30,null=True,blank=True)
+  land_office = models.CharField(max_length=30,null=True,blank=True)
+  finance_and_tax_bureau = models.CharField(max_length=30,null=True,blank=True)
+  police_station = models.CharField(max_length=30,null=True,blank=True)
+  irs = models.CharField(max_length=30,null=True,blank=True)
+  home_office = models.CharField(max_length=30,null=True,blank=True)
 
   def __str__(self):
     return self.name
@@ -31,7 +39,14 @@ class Yfcase(models.Model):
   yfcaseTownship=models.ForeignKey(Township,verbose_name = u'鄉鎮區里', on_delete=models.SET_NULL, null=True)
   yfcaseBigSection=models.CharField(u'段號',max_length=10,null=True,blank=True)
   yfcaseSmallSection=models.CharField(u'小段',max_length=10,null=True,blank=True)
-  yfcaseOtherAddress=models.CharField(u'其他住址',max_length=100,null=True,blank=True)
+  yfcaseVillage=models.CharField(u'村里',max_length=100,null=True,blank=True)
+  yfcaseNeighbor=models.CharField(u'鄰',max_length=100,null=True,blank=True)
+  yfcaseStreet=models.CharField(u'街路',max_length=100,null=True,blank=True)
+  yfcaseSection=models.CharField(u'段',max_length=100,null=True,blank=True)
+  yfcaseLane=models.CharField(u'巷',max_length=100,null=True,blank=True)
+  yfcaseAlley=models.CharField(u'弄',max_length=100,null=True,blank=True)
+  yfcaseNumber=models.CharField(u'號',max_length=100,null=True,blank=True)
+  yfcaseFloor=models.CharField(u'樓(含之幾)',max_length=100,null=True,blank=True)
   yfcaseDebtor=models.CharField(u'債務人',max_length=10,null=True,blank=True)
   yfcaseCreditor=models.CharField(u'債權人',max_length=10,null=True,blank=True)
   user = models.ForeignKey('users.CustomUser',verbose_name = u'區域負責人', on_delete=models.CASCADE)
@@ -109,8 +124,13 @@ class Yfcase(models.Model):
   yfcaseDeedtaxBuildingTransferPublicHoldings3 = models.CharField(u'移轉情形-持分比例3',max_length=100,null=True,blank=True)
   yfcaseDeedtaxBuildingTransferPublicHoldings4 = models.CharField(u'移轉情形-持分比例4',max_length=100,null=True,blank=True)
   yfcaseDeedtaxCoOwnerMatch=models.BooleanField(u'共有人一致',default=True)
-  
-  
+  # 不動產登記(Real Estate Registration)
+  yfcaseRealEstateRegistrationRegisteredAgent = models.CharField(u'登記代理人',max_length=100,null=True,blank=True)
+  yfcaseRealEstateRegistrationDateOfCause = models.DateField(u'原因發生日期',null=True,blank=True)
+  yfcaseRealEstateRegistrationReasonForRegistration = models.CharField(u'登記原因',max_length=100,null=True,blank=True)
+  yfcaseRealEstateRegistrationRegistrationNote = models.CharField(u'登記備註',max_length=100,null=True,blank=True)
+  yfcaseApplyAcrossInstitutions = models.BooleanField(u'跨所申請',default=False)
+  yfcaseAcceptingAuthorityTownship = models.CharField(u'鄉鎮區里',max_length=100,null=True,blank=True)
 
   def __str__(self):  
     return self.yfcaseCaseNumber
@@ -539,7 +559,7 @@ class ClickList(models.Model):
   
 class ObjectBuild(models.Model):
   yfcase=models.ForeignKey(Yfcase,related_name='objectbuilds',on_delete=models.CASCADE)
-  objectBuildAddress = models.CharField(u'地址',max_length=100,null=True,blank=True)
+  objectBuildAddress = models.CharField(u'住址',max_length=100,null=True,blank=True)
   objectBuildTotalPrice=models.DecimalField(u'總價(NT)',default=0,max_digits=10,decimal_places=0,null=True,blank=True)
   objectBuildBuildArea=models.DecimalField(u'建坪(坪)',default=0,max_digits=10,decimal_places=2,null=True,blank=True)
   objectBuildHouseAge=models.DecimalField(u'屋齡(年)',default=0,max_digits=5,decimal_places=2,null=True,blank=True)

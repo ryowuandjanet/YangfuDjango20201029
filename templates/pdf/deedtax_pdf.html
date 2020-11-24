@@ -5,7 +5,7 @@
 <html lang="en">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>DeedTax</title>
+  <title>契稅申請書</title>
   <style type="text/css">
     body {
       font-size: 13px;
@@ -108,7 +108,7 @@
 			</td>
 			<th rowspan="2" style="width:11%">(3)移　　轉<br>&nbsp;&nbsp;&nbsp;房屋坐落</th>
 			<td rowspan="2" class="bluefont">
-				{{ yfcase.yfcaseCity|default_if_none:"" }}{{ yfcase.yfcaseTownship|default_if_none:"" }}{{ yfcase.yfcaseOtherAddress|default_if_none:"" }}
+				{{yfcase.yfcaseCity|default_if_none:""}}{{yfcase.yfcaseTownship|default_if_none:""}}{{yfcase.yfcaseVillage|default_if_none:""}}{{yfcase.yfcaseNeighbor|default_if_none:""}}{{yfcase.yfcaseStreet|default_if_none:""}}{{yfcase.yfcaseSection|default_if_none:""}}{{yfcase.yfcaseLane|default_if_none:""}}{{yfcase.yfcaseAlley|default_if_none:""}}{{ yfcase.yfcaseNumber|default_if_none:"" }}{{ yfcase.yfcaseFloor|default_if_none:"" }}
 			</td>
 		</tr>
 		<tr>

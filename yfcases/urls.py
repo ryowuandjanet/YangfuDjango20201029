@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
+from wkhtmltopdf.views import PDFTemplateView
 
 app_name='yfcase'
 
@@ -44,5 +45,10 @@ urlpatterns = [
   path('ajax/load-townships/', views.load_townships, name='ajax_load_townships'),
   path('yfratingscalePDF/<int:pk>/', views.yfratingscale_pdf_view, name='yfratingscale_pdf_view'),
   path('deedTaxPDF/<int:pk>/', views.deedtax_pdf_view, name='deedtax_pdf_view'),
+  path('RealEstateRegistrationPDF/<int:pk>/', views.realestateregistration_pdf_view, name='realestateregistration_pdf_view'),
+  path('ComplaintPDF/<int:pk>/', views.complain_pdf_view, name='complain_pdf_view'),
+  path('letterPDF/<int:pk>/', views.letter_pdf_view, name='letter_pdf_view'),
+  path('commonPropertyDivisionPDF/<int:pk>/', views.commonpropertydivision_pdf_view, name='commonpropertydivision_pdf_view'),
+  
   path('afterwinner/<int:pk>/edit/', views.AfterWinnerUpdateView.as_view(), name='afterwinner_edit'),
 ]

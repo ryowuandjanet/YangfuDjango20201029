@@ -1,55 +1,238 @@
-<div id="accordion">
-  <div class="card">
-    <!--契稅申請書基本資料-標頭-->
-    <div class="card-header" id="deedtaxheadingOne">
-      <h5 class="mb-0">
-        <button class="btn btn-link" data-toggle="collapse" data-target="#deedtaxbasedata" aria-expanded="true" aria-controls="deedtaxbasedata">
-          契稅申請書基本資料
-        </button>
-      </h5>
-    </div>
+    @media
+	  only screen 
+    and (max-width: 760px), (min-device-width: 768px) 
+    and (max-device-width: 1024px)  {
+
+		/* Force table to not be like tables anymore */
+		table, thead, tbody, th, td, tr {
+			display: block;
+		}
+		
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+
+    tr {
+      margin: 0 0 1rem 0;
+      border-collapse:separate;
+      border:1px solid grey;
+      height:50px;
+    }
+      
+    tr:nth-child(odd) {
+      background: #ccc;
+      height:50px;
+    }
     
-    <!--契稅申請書基本資料-內文-->
-    <div id="deedtaxbasedata" class="collapse show" aria-labelledby="deedtaxheadingOne" data-parent="#accordion">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
+    
+		td {
+			position: relative;
+			padding-left: 25%;
+			border-bottom: 1px solid green;
+		}
+
+		td:before {
+			position: absolute;
+			top: 0;
+			left: 6px;
+			padding-right: 10px;
+		}
+		
+		.block_red {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color: lightpink;
+		  background-color: red;
+    }
+    
+    .block_green {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color:lightgreen;
+		  background-color: green;
+    }
+    
+    .block_blue {
+		  color: white;
+		  border-radius: 5px;
+		  border-color:lightblue;
+		  background-color: blue;
+    }
+    
+    .block_black {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color:grey;
+		  background-color: black;
+    }
+    
+    .block_indigo {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color:mediumpurple;
+		  background-color: indigo;
+    }
+    
+    .block_orangered {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color:mediumpurple;
+		  background-color: orangered;
+    }
+
+
+		td:nth-of-type(1):before { content: "案號"; }
+		td:nth-of-type(2):before { content: "兩週內提醒"; }
+		td:nth-of-type(3):before { content: "負責人"; }
+		td:nth-of-type(4):before { content: "最終判定"; }
+		td:nth-of-type(5):before { content: "執行結果"; }
+		td:nth-of-type(6):before { content: "優購結果"; }
+		td:nth-of-type(7):before { content: "標的編號"; }
+	}
   
-  <div class="card">
-    <!--契稅申請書債務人-標頭-->
-    <div class="card-header" id="deedtaxheadingTwo">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#deedtaxdebtor" aria-expanded="false" aria-controls="deedtaxdebtor">
-         契稅申請書債務人
-        </button>
-      </h5>
-    </div>
-    
-    <!--契稅申請書債務人-內文-->
-    <div id="deedtaxdebtor" class="collapse" aria-labelledby="deedtaxheadingTwo" data-parent="#accordion">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
   
-  <div class="card">
-    <!--契稅申請書債權人-標頭-->
-    <div class="card-header" id="deedtaxheadingThree">
-      <h5 class="mb-0">
-        <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#deedtaxcreditor" aria-expanded="false" aria-controls="deedtaxcreditor">
-          契稅申請書債權人
-        </button>
-      </h5>
-    </div>
-    
-    <!--契稅申請書債權人-內文-->
-    <div id="deedtaxcreditor" class="collapse" aria-labelledby="deedtaxheadingThree" data-parent="#accordion">
-      <div class="card-body">
-        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-      </div>
-    </div>
-  </div>
-</div>
+  
+  
+  
+  
+  
+  
+  <table class="table table-hover hometable">
+    <thead style="background-color: darkblue;color:white;">
+      <tr>
+        {% if request.user.userFullName == "管理者" %}
+          <th scope="col" style="text-align: center;vertical-align: middle;width:5%;">操作</th>
+        {% endif %}
+        <th scope="col" style="text-align: center;vertical-align: middle;width:30%;">案號</th>
+        <th scope="col" style="text-align: center;vertical-align: middle;width:7%;">兩週內<br>提醒</th>
+        <th style="text-align: center;vertical-align: middle;width:6%;">負責人</th>
+        <th style="text-align: center;vertical-align: middle;" colspan="2">最終判定</th>
+        <th style="text-align: center;vertical-align: middle;width:10%;">執行結果</th>
+        <th style="text-align: center;vertical-align: middle;width:10%;" colspan="2">優購結果</th>
+        <th style="text-align: center;vertical-align: middle;">標的編號</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {% for yfcase in object_list %}
+        <tr>
+          {% if request.user.userFullName == "管理者" %}
+            <td scope="row" style="padding: 0px;text-align: center;vertical-align: middle;">
+              <a href="javascript:void(0)" onclick="yfcase_modal_delete('{% url 'yfcase:yfcase_delete' yfcase.id %}')" class="btn btn-outline-danger btn-sm delete-btn">
+                <i class="fas fa-trash-alt fa-lg"></i>
+              </a>
+            </td>
+          {% endif %}
+          <td style="text-align: left;">
+            <a href="{% url 'yfcase:yfcase_detail' yfcase.id %}">{{yfcase.yfcaseCaseNumber}}</a><br>
+            &emsp;&#10149;{{yfcase.yfcaseCity|default_if_none:""}}{{yfcase.yfcaseTownship|default_if_none:""}}{{yfcase.yfcaseBigSection|default_if_none:""}}{{yfcase.yfcaseSmallSectiion|default_if_none:""}}{{yfcase.yfcaseOtherAddress|default_if_none:""}}
+          </td>
+          <td>
+            <span style="color:red;">
+              {% if yfcase.finaldecisions.first.finalDecision == "1拍進場" and yfcase.auctions.first.auctionDateFirst != "" %}
+                {{ yfcase.auctions.first.auctionDateFirst|less_two_week|default_if_none:"" }}
+              {% elif yfcase.finaldecisions.first.finalDecision == "2拍進場" and yfcase.auctions.first.auctionDateSecond != "" %}
+                {{ yfcase.auctions.first.auctionDateSecond|less_two_week|default_if_none:"" }}
+              {% elif yfcase.finaldecisions.first.finalDecision == "3拍進場" and yfcase.auctions.first.auctionDateThird != "" %}
+                {{ yfcase.auctions.first.auctionDateThird|less_two_week|default_if_none:"" }}
+              {% elif yfcase.finaldecisions.first.finalDecision == "4拍進場" and yfcase.auctions.first.auctionDateFourth != "" %}
+                {{ yfcase.auctions.first.auctionDateFourth|less_two_week|default_if_none:"" }}
+              {% endif %}
+            </span>
+          </td>
+          <td>
+            {{ yfcase.user.userFullName }}
+          </td>
+          <td style="width:6%;border-right:none;">
+            {{ yfcase.finaldecisions.first.finalDecision }}
+            {% if yfcase.finaldecisions.first.finalDecision|last_string == "拍進場" %}
+              {% if yfcase.auctions.first.auctionFloorPriceFirst > 999999 or yfcase.auctions.first.auctionFloorPriceSecond > 999999 or yfcase.auctions.first.auctionFloorPriceThird > 999999 or yfcase.auctions.first.auctionFloorPriceFourth > 999999 %}
+                {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None and yfcase.finaldecisions.first.subSigntrueB != None %}
+                  	<!--此區：最終判定後面3個字=拍進場 && 拍賣金額>=1000000 && 區域負責人+副署人員1+副署人員2-->
+                    <div class="y20000" style="border-color:lightblue;background-color: blue;">
+                      <a href="{% url 'yfcase:yfratingscale_pdf_view' yfcase.pk %}" class="text-white">評</a>
+                    </div>
+                {% endif %}
+              {% elif yfcase.auctions.first.auctionFloorPriceFirst < 1000000 or yfcase.auctions.first.auctionFloorPriceSecond < 1000000 or yfcase.auctions.first.auctionFloorPriceThird < 1000000 or yfcase.auctions.first.auctionFloorPriceFourth < 1000000 %}
+                {% if yfcase.auctions.first.auctionFloorPriceFirst > 0 or yfcase.auctions.first.auctionFloorPriceSecond > 0 or yfcase.auctions.first.auctionFloorPriceThird > 0 or yfcase.auctions.first.auctionFloorPriceFourth > 0 %}
+                  {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None %}
+                    <!--此區：拍賣金額<1000000 && 拍賣金額>0 && 區域負責人+副署人員1-->
+                    <div class="y20000" style="border-color:lightblue;background-color: blue;">
+                      <a href="{% url 'yfcase:yfratingscale_pdf_view' yfcase.pk %}" class="text-white">評</a>
+                    </div>
+                  {% endif %}
+                {% endif %}
+              {% endif %}
+            {% elif yfcase.finaldecisions.first.finalDecision == "放棄" %}
+              {% if yfcase.finaldecisions.first.regionalHead != None %}
+                <!--此區：最終判定=放棄 && 區域負責人-->
+                <div class="y20000" style="border-color:lightblue;background-color: blue;">
+                  <a href="{% url 'yfcase:yfratingscale_pdf_view' yfcase.pk %}" class="text-white">評</a>
+                </div>  
+              {% endif %}
+            {% endif %}
+          </td>
+          
+          <td style="width:3%;border-left:none;">
+            
+          </td>
+          <td style="width:7%;">第三人<br>搶標</td>
+          <td style="width:10%;">
+            <div class="row">
+              <div class="col-md-7">
+                無人<br>優購
+              </div>
+              <div class="co-md-5" style="margin-top:3px;">
+                <a href="javascript:void(0)" onclick="afterwinner_modal_update('{% url 'yfcase:afterwinner_edit' yfcase.id %}')" class="btn btn-outline-secondary btn-sm delete-btn">
+                  <i class="fas fa-list-alt fa-2x"></i>
+                </a>
+              </div>
+            </div>
+          </td>
+          <td style="width:10%;">
+            <table class="homeItem">
+              <tr>
+                <td>
+                  <div class="y20000" style="border-color:lightpink;background-color: red;">
+                    <a href="{% url 'yfcase:deedtax_pdf_view' yfcase.pk %}" class="text-white">契</a>
+                  </div>
+                </td>
+                <td>
+                  <div class="y20000" style="border-color:lightgreen;background-color: green;">
+                   <a href="{% url 'yfcase:realestateregistration_pdf_view' yfcase.pk %}" class="text-white">動</a>
+                  </div>
+                </td>
+                <td>
+                  <div class="y20000" style="border-color:grey;background-color: black;">
+                    <a href="{% url 'yfcase:complain_pdf_view' yfcase.pk %}" class="text-white">狀</a>
+                  </div>
+                </td>
+                <td>
+                  <div class="y20000" style="border-color:mediumpurple;background-color: indigo;">
+                    <a href="{% url 'yfcase:letter_pdf_view' yfcase.pk %}" class="text-white">函</a>
+                  </div>
+                </td>
+                <td>
+                  <div class="y20000" style="border-color:mediumpurple;background-color: orangered;">
+                    <a href="{% url 'yfcase:commonpropertydivision_pdf_view' yfcase.pk %}" class="text-white">共</a>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+          <td>
+            KH001
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>

@@ -14,6 +14,7 @@
         {% for land in object.lands.all %}
           <tr>
             <td style="text-align:left; ">
+              {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
               <div style="font-size:12pt;">
                 <span style="font-size: 10pt;vertical-align: middle;">
                   <a href="javascript:void(0)" onclick="land_modal_edit('{% url 'yfcase:land_edit' land.id %}')">
@@ -29,6 +30,7 @@
                     </span>
                   </a>
                 </span>
+                {% endif %}
                 {{object.yfcaseBigSection|default_if_none:""}}{{ land.landNumber }}
               </div>
             </td>

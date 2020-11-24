@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'users',
     'yfcases',
+    'wkhtmltopdf',
 ]
 
 
@@ -73,7 +74,7 @@ LOGIN_URL='login'
 LOGIN_REDIRECT_URL = 'yfcase:home'
 LOGOUT_REDIRECT_URL = 'yfcase:home'
 
-
+WKHTMLTOPDF_CMD = '/usr/local/bin/wkhtmltopdf'
 
 
 TEMPLATES = [
