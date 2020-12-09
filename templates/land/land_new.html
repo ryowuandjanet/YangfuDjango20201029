@@ -8,7 +8,7 @@
 <form action="{% url 'yfcase:land_new' %}" method="post" id="landCreateForm">{% csrf_token %}
   <div class="modal-dialog">
     <div class="modal-content">
-
+      
       <!-- header -->
       <div class="modal-header">
         <h5 class="modal-title" id="exampleModalLabel">{{title}}</h5>
@@ -16,7 +16,7 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      
+      <a href="https://lvr.land.moi.gov.tw/homePage.action" target="_blank">內政部實價登錄</a>
       <!-- body -->
       <div class="modal-body">
         {{ form.yfcase|attr:"type:hidden" }}

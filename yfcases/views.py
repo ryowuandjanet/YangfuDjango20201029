@@ -19,6 +19,7 @@ from users.models import *
 from .forms import *
 from .filters import YfcaseFilter
 from wkhtmltopdf.views import PDFTemplateView
+from django_pdfkit import PDFView
 
 
 def font_path():
@@ -544,7 +545,7 @@ def deedtax_pdf_view(request, *args, **kwargs):
   html = template.render(context)
 
   # create a pdf
-  pisa_status = pisa.CreatePDF(html.encode('UTF-8'), encoding="UTF-8", dest=response)
+  pisa_status = pisa.CreatePDF(html.encode('BIG5'), encoding="BIG5", dest=response)
   # pisa_status = pisa.CreatePDF(html, dest=response)
   # if error then show some funy view
   if pisa_status.err:
@@ -751,3 +752,15 @@ def commonpropertydivision_pdf_view(request, *args, **kwargs):
   if pisa_status.err:
     return HttpResponse('We had some errors <pre>' + html + '</pre>')
   return response  
+  
+class yfratingscalePDFView(PDFView):
+  template_name = './pdf/yfratingscale_pdf.html'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    pk = kwargs.get('pk')
+    yfcase = Yfcase.objects.get(pk=pk)
+    context.update({
+        'yfcase': yfcase,
+    })
+    return context

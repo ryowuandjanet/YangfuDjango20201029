@@ -155,6 +155,24 @@ class Yfcase(models.Model):
   # 第一筆建物(非公設、非增建)各別面積
   def get_build_first_not_add_and_not_public_area(self):
     return self.builds.exclude(buildTypeUse="增建-持分後坪數打對折").exclude(buildTypeUse="公設").first().get_build_holding_point_area()
+    
+  # 取得第一筆非公設、非增建的個人持分
+  def get_first_not_add_and_not_public_holding_point_personnal_rate(self):
+    try:
+      if self.builds.exclude(buildTypeUse="增建-持分後坪數打對折").exclude(buildTypeUse="公設").first():
+        getFirstNotAddAndNotPublicHoldingPointPersonnal = self.builds.exclude(buildTypeUse="增建-持分後坪數打對折").exclude(buildTypeUse="公設").first().buildHoldingPointPersonal
+        return getFirstNotAddAndNotPublicHoldingPointPersonnal
+    except ZeroDivisionError:
+      return 0
+      
+  # 取得第一筆非公設、非增建的持分比
+  def get_first_not_add_and_not_public_holding_point_all_rate(self):
+    try:
+      if self.builds.exclude(buildTypeUse="增建-持分後坪數打對折").exclude(buildTypeUse="公設").first():
+        getFirstNotAddAndNotPublicHoldingPointAll = self.builds.exclude(buildTypeUse="增建-持分後坪數打對折").exclude(buildTypeUse="公設").first().buildHoldingPointAll
+        return getFirstNotAddAndNotPublicHoldingPointAll
+    except ZeroDivisionError:
+      return 0
 
   # 取得第一筆非公設、非增建的持分比
   def get_first_not_add_and_not_public_holding_point_rate(self):
@@ -415,13 +433,17 @@ class Auction(models.Model):
       return self.yfcase.pbk() / self.get_ping_fourth_price()
     except:
       newlist.append(0)
-
+  
+  # 函數：計算建議加價%（（4+分子- 分母）+（ 點閱數 除以100 無條件進位）+（ 訂閱數））3%
   def get_suggestedincreaseFirst(self):
     newlist=[]
     try:
-      suggestedincreaseFirst = (math.ceil(self.auctionClickFirst / 100)+self.auctionMonitorFirst) * 3 / 100
-      if suggestedincreaseFirst > 0.15:
-        return 0.15
+      # suggestedincreaseFirst = (math.ceil(self.auctionClickFirst / 100)+self.auctionMonitorFirst) * 3 / 100
+      suggestedincreaseFirst =((4+self.yfcase.get_first_not_add_and_not_public_holding_point_personnal_rate()-self.yfcase.get_first_not_add_and_not_public_holding_point_all_rate()) + math.ceil(self.auctionClickFirst / 100) + self.auctionMonitorFirst) * 3 / 100
+      if suggestedincreaseFirst > 0.25:
+        return 0.25
+      elif suggestedincreaseFirst < 0:
+        return 0
       else:
         return suggestedincreaseFirst
     except:
@@ -430,9 +452,12 @@ class Auction(models.Model):
   def get_suggestedincreaseSecond(self):
     newlist=[]
     try:
-      suggestedincreaseSecond = (math.ceil(self.auctionClickSecond / 100)+self.auctionMonitorSecond) * 3 / 100
-      if suggestedincreaseSecond > 0.15:
-        return 0.15
+      # suggestedincreaseSecond = (math.ceil(self.auctionClickSecond / 100)+self.auctionMonitorSecond) * 3 / 100
+      suggestedincreaseSecond =((4+self.yfcase.get_first_not_add_and_not_public_holding_point_personnal_rate()-self.yfcase.get_first_not_add_and_not_public_holding_point_all_rate()) + math.ceil(self.auctionClickSecond / 100) + self.auctionMonitorSecond) * 3 / 100
+      if suggestedincreaseSecond > 0.25:
+        return 0.25
+      elif suggestedincreaseSecond < 0:
+        return 0
       else:
         return suggestedincreaseSecond
     except:
@@ -441,9 +466,12 @@ class Auction(models.Model):
   def get_suggestedincreaseThird(self):
     newlist=[]
     try:
-      suggestedincreaseThird = (math.ceil(self.auctionClickThird / 100)+self.auctionMonitorThird) * 3 / 100
-      if suggestedincreaseThird > 0.15:
-        return 0.15
+      # suggestedincreaseThird = (math.ceil(self.auctionClickThird / 100)+self.auctionMonitorThird) * 3 / 100
+      suggestedincreaseThird =((4+self.yfcase.get_first_not_add_and_not_public_holding_point_personnal_rate()-self.yfcase.get_first_not_add_and_not_public_holding_point_all_rate()) + math.ceil(self.auctionClickThird / 100) + self.auctionMonitorThird) * 3 / 100
+      if suggestedincreaseThird > 0.25:
+        return 0.25
+      elif suggestedincreaseThird < 0:
+        return 0
       else:
         return suggestedincreaseThird
     except:
@@ -452,9 +480,12 @@ class Auction(models.Model):
   def get_suggestedincreaseFouth(self):
     newlist=[]
     try:
-      suggestedincreaseFouth = (math.ceil(self.auctionClickFourth / 100)+self.auctionMonitorFourth) * 3 / 100
-      if suggestedincreaseFouth > 0.15:
-        return 0.15
+      # suggestedincreaseFouth = (math.ceil(self.auctionClickFourth / 100)+self.auctionMonitorFourth) * 3 / 100
+      suggestedincreaseFouth =((4+self.yfcase.get_first_not_add_and_not_public_holding_point_personnal_rate()-self.yfcase.get_first_not_add_and_not_public_holding_point_all_rate()) + math.ceil(self.auctionClickFourth / 100) + self.auctionMonitorFourth) * 3 / 100
+      if suggestedincreaseFouth > 0.25:
+        return 0.25
+      elif suggestedincreaseFouth < 0:
+        return 0
       else:
         return suggestedincreaseFouth
     except:
@@ -757,3 +788,4 @@ class FinalDecision(models.Model):
   # def get_regionalhead_last_name(self):
   #   return self.regionalHead[1:]
   
+

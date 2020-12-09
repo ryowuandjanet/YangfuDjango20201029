@@ -51,4 +51,5 @@ urlpatterns = [
   path('commonPropertyDivisionPDF/<int:pk>/', views.commonpropertydivision_pdf_view, name='commonpropertydivision_pdf_view'),
   
   path('afterwinner/<int:pk>/edit/', views.AfterWinnerUpdateView.as_view(), name='afterwinner_edit'),
+  path('yfratingscalePDFView/<int:pk>/', views.yfratingscalePDFView.as_view(),name="yfratingscalePDF_View"),
 ]

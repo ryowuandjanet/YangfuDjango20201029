@@ -284,6 +284,7 @@
         </td>
         <td data-label="負責人">
           {{ yfcase.user.userFullName }}
+          <a href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=" class="block_blue">評</a>  
         </td>
         <td data-label="最終判定">
           {{ yfcase.finaldecisions.first.finalDecision }}
@@ -305,6 +306,7 @@
             {% if yfcase.finaldecisions.first.regionalHead != None %}
               <!--此區：最終判定=放棄 && 區域負責人-->
               <a href="{% url 'yfcase:yfratingscale_pdf_view' yfcase.pk %}" class="block_blue">評</a>  
+              
             {% endif %}
           {% endif %}
         </td>
@@ -328,6 +330,8 @@
      
     </tbody>
   </table>
+  
+  
   
   <div class="modal fade" id="createModal" role="dialog"></div>
   <div class="modal fade" id="deleteYfcaseModal" role="dialog"></div>

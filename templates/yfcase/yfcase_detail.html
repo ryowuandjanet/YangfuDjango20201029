@@ -198,7 +198,7 @@
         <!--基本資料樣版-->
         {% include "./partials/baseData.html" %}
       </div>
-      
+      {{ object.get_build_holding_point_area }}
       <!-- 土地 -->
       <div class="row">
         <div class="col-md-6" style="font-size:24pt;padding-left:0px;">
@@ -230,7 +230,7 @@
       <div class="row">
         {% include "./partials/land.html" %}
       </div>
-      
+
       <!-- 建物 -->
       <div class="row">
         <div class="col-md-6" style="font-size:24pt;padding-left:0px;">

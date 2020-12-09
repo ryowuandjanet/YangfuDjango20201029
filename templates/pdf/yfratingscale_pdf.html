@@ -5,19 +5,22 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&display=swap" rel="stylesheet">
   <title>評量表</title>
   <style type="text/css">
     body {
-      padding-top: 2px;
+      font-family: 'Noto Sans TC', sans-serif;
     }
     
     th, 
     td {
-      font-size: 10pt;
-      padding: 2px 2px 0px;
+      font-size: 12pt;
+      padding: 0px 2px;
+      margin: 0px;
       border: 1px solid black;
     }
     .yfratingscalePDFTitle {
@@ -112,23 +115,21 @@
     
     .small_red {
       color:red;
-      font-size:8pt;
+      font-size:9pt;
     }
     
     .small_green {
       color: green;
-      font-size: 8pt;
+      font-size: 9pt;
     }
    
   </style>
 </head>
 <body>
-
   <!--標頭-->
   <div class="yfratingscalePDFTitle">
    {{yfcase.yfcaseCaseNumber}} YF評量表
   </div>
-
 
   <!--基本資料-->
   <div class="row">
@@ -227,7 +228,7 @@
         <th rowspan="2" style="width:12%">持分</th>  
         <th colspan="2">建坪持分 - 平方公尺(坪)</th>
         <th rowspan="2" style="width:23%">
-          <div style="font-size:10pt;color:red;background-color:Cornsilk;text-align:center;">
+          <div style="font-size:12pt;color:red;background-color:Cornsilk;text-align:center;">
            使用分區：{{ yfcase.builds.first.buildUsePartition|default_if_none:"" }}
           </div>
           建物型/使用
@@ -553,7 +554,7 @@
             <div class="black_font">底價未輸入</div>
           {% elif yfcase.auctions.first.get_suggestedincreaseFourth_cp >= 1.80 %}
             <small class="small_green">
-              加價CP({ yfcase.auctions.first.get_suggestedincreaseFourth_cp|floatformat:2 }})<br>建議進場
+              加價CP({{ yfcase.auctions.first.get_suggestedincreaseFourth_cp|floatformat:2 }})<br>建議進場
             </small>
           {% elif yfcase.auctions.first.get_suggestedincreaseFourth_cp < 1.80 %}
             <small class="small_red">
@@ -929,6 +930,6 @@
       {% endfor %}
     </table>
   </div>
-
+  
 </body>
 </html>
