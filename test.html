@@ -5,3 +5,168 @@
 <a href="https://www.google.com.tw/maps" target="_blank">Google Map</a> |
 <a href="http://www.104woo.com.tw/tom1/house/lin3_k_iphone2.asp?acity1=t1" target="_blank">愛上法拍網</a>
 <a href="https://lvr.land.moi.gov.tw/homePage.action" target="_blank">內政部實價登錄</a>
+
+
+    body {
+      margin:0;
+    	font-family: sans-serif;
+    }
+    
+    *{
+      box-sizing: border-box;
+    }
+    
+    .table{
+      width: 100%;
+      border-collapse: collapse;
+      
+    }
+    
+    .table td,.table th{
+      padding:12px 15px;
+      border:1px solid #ddd;
+      text-align: center;
+      font-size:16px;
+    }
+    
+    .table th{
+    	background-color: Indigo;
+    	color:#ffffff;
+    }
+    
+    .table tbody tr:nth-child(even){
+    	background-color: #f0f0f0;
+    }
+    
+    .block_red {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color: lightpink;
+		  background-color: red;
+    }
+    
+    .block_green {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color:lightgreen;
+		  background-color: green;
+    }
+    
+    .block_blue {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color:lightblue;
+		  background-color: blue;
+    }
+    
+    .block_black {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color:grey;
+		  background-color: black;
+    }
+    
+    .block_indigo {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color:mediumpurple;
+		  background-color: indigo;
+    }
+    
+    .block_orangered {
+		  color: white;
+		  padding: 5px;
+		  border-radius: 5px;
+		  border-color:mediumpurple;
+		  background-color: orangered;
+    }
+    
+    .condition{
+      width:100%;
+    }
+    
+    .filter_item, .container_button {
+      display: inline-block;
+    }
+    
+    .filter{
+      width: 100px;
+      background-color: brown; 
+      border:1px solid chocolate;
+      border-radius:20px;
+      margin:0px;
+    }
+    
+    .cancel_filter {
+      width: 100px;
+      background-color: dimgrey; 
+      border:1px solid lightgrey;
+      border-radius:20px;
+      margin:0px;
+    }
+
+    
+    responsive
+
+    @media
+	  only screen 
+    and (max-width: 760px), (min-device-width: 320px) 
+    and (max-device-width: 1024px)  {
+    	.table thead{
+    		display: none;
+    	}
+    
+    	.table, .table tbody, .table tr, .table td{
+    		display: block;
+    		width: 100%;
+    	}
+    	.table tr{
+    		margin-bottom:15px;
+    	}
+    	.table td{
+    		text-align: right;
+    		padding-left: 30%;
+    		text-align: right;
+    		font-size:20px;
+    		position: relative;
+    	}
+    	.table td::before{
+    		content: attr(data-label);
+    		position: absolute;
+    		left:0;
+    		width: 50%;
+    		padding-top:0px;
+    		padding-left:15px;
+    		font-size:22pt;
+    		font-weight: bold;
+    		text-align: left;
+      }
+      
+      
+      .condition {
+        background: DarkSeaGreen;
+        margin-left:15px;
+        width:10%;
+        padding-top: 55px;
+      }
+      
+      .condition-item{
+        background-color: LightGreen;
+        margin-right:15px;
+        padding:5px;
+      }
+      .filter_item{
+        width:100%;
+      }
+      
+      .container_button {
+        position:absolute;
+        right:0px;
+      }
+
+    }

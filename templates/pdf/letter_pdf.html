@@ -5,17 +5,38 @@
 <html lang="en">
 
 <head>
-    <!-- 	<meta charset="UTF-8"> -->
-    <title>存證信函狀</title>
-    <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <!-- 	<meta charset="UTF-8"> -->
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@500&display=swap" rel="stylesheet">
+  <title>存證信函狀</title>
+  
+  <style type="text/css">
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+    }
+    #letterPDF {
+      border-collapse:collapse;
+      margin-bottom:5px;
+      width:100%;
+    }
     
-    <style type="text/css">
-
+    #letterPDF td {
+      border: 1px solid black;
+    }
+    
+    #letterPDFPostOffice td,
+    #letterPDFInfo td,
+    #letterPDFContent td {
+      border-style:none;
+    }
     .bluefont{
-		  color:blue;
-		  font-weight:bolder;
-		}
-    </style>
+  	  color:blue;
+  	  font-weight:bolder;
+  	}
+  </style>
 </head>
 
 <body>
@@ -24,11 +45,11 @@
     <b>郵  局  存  證  信  函  用  紙</b>
   </div>
   
-  <table class="letterPDF">
+  <table id="letterPDF">
     <tr>
-      <td rowspan="16" class="letterPDFPaper">副&thinsp;正<br>本</td>
+      <td rowspan="16" id="letterPDFPaper">副&thinsp;正<br>本</td>
       <td colspan="7">
-        <table class="letterPDFPostOffice">
+        <table id="letterPDFPostOffice">
           <tr>
             <td colspan="2">郵 局</td>
           </tr>
@@ -39,7 +60,7 @@
         </table>
       </td>
       <td colspan="14">
-        <table class="letterPDFInfo">
+        <table id="letterPDFInfo">
           <tr>
             <td colspan="2" style="padding-left:10px;font-size:10pt;">
               〈寄件人如為機關、團體、學校、公司、商號請加蓋單位圖章及法定代理人簽名或蓋章〉
@@ -359,7 +380,7 @@
 
     <tr>
       <td colspan="17" rowspan="2">
-        <table class="letterPDFContent">
+        <table id="letterPDFContent">
           <tr>
             <td rowspan="5" style="width:16%;">本存證信函共</td>
             <td style="width:10%;"></td>

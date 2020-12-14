@@ -584,7 +584,6 @@ class RegionalHeadForm(forms.ModelForm):
     super().__init__(*args, **kwargs)
   
 
-
 class SubSigntrueAForm(forms.ModelForm):
   yfcase = forms.ModelChoiceField(Yfcase.objects.all(), widget=forms.HiddenInput())
   subSigntrueDateA = forms.CharField(label="簽核日期",widget=forms.TextInput(attrs={'class': 'form-control datepicker'}),required=False)

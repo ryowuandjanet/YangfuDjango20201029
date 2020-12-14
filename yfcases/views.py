@@ -487,272 +487,8 @@ class AfterWinnerUpdateView(UpdateView):
     context['value'] = '編輯'
     context['title'] = '編輯得標後相關資料'
     return context
-
-# 複製到最下面去修改
-def yfratingscale_pdf_view(request, *args, **kwargs):
-  pk = kwargs.get('pk')
-  yfcase = get_object_or_404(Yfcase,pk=pk)
   
-  font_path()
-  
-  template_path = 'pdf/yfratingscale_pdf.html'
-  context = {
-    'yfcase': yfcase, 
-  }
-  # Create a Django response object, and specify content_type as pdf
-  response = HttpResponse(content_type='application/pdf')
-  # 如果要把yfcase_pdf.html下載後再手動打開的話
-  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-  # 如果要把yfcase_pdf.html直接顥示的話
-  response['Content-Disposition'] = 'filename="report.pdf"'
-  # find the template and render it.
-  template = get_template(template_path)
-  html = template.render(context)
-
-  # create a pdf
-  pisa_status = pisa.CreatePDF(html, dest=response)
-  # if error then show some funy view
-  if pisa_status.err:
-    return HttpResponse('We had some errors <pre>' + html + '</pre>')
-  return response
-  
-
-
-# 複製到最下面去修改
-def deedtax_pdf_view(request, *args, **kwargs):
-  pk = kwargs.get('pk')
-  yfcase = get_object_or_404(Yfcase,pk=pk)
-  if yfcase.yfcaseDeedtaxClient:
-    customuser = CustomUser.objects.get(userFullName=yfcase.yfcaseDeedtaxClient)
-  else:
-    customuser = None
-  
-  font_path()
-  
-  template_path = 'pdf/deedtax_pdf.html'
-  context = {
-    'yfcase': yfcase, 
-    'customuser': customuser
-  }
-  # Create a Django response object, and specify content_type as pdf
-  response = HttpResponse(content_type='application/pdf')
-  # 如果要把yfcase_pdf.html下載後再手動打開的話
-  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-  # 如果要把yfcase_pdf.html直接顥示的話
-  response['Content-Disposition'] = 'filename="report.pdf"'
-  # find the template and render it.
-  template = get_template(template_path)
-  html = template.render(context)
-
-  # create a pdf
-  pisa_status = pisa.CreatePDF(html.encode('BIG5'), encoding="BIG5", dest=response)
-  # pisa_status = pisa.CreatePDF(html, dest=response)
-  # if error then show some funy view
-  if pisa_status.err:
-    return HttpResponse('We had some errors <pre>' + html + '</pre>')
-  return response
-  
-# 複製到最下面去修改
-def realestateregistration_pdf_view(request, *args, **kwargs):
-  pk = kwargs.get('pk')
-  yfcase = get_object_or_404(Yfcase,pk=pk)
-  
-  # landRecord1
-  try:
-    landRecord1 = yfcase.lands.order_by('id').filter(id__gt=0)[0]
-  except:
-    landRecord1 = None
-    
-  # landRecord2
-  try:
-    landRecord2 = yfcase.lands.order_by('id').filter(id__gt=0)[1]
-  except:
-    landRecord2 = None
-    
-  # landRecord3
-  try:
-    landRecord3 = yfcase.lands.order_by('id').filter(id__gt=0)[2]
-  except:
-    landRecord3 = None
-    
-  # landRecord4
-  try:
-    landRecord4 = yfcase.lands.order_by('id').filter(id__gt=0)[3]
-  except:
-    landRecord4 = None
-    
-  
-  # buildRecord1
-  try:
-    buildRecord1 = yfcase.builds.order_by('id').filter(id__gt=0)[0]
-  except:
-    buildRecord1 = None
-    
-  # buildRecord2
-  try:
-    buildRecord2 = yfcase.builds.order_by('id').filter(id__gt=0)[1]
-  except:
-    buildRecord2 = None
-    
-  # buildRecord3
-  try:
-    buildRecord3 = yfcase.builds.order_by('id').filter(id__gt=0)[2]
-  except:
-    buildRecord3 = None
-    
-  # buildRecord4
-  try:
-    buildRecord4 = yfcase.builds.order_by('id').filter(id__gt=0)[3]
-  except:
-    buildRecord4 = None
-    
-  
-  # 合計
-  buildRecordTotal = yfcase.yfcaseDeedtaxBuildingTransferArea1+yfcase.yfcaseDeedtaxBuildingTransferArea2+yfcase.yfcaseDeedtaxBuildingTransferArea3+yfcase.yfcaseDeedtaxBuildingTransferArea4+yfcase.yfcaseDeedtaxBuildingTransferArea4
-  
-  # 縣市後面一碼判定為"市"或是"縣"
-  cityLastJudgment = yfcase.yfcaseCity.name[2]
-  
-  # 跨區申請-鄉鎮對應到縣市
-  try:
-    yfcaseAcceptingAuthorityTownship_city = Township.objects.get(name=yfcase.yfcaseAcceptingAuthorityTownship).city_name
-  except:
-    yfcaseAcceptingAuthorityTownship_city = None
-    
-  # 跨區申請-鄉鎮對應到縣市後面一碼判定為"市"或是"縣"
-  try:
-    yfcaseAcceptingAuthorityTownship_city_last_word = Township.objects.get(name=yfcase.yfcaseAcceptingAuthorityTownship).city_name[2]
-  except:
-    yfcaseAcceptingAuthorityTownship_city_last_word = None
-  
-  if yfcase.yfcaseDeedtaxClient:
-    customuser = CustomUser.objects.get(userFullName=yfcase.yfcaseDeedtaxClient)
-  else:
-    customuser = None
-  
-  
-  font_path()
-  
-  template_path = 'pdf/realestateregistration_pdf.html'
-  context = {
-    'yfcase': yfcase, 
-    'customuser': customuser,
-    'landRecord1': landRecord1,
-    'landRecord2': landRecord2,
-    'landRecord3': landRecord3,
-    'landRecord4': landRecord4,
-    'buildRecord1': buildRecord1,
-    'buildRecord2': buildRecord2,
-    'buildRecord3': buildRecord3,
-    'buildRecord4': buildRecord4,
-    'buildRecordTotal': buildRecordTotal,
-    "cityLastJudgment": cityLastJudgment,
-    "yfcaseAcceptingAuthorityTownship_city": yfcaseAcceptingAuthorityTownship_city,
-    "yfcaseAcceptingAuthorityTownship_city_last_word": yfcaseAcceptingAuthorityTownship_city_last_word
-  }
-  # Create a Django response object, and specify content_type as pdf
-  response = HttpResponse(content_type='application/pdf')
-  # 如果要把yfcase_pdf.html下載後再手動打開的話
-  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-  # 如果要把yfcase_pdf.html直接顥示的話
-  response['Content-Disposition'] = 'filename="report.pdf"'
-  # find the template and render it.
-  template = get_template(template_path)
-  html = template.render(context)
-
-  # create a pdf
-  pisa_status = pisa.CreatePDF(html.encode('UTF-8'), encoding="UTF-8", dest=response)
-  # pisa_status = pisa.CreatePDF(html, dest=response)
-  # if error then show some funy view
-  if pisa_status.err:
-    return HttpResponse('We had some errors <pre>' + html + '</pre>')
-  return response
-  
-
-# 訴訟狀
-def complain_pdf_view(request, *args, **kwargs):
-  pk = kwargs.get('pk')
-  yfcase = get_object_or_404(Yfcase,pk=pk)
-  
-  font_path()
-  
-  template_path = 'pdf/complaint_pdf.html'
-  context = {
-    'yfcase': yfcase, 
-  }
-  # Create a Django response object, and specify content_type as pdf
-  response = HttpResponse(content_type='application/pdf')
-  # 如果要把yfcase_pdf.html下載後再手動打開的話
-  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-  # 如果要把yfcase_pdf.html直接顥示的話
-  response['Content-Disposition'] = 'filename="report.pdf"'
-  # find the template and render it.
-  template = get_template(template_path)
-  html = template.render(context)
-
-  # create a pdf
-  pisa_status = pisa.CreatePDF(html, dest=response)
-  # if error then show some funy view
-  if pisa_status.err:
-    return HttpResponse('We had some errors <pre>' + html + '</pre>')
-  return response 
-  
-# 存證信函
-def letter_pdf_view(request, *args, **kwargs):
-  pk = kwargs.get('pk')
-  yfcase = get_object_or_404(Yfcase,pk=pk)
-  
-  font_path()
-  
-  template_path = 'pdf/letter_pdf.html'
-  context = {
-    'yfcase': yfcase, 
-  }
-  # Create a Django response object, and specify content_type as pdf
-  response = HttpResponse(content_type='application/pdf')
-  # 如果要把yfcase_pdf.html下載後再手動打開的話
-  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-  # 如果要把yfcase_pdf.html直接顥示的話
-  response['Content-Disposition'] = 'filename="report.pdf"'
-  # find the template and render it.
-  template = get_template(template_path)
-  html = template.render(context)
-
-  # create a pdf
-  pisa_status = pisa.CreatePDF(html, dest=response)
-  # if error then show some funy view
-  if pisa_status.err:
-    return HttpResponse('We had some errors <pre>' + html + '</pre>')
-  return response  
-  
-# 共有物分割
-def commonpropertydivision_pdf_view(request, *args, **kwargs):
-  pk = kwargs.get('pk')
-  yfcase = get_object_or_404(Yfcase,pk=pk)
-  
-  font_path()
-  
-  template_path = 'pdf/commonpropertydivision_pdf.html'
-  context = {
-    'yfcase': yfcase, 
-  }
-  # Create a Django response object, and specify content_type as pdf
-  response = HttpResponse(content_type='application/pdf')
-  # 如果要把yfcase_pdf.html下載後再手動打開的話
-  # response['Content-Disposition'] = 'attachment; filename="report.pdf"'
-  # 如果要把yfcase_pdf.html直接顥示的話
-  response['Content-Disposition'] = 'filename="report.pdf"'
-  # find the template and render it.
-  template = get_template(template_path)
-  html = template.render(context)
-
-  # create a pdf
-  pisa_status = pisa.CreatePDF(html, dest=response)
-  # if error then show some funy view
-  if pisa_status.err:
-    return HttpResponse('We had some errors <pre>' + html + '</pre>')
-  return response  
-  
+# PDFkit-評量表
 class yfratingscalePDFView(PDFView):
   template_name = './pdf/yfratingscale_pdf.html'
 
@@ -764,3 +500,69 @@ class yfratingscalePDFView(PDFView):
         'yfcase': yfcase,
     })
     return context
+
+# PDFkit-契稅申請書
+class deedtaxPDFView(PDFView):
+  template_name = './pdf/deedtax_pdf.html'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    pk = kwargs.get('pk')
+    yfcase = Yfcase.objects.get(pk=pk)
+    context.update({
+        'yfcase': yfcase,
+    })
+    return context
+
+# PDFkit-不動產土地登記申請書
+class realestateregistrationPDFView(PDFView):
+  template_name = './pdf/realestateregistration_pdf.html'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    pk = kwargs.get('pk')
+    yfcase = Yfcase.objects.get(pk=pk)
+    context.update({
+        'yfcase': yfcase,
+    })
+    return context
+
+# PDFkit-訴訟狀
+class complaintPDFView(PDFView):
+  template_name = './pdf/complaint_pdf.html'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    pk = kwargs.get('pk')
+    yfcase = Yfcase.objects.get(pk=pk)
+    context.update({
+        'yfcase': yfcase,
+    })
+    return context
+    
+# PDFkit-存證信函
+class letterPDFView(PDFView):
+  template_name = './pdf/letter_pdf.html'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    pk = kwargs.get('pk')
+    yfcase = Yfcase.objects.get(pk=pk)
+    context.update({
+        'yfcase': yfcase,
+    })
+    return context
+
+# PDFkit-共有人分割
+class commonpropertydivisionPDFView(PDFView):
+  template_name = './pdf/commonpropertydivision_pdf.html'
+
+  def get_context_data(self, **kwargs):
+    context = super().get_context_data(**kwargs)
+    pk = kwargs.get('pk')
+    yfcase = Yfcase.objects.get(pk=pk)
+    context.update({
+        'yfcase': yfcase,
+    })
+    return context
+

@@ -29,7 +29,7 @@
           <div class="form-group col">
             <label>{{ form.regionalHeadDate.label }}</label>
             {{ form.regionalHeadDate|add_class:"form-control fieldcolor datepicker pt-0" }}
-            <small style="color:blue;">*若此欄位為空值，則日期以當天的日期為主</small>
+            <small style="color:blue;">*若此欄位為空值，則日期以"五天後"的日期為主</small>
           </div>
         </div>
 
@@ -52,14 +52,15 @@
 <script>
  $(function() {
     $( ".datepicker" ).datepicker({
-      dateFormat: "yy-mm-dd"
+      dateFormat: "yy-mm-dd",
+      minDate: '+5d'
     });
     // document.getElementById("id_regionalHead").value = request.user;
   });
   
   function post_regional_head_submit() {
       var Today = new Date();
-      var addToday = Today.getFullYear()+ "-" + ("0" + (Today.getMonth() + 1)).slice(-2) + "-" + ("0" + Today.getDate()).slice(-2)
+      var addToday = Today.getFullYear()+ "-" + ("0" + (Today.getMonth() + 1)).slice(-2) + "-" + ("0" + (Today.getDate()+5)).slice(-2)
       const author_fullname = JSON.parse(document.getElementById('author_fullname').textContent);
       document.getElementById("id_regionalHead").value = author_fullname;
       const author_workarea = JSON.parse(document.getElementById('author_workarea').textContent);

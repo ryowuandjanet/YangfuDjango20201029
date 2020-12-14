@@ -43,13 +43,11 @@ urlpatterns = [
   path('subsigntrueb/<int:pk>/edit/',views.SubSigntrueBUpdateView.as_view(),name="subsigntrueb_edit" ),
   path('subsigntrueb/<int:pk>/delete/',views.SubSigntrueBDeleteView.as_view(),name="subsigntrueb_delete" ),
   path('ajax/load-townships/', views.load_townships, name='ajax_load_townships'),
-  path('yfratingscalePDF/<int:pk>/', views.yfratingscale_pdf_view, name='yfratingscale_pdf_view'),
-  path('deedTaxPDF/<int:pk>/', views.deedtax_pdf_view, name='deedtax_pdf_view'),
-  path('RealEstateRegistrationPDF/<int:pk>/', views.realestateregistration_pdf_view, name='realestateregistration_pdf_view'),
-  path('ComplaintPDF/<int:pk>/', views.complain_pdf_view, name='complain_pdf_view'),
-  path('letterPDF/<int:pk>/', views.letter_pdf_view, name='letter_pdf_view'),
-  path('commonPropertyDivisionPDF/<int:pk>/', views.commonpropertydivision_pdf_view, name='commonpropertydivision_pdf_view'),
-  
   path('afterwinner/<int:pk>/edit/', views.AfterWinnerUpdateView.as_view(), name='afterwinner_edit'),
   path('yfratingscalePDFView/<int:pk>/', views.yfratingscalePDFView.as_view(),name="yfratingscalePDF_View"),
+  path('deedtaxPDFView/<int:pk>/', views.deedtaxPDFView.as_view(),name="deedtaxPDF_View"),
+  path('realestateregistrationPDFView/<int:pk>/', views.realestateregistrationPDFView.as_view(),name="realestateregistrationPDF_View"),
+  path('complaintPDFView/<int:pk>/', views.complaintPDFView.as_view(),name="complaintPDF_View"),
+  path('letterPDFView/<int:pk>/', views.letterPDFView.as_view(),name="letterPDF_View"),
+  path('commonpropertydivisionPDFView/<int:pk>/', views.commonpropertydivisionPDFView.as_view(),name="commonpropertydivisionPDF_View"),
 ]
