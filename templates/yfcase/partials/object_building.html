@@ -29,8 +29,14 @@
             {% endif %}
            </div>
         </th>
-        <th style="width:8%;">狀態</th>
-        <td style="width:21%;">{{objectbuild.objectBuildStatus}}</td>
+        <th style="width:8%;">Google地圖</th>
+        <td style="width:21%;">
+          {% if objectbuild.objectBuildGoogleMap %}
+            <a href="{{ objectbuild.objectBuildGoogleMap }}" target="_blank">
+              <i class="fas fa-street-view fa-2x"></i>
+            </a>
+          {% endif %}
+        </td>
         <th style="background-color:lightgrey; width:5%;">勘查員</th>
         <td style="width:13%;">
           {% if object.get_floor_price_from_auction_date >= 1000000 %}
@@ -167,15 +173,12 @@
       </tr>
       <tr>
         <th>
-          附件
-          <a href="https://www.google.com.tw/maps/@23.4857501,120.0843006,7z?hl=zh-TW" target="_blank">
-            <i class="fab fa-google"></i>
-          </a>
+          現場勘查
         </th>
         <td>
           {% if objectbuild.objectBuildUrl %}
             <a href="{{ objectbuild.objectBuildUrl }}" target="_blank">
-              <i class="fas fa-camera-retro fa-2x"></i>
+              <i class="fas fa-video fa-2x"></i>
             </a>
           {% endif %}
         </td>

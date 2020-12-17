@@ -3,7 +3,6 @@ import django_filters
 from .models import * 
 
 FINALDECISION_CHOICES = [
-  ("",""),
   ("未判定","未判定"),
   ("1拍進場","1拍進場"),
   ("2拍進場","2拍進場"),
@@ -18,9 +17,10 @@ class YfcaseFilter(django_filters.FilterSet):
     lookup_expr='icontains',
     widget=forms.TextInput(attrs={'class': 'form-control'})
   ) 
-  yfcaseFinalDecision = django_filters.ModelChoiceFilter(label='最終判定',queryset=FinalDecision.objects.all())
+  finalDecision = django_filters.ChoiceFilter(choices=FINALDECISION_CHOICES)
+  # finalDecision = django_filters.ModelChoiceFilter(label='最終判定',queryset=Yfcase.objects.all())
 
 
   class Meta:
     model = Yfcase
-    fields = ['yfcaseCaseNumber', 'yfcaseCity','user','yfcaseFinalDecision']
+    fields = ['yfcaseCaseNumber', 'yfcaseCity','user','finalDecision']

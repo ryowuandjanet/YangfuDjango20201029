@@ -410,15 +410,13 @@
           <!-- 如果登入者=案件建立者或是管理者，就執行下列的動作 -->
           {% if request.user.userFullName == object.get_user_username or request.user.userFullName == "管理者" %}
             <span style="font-size: 12pt;vertical-align: middle;">
-              {% if object.finaldecisions.count %}
-                {% for finaldecision in object.finaldecisions.all %}
-                  <a href="javascript:void(0)" onclick="regionalhead_modal_edit('{% url 'yfcase:regionalhead_edit' finaldecision.id %}')">
-                    <span class="fa-stack" style="color:DarkGreen;">
-                      <i class="far fa-circle fa-stack-2x" ></i>
-                      <i class="fas fa-pen fa-stack-1x"></i>
-                    </span>
-                  </a>
-                {% endfor %}
+              {% if object.regionalHead %}
+                <a href="javascript:void(0)" onclick="regionalhead_modal_edit('{% url 'yfcase:regionalhead_edit' yfcase.id %}')">
+                  <span class="fa-stack" style="color:DarkGreen;">
+                    <i class="far fa-circle fa-stack-2x" ></i>
+                    <i class="fas fa-pen fa-stack-1x"></i>
+                  </span>
+                </a>
               {% else %}
                 <a href="javascript:void(0)" onclick="regionalhead_modal_create('{% url 'yfcase:regionalhead_new' %}')" class="btn-sm delete-btn">
                   <span class="fa-stack">
@@ -432,15 +430,13 @@
             {% if request.user.userFullName == object.get_user_username and object.get_floor_price_from_auction_date >= 1000000 %}
               {% if object.objectbuilds.first.objectBuildScorerA and object.objectbuilds.first.objectBuildScorerB and object.objectbuilds.first.objectBuildScorerC %}
                 <span style="font-size: 12pt;vertical-align: middle;">
-                  {% if object.finaldecisions.count %}
-                    {% for finaldecision in object.finaldecisions.all %}
-                      <a href="javascript:void(0)" onclick="regionalhead_modal_edit('{% url 'yfcase:regionalhead_edit' finaldecision.id %}')">
-                        <span class="fa-stack" style="color:DarkGreen;">
-                          <i class="far fa-circle fa-stack-2x" ></i>
-                          <i class="fas fa-pen fa-stack-1x"></i>
-                        </span>
-                      </a>
-                    {% endfor %}
+                  {% if object.regionalHead %}
+                    <a href="javascript:void(0)" onclick="regionalhead_modal_edit('{% url 'yfcase:regionalhead_edit' yfcase.id %}')">
+                      <span class="fa-stack" style="color:DarkGreen;">
+                        <i class="far fa-circle fa-stack-2x" ></i>
+                        <i class="fas fa-pen fa-stack-1x"></i>
+                      </span>
+                    </a>
                   {% else %}
                     <a href="javascript:void(0)" onclick="regionalhead_modal_create('{% url 'yfcase:regionalhead_new' %}')" class="btn-sm delete-btn">
                       <span class="fa-stack">
@@ -453,15 +449,13 @@
               {% endif %}
             {% elif request.user.userFullName == object.get_user_username and object.get_floor_price_from_auction_date < 1000000 and object.get_floor_price_from_auction_date > 0 %}
               <span style="font-size: 12pt;vertical-align: middle;">
-                {% if object.finaldecisions.count %}
-                  {% for finaldecision in object.finaldecisions.all %}
-                    <a href="javascript:void(0)" onclick="regionalhead_modal_edit('{% url 'yfcase:regionalhead_edit' finaldecision.id %}')">
-                      <span class="fa-stack" style="color:DarkGreen;">
-                        <i class="far fa-circle fa-stack-2x" ></i>
-                        <i class="fas fa-pen fa-stack-1x"></i>
-                      </span>
-                    </a>
-                  {% endfor %}
+                {% if object.regionalHead %}
+                  <a href="javascript:void(0)" onclick="regionalhead_modal_edit('{% url 'yfcase:regionalhead_edit' yfcase.id %}')">
+                    <span class="fa-stack" style="color:DarkGreen;">
+                      <i class="far fa-circle fa-stack-2x" ></i>
+                      <i class="fas fa-pen fa-stack-1x"></i>
+                    </span>
+                  </a>
                 {% else %}
                   <a href="javascript:void(0)" onclick="regionalhead_modal_create('{% url 'yfcase:regionalhead_new' %}')" class="btn-sm delete-btn">
                     <span class="fa-stack">

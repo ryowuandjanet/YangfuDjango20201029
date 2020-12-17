@@ -361,16 +361,16 @@ class ScoreCDeleteView(UpdateView):
     
 # RegionalHead
 class RegionalHeadCreateView(LoginRequiredMixin,CreateView):
-  model=FinalDecision
+  model=Yfcase
   form_class = RegionalHeadForm
   template_name="finaldecision/regional_head_new.html"
   
-  # def form_valid(self,form):
-  #   form.instance.regionalHead = self.request.user
-  #   return super(RegionalHeadCreateView,self).form_valid(form)
+  def form_valid(self, form):
+    form.instance.user = self.request.user
+    return super().form_valid(form)
 
   def get_success_url(self, **kwargs):
-    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.id})
     
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -380,7 +380,7 @@ class RegionalHeadCreateView(LoginRequiredMixin,CreateView):
 
 
 class RegionalHeadUpdateView(UpdateView):
-  model=FinalDecision
+  model=Yfcase
   form_class = RegionalHeadForm
   template_name="finaldecision/regional_head_edit.html"
   
@@ -389,7 +389,7 @@ class RegionalHeadUpdateView(UpdateView):
   #   return super(RegionalHeadUpdateView,self).form_valid(form)
     
   def get_success_url(self, **kwargs):
-    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.id})
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -400,18 +400,18 @@ class RegionalHeadUpdateView(UpdateView):
     return context
 
 class RegionalHeadDeleteView(DeleteView):
-  model=FinalDecision
+  model=Yfcase
   template_name="finaldecision/regional_head_delete.html"
   def get_success_url(self, **kwargs):
-    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.id})
 
 # SubSigntrueA
 class SubSigntrueACreateView(CreateView):
-  model=FinalDecision
+  model=Yfcase
   form_class = SubSigntrueAForm
   template_name="finaldecision/sub_signtrue_A_new.html"
   def get_success_url(self, **kwargs):
-    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.id})
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -420,11 +420,11 @@ class SubSigntrueACreateView(CreateView):
     return context
 
 class SubSigntrueAUpdateView(UpdateView):
-  model=FinalDecision
+  model=Yfcase
   form_class = SubSigntrueAForm
   template_name="finaldecision/sub_signtrue_A_edit.html"
   def get_success_url(self, **kwargs):
-    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.id})
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -433,19 +433,19 @@ class SubSigntrueAUpdateView(UpdateView):
     return context
 
 class SubSigntrueADeleteView(UpdateView):
-  model=FinalDecision
+  model=Yfcase
   form_class = SubSigntrueAForm
   template_name="finaldecision/sub_signtrue_A_delete.html"
   def get_success_url(self, **kwargs):
-    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.id})
 
 # SubSigntrueB
 class SubSigntrueBCreateView(CreateView):
-  model=FinalDecision
+  model=Yfcase
   form_class = SubSigntrueBForm
   template_name="finaldecision/sub_signtrue_B_new.html"
   def get_success_url(self, **kwargs):
-    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.id})
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -454,11 +454,11 @@ class SubSigntrueBCreateView(CreateView):
     return context
 
 class SubSigntrueBUpdateView(UpdateView):
-  model=FinalDecision
+  model=Yfcase
   form_class = SubSigntrueBForm
   template_name="finaldecision/sub_signtrue_B_edit.html"
   def get_success_url(self, **kwargs):
-    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
+    return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.id})
 
   def get_context_data(self, **kwargs):
     context = super().get_context_data(**kwargs)
@@ -467,27 +467,86 @@ class SubSigntrueBUpdateView(UpdateView):
     return context
 
 class SubSigntrueBDeleteView(UpdateView):
-  model=FinalDecision
+  model=Yfcase
   form_class = SubSigntrueBForm
   template_name="finaldecision/sub_signtrue_B_delete.html"
   def get_success_url(self, **kwargs):
     return reverse_lazy("yfcase:yfcase_detail", kwargs={'pk': self.object.yfcase_id})
 
 
-### After Winner #######################################################################
-class AfterWinnerUpdateView(UpdateView):
+### After Winner(Edit) #######################################################################
+# 契稅申請單-Modal(Form)
+class DeedtaxUpdateView(UpdateView):
   model=Yfcase
-  form_class = AfterWinnerForm
-  template_name="yfcase/afterwinner/AfterWinner_edit.html"
+  form_class = DeedtaxForm
+  template_name="yfcase/afterwinner/Deedtax_edit.html"
   success_url = reverse_lazy('yfcase:home')
 
   def get_context_data(self, **kwargs):
-    context = super(AfterWinnerUpdateView,self).get_context_data(**kwargs)
+    context = super(DeedtaxUpdateView,self).get_context_data(**kwargs)
     context["author_id"]=self.request.user.id
     context['value'] = '編輯'
     context['title'] = '編輯得標後相關資料'
     return context
+
+# 不動產登記清冊-Modal(Form)  
+class RealestateregistrationUpdateView(UpdateView):
+  model=Yfcase
+  form_class = RealestateregistrationForm
+  template_name="yfcase/afterwinner/Realestateregistration_edit.html"
+  success_url = reverse_lazy('yfcase:home')
+
+  def get_context_data(self, **kwargs):
+    context = super(RealestateregistrationUpdateView,self).get_context_data(**kwargs)
+    context["author_id"]=self.request.user.id
+    context['value'] = '編輯'
+    context['title'] = '編輯得標後相關資料'
+    return context
+
+# 訴訟狀-Modal(Form)    
+class ComplaintUpdateView(UpdateView):
+  model=Yfcase
+  form_class = ComplaintForm
+  template_name="yfcase/afterwinner/Complaint_edit.html"
+  success_url = reverse_lazy('yfcase:home')
+
+  def get_context_data(self, **kwargs):
+    context = super(ComplaintUpdateView,self).get_context_data(**kwargs)
+    context["author_id"]=self.request.user.id
+    context['value'] = '編輯'
+    context['title'] = '編輯得標後相關資料'
+    return context 
+
+# 存證信函-Modal(Form)
+class LetterUpdateView(UpdateView):
+  model=Yfcase
+  form_class = LetterForm
+  template_name="yfcase/afterwinner/Letter_edit.html"
+  success_url = reverse_lazy('yfcase:home')
+
+  def get_context_data(self, **kwargs):
+    context = super(LetterUpdateView,self).get_context_data(**kwargs)
+    context["author_id"]=self.request.user.id
+    context['value'] = '編輯'
+    context['title'] = '編輯得標後相關資料'
+    return context
+    
+# 共有人分割-Modal(Form)
+class CommonpropertydivisionUpdateView(UpdateView):
+  model=Yfcase
+  form_class = CommonpropertydivisionForm
+  template_name="yfcase/afterwinner/Commonpropertydivision_edit.html"
+  success_url = reverse_lazy('yfcase:home')
+
+  def get_context_data(self, **kwargs):
+    context = super(CommonpropertydivisionUpdateView,self).get_context_data(**kwargs)
+    context["author_id"]=self.request.user.id
+    context['value'] = '編輯'
+    context['title'] = '編輯得標後相關資料'
+    return context
+
   
+### After Winner(PDF) #######################################################################
 # PDFkit-評量表
 class yfratingscalePDFView(PDFView):
   template_name = './pdf/yfratingscale_pdf.html'
@@ -509,8 +568,10 @@ class deedtaxPDFView(PDFView):
     context = super().get_context_data(**kwargs)
     pk = kwargs.get('pk')
     yfcase = Yfcase.objects.get(pk=pk)
+    users = CustomUser.objects.all()
     context.update({
         'yfcase': yfcase,
+        'users': users,
     })
     return context
 
@@ -522,8 +583,10 @@ class realestateregistrationPDFView(PDFView):
     context = super().get_context_data(**kwargs)
     pk = kwargs.get('pk')
     yfcase = Yfcase.objects.get(pk=pk)
+    users = CustomUser.objects.all()
     context.update({
         'yfcase': yfcase,
+        'users': users,
     })
     return context
 

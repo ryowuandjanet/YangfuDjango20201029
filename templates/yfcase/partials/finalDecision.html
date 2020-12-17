@@ -9,85 +9,75 @@
       區域負責人
     </th>
     <td>
-      {% for finaldecision in object.finaldecisions.all %}
-        {% if finaldecision.regionalHead|default_if_none:"" %}
-          <div style="border:3px solid red;margin:4px;border-radius: 10px;color:red;width:auto; display:inline-block !important; display:inline;padding:0px 20px;">
-            <h4 style="margin: 0px;">{{ finaldecision.regionalHead }}</h4>
-            <h6 style="margin: 0px;">{{ finaldecision.regionalHeadDate }}</h6>
-            <h4 style="margin: 0px;">{{ finaldecision.regionalHeadWorkArea }}</h4>
-          </div>
-        {% endif %}
-      {% endfor %}
+      <div style="border:3px solid red;margin:4px;border-radius: 10px;color:red;width:auto; display:inline-block !important; display:inline;padding:0px 20px;">
+        <h4 style="margin: 0px;">{{ object.regionalHead|default_if_none:"" }}</h4>
+        <h6 style="margin: 0px;">{{ object.regionalHeadDate|default_if_none:"" }}</h6>
+        <h4 style="margin: 0px;">{{ object.regionalHeadWorkArea|default_if_none:"" }}</h4>
+      </div>
     </td>
   </tr>
   <tr>
     <td rowspan="2">
-      {% for finaldecision in object.finaldecisions.all %}
-        {% if finaldecision.finalDecision == "1拍進場" %}
-          <div class="yfratingscalePDFFinaldecisionJudgment" style="color:brown;border:5px solid brown;width:auto; display:inline-block !important; display:inline;">
-            {{ finaldecision.finalDecision }}
-          </div>
-        {% elif finaldecision.finalDecision == "2拍進場" %}
-          <div class="yfratingscalePDFFinaldecisionJudgment" style="color:purple;border:5px solid purple;width:auto; display:inline-block !important; display:inline;">
-            {{ finaldecision.finalDecision }}
-          </div>
-        {% elif finaldecision.finalDecision == "3拍進場" %}
-          <div class="yfratingscalePDFFinaldecisionJudgment" style="color:blue;border:5px solid blue;width:auto; display:inline-block !important; display:inline;">
-            {{ finaldecision.finalDecision }}
-          </div>
-        {% elif finaldecision.finalDecision == "4拍進場" %}
-          <div class="yfratingscalePDFFinaldecisionJudgment" style="color:green;border:5px solid green;width:auto; display:inline-block !important; display:inline;">
-            {{ finaldecision.finalDecision }}
-          </div>
-        {% elif finaldecision.finalDecision == "放棄" %}
-          <div class="yfratingscalePDFFinaldecisionJudgment" style="color:red;border:5px solid red;width:auto; display:inline-block !important; display:inline;">
-            {{ finaldecision.finalDecision }}
-          </div>
-        {% endif %}
-      {% endfor %}
+      {% if object.finalDecision == "1拍進場" %}
+        <div class="yfratingscalePDFFinaldecisionJudgment" style="color:brown;border:5px solid brown;width:auto; display:inline-block !important; display:inline;">
+          {{ object.finalDecision }}
+        </div>
+      {% elif object.finalDecision == "2拍進場" %}
+        <div class="yfratingscalePDFFinaldecisionJudgment" style="color:purple;border:5px solid purple;width:auto; display:inline-block !important; display:inline;">
+          {{ object.finalDecision }}
+        </div>
+      {% elif object.finalDecision == "3拍進場" %}
+        <div class="yfratingscalePDFFinaldecisionJudgment" style="color:blue;border:5px solid blue;width:auto; display:inline-block !important; display:inline;">
+          {{ object.finalDecision }}
+        </div>
+      {% elif object.finalDecision == "4拍進場" %}
+        <div class="yfratingscalePDFFinaldecisionJudgment" style="color:green;border:5px solid green;width:auto; display:inline-block !important; display:inline;">
+          {{ object.finalDecision }}
+        </div>
+      {% elif object.finalDecision == "放棄" %}
+        <div class="yfratingscalePDFFinaldecisionJudgment" style="color:red;border:5px solid red;width:auto; display:inline-block !important; display:inline;">
+          {{ object.finalDecision }}
+        </div>
+      {% endif %}
     </td>
 
     <!-- 副署人員1 -->
     <!-- 編輯：副署人員1需為空格，且登入者不可為區域負責人、副署人員2 -->
     <!-- 刪除：副署人員1不可空格，且登入者需為區域負責人或是管理者 -->
     <th style="width:18%;height: 65px;">
-      {% for finaldecision in object.finaldecisions.all %}
-        <div style="font-size:12pt;">
-          <span style="font-size: 10pt;vertical-align: middle;">
-            {% if finaldecision.subSigntrueA == None %}
-              {% if request.user.userFullName != finaldecision.subSigntrueB and request.user.userFullName != finaldecision.regionalHead %}
-                <a href="javascript:void(0)" onclick="subsigntruea_modal_edit('{% url 'yfcase:subsigntruea_edit' finaldecision.id %}')">
-                  <span class="fa-stack" style="color:DarkGreen;">
-                    <i class="far fa-circle fa-stack-2x" ></i>
-                    <i class="fas fa-pen fa-stack-1x"></i>
-                  </span>
-                </a>
-              {% endif %}
-            {% else %}
-              {% if request.user.userFullName == "管理者" or request.user.userFullName == finaldecision.regionalHead %}
-                <a href="javascript:void(0)" onclick="subsigntruea_modal_delete('{% url 'yfcase:subsigntruea_delete' finaldecision.id %}')">
-                  <span class="fa-stack" style="color:DarkRed;">
-                    <i class="far fa-circle fa-stack-2x" ></i>
-                    <i class="fas fa-trash fa-stack-1x"></i>
-                  </span>
-                </a>
-              {% endif %}
+      <div style="font-size:12pt;">
+        <span style="font-size: 10pt;vertical-align: middle;">
+          {% if object.subSigntrueA == None %}
+            {% if request.user.userFullName != object.subSigntrueB and request.user.userFullName != object.regionalHead %}
+              <a href="javascript:void(0)" onclick="subsigntruea_modal_edit('{% url 'yfcase:subsigntruea_edit' yfcase.id %}')">
+                <span class="fa-stack" style="color:DarkGreen;">
+                  <i class="far fa-circle fa-stack-2x" ></i>
+                  <i class="fas fa-pen fa-stack-1x"></i>
+                </span>
+              </a>
             {% endif %}
-          </span>
-        </div>
-      {% endfor %}
+          {% else %}
+            {% if request.user.userFullName == "管理者" or request.user.userFullName == object.regionalHead %}
+              <a href="javascript:void(0)" onclick="subsigntruea_modal_delete('{% url 'yfcase:subsigntruea_delete' yfcase.id %}')">
+                <span class="fa-stack" style="color:DarkRed;">
+                  <i class="far fa-circle fa-stack-2x" ></i>
+                  <i class="fas fa-trash fa-stack-1x"></i>
+                </span>
+              </a>
+            {% endif %}
+          {% endif %}
+        </span>
+      </div>
       副署人員1
     </th>
     <td>
-      {% for finaldecision in object.finaldecisions.all %}
-        {% if finaldecision.subSigntrueA|default_if_none:"" %}
-          <div style="border:3px solid red;margin:4px;border-radius: 10px;color:red;width:auto; display:inline-block !important; display:inline;padding:0px 20px;">
-            <h4 style="margin: 0px;">{{ finaldecision.subSigntrueA }}</h4>
-            <h6 style="margin: 0px;">{{ finaldecision.subSigntrueDateA }}</h6>
-            <h4 style="margin: 0px;">{{ finaldecision.subSigntrueWorkAreaA }}</h4>
-          </div>
-        {% endif %}
-      {% endfor %}
+      {% if object.subSigntrueA %}
+        <div style="border:3px solid red;margin:4px;border-radius: 10px;color:red;width:auto; display:inline-block !important; display:inline;padding:0px 20px;">
+          <h4 style="margin: 0px;">{{ object.subSigntrueA|default_if_none:"" }}</h4>
+          <h6 style="margin: 0px;">{{ object.subSigntrueDateA|default_if_none:"" }}</h6>
+          <h4 style="margin: 0px;">{{ object.subSigntrueWorkAreaA|default_if_none:"" }}</h4>
+        </div>
+      {% endif %}
     </td>
   </tr>
 
@@ -96,13 +86,13 @@
   <!-- 刪除：副署人員2不可空格，且登入者需為區域負責人或是管理者 -->
   <tr>
     <th style="width:18%;height: 65px;">
-      {% for finaldecision in object.finaldecisions.all %}
+
         <div style="font-size:12pt;">
           <span style="font-size: 10pt;vertical-align: middle;">
             {% if object.get_floor_price_from_auction_date >= 1000000 %}
-              {% if finaldecision.subSigntrueB == None %}
-                {% if request.user.userFullName != finaldecision.subSigntrueA and request.user.userFullName != finaldecision.regionalHead %}
-                  <a href="javascript:void(0)" onclick="subsigntrueb_modal_edit('{% url 'yfcase:subsigntrueb_edit' finaldecision.id %}')">
+              {% if object.subSigntrueB == None %}
+                {% if request.user.userFullName != object.subSigntrueA and request.user.userFullName != object.regionalHead %}
+                  <a href="javascript:void(0)" onclick="subsigntrueb_modal_edit('{% url 'yfcase:subsigntrueb_edit' object.id %}')">
                     <span class="fa-stack" style="color:DarkGreen;">
                       <i class="far fa-circle fa-stack-2x" ></i>
                       <i class="fas fa-pen fa-stack-1x"></i>
@@ -110,8 +100,8 @@
                   </a>
                 {% endif %}
               {% else %}
-                {% if request.user.userFullName == "管理者" or request.user.userFullName == finaldecision.regionalHead %}
-                  <a href="javascript:void(0)" onclick="subsigntrueb_modal_delete('{% url 'yfcase:subsigntrueb_delete' finaldecision.id %}')">
+                {% if request.user.userFullName == "管理者" or request.user.userFullName == object.regionalHead %}
+                  <a href="javascript:void(0)" onclick="subsigntrueb_modal_delete('{% url 'yfcase:subsigntrueb_delete' object.id %}')">
                     <span class="fa-stack" style="color:DarkRed;">
                       <i class="far fa-circle fa-stack-2x" ></i>
                       <i class="fas fa-trash fa-stack-1x"></i>
@@ -121,23 +111,20 @@
               {% endif %}
             {% else %}
               <div style="color:green;border:3px solid blue;border-radius: 10px;width:auto; display:inline-block !important; display:inline;color:blue;padding:0px 20px;">最近一拍底價 < 1000000</div>
-            
             {% endif %}
           </span>
         </div>
-      {% endfor %}
+
       副署人員2
     </th>
     <td>
-      {% for finaldecision in object.finaldecisions.all %}
-        {% if finaldecision.subSigntrueB|default_if_none:"" %}
-          <div style="border:3px solid red;margin:4px;border-radius: 10px;color:red;width:auto; display:inline-block !important; display:inline;padding:0px 20px;">
-            <h4 style="margin: 0px;">{{ finaldecision.subSigntrueB }}</h4>
-            <h6 style="margin: 0px;">{{ finaldecision.subSigntrueDateB }}</h6>
-            <h4 style="margin: 0px;">{{ finaldecision.subSigntrueWorkAreaB }}</h4>
-          </div>
-        {% endif %}
-      {% endfor %}
+      {% if object.subSigntrueB %}
+        <div style="border:3px solid red;margin:4px;border-radius: 10px;color:red;width:auto; display:inline-block !important; display:inline;padding:0px 20px;">
+          <h4 style="margin: 0px;">{{ object.subSigntrueB|default_if_none:"" }}</h4>
+          <h6 style="margin: 0px;">{{ object.subSigntrueDateB|default_if_none:"" }}</h6>
+          <h4 style="margin: 0px;">{{ object.subSigntrueWorkAreaB|default_if_none:"" }}</h4>
+        </div>
+      {% endif %}
     </td>
   </tr>
 </table>

@@ -8,7 +8,7 @@
 
 
 <!-- 程式主題的部份 -->
-<form action="{% url 'yfcase:afterwinner_edit' yfcase.id %}" method="post" id="editAfterWinnerModal" data-townships-url="{% url 'yfcase:ajax_load_townships' %}" >{% csrf_token %}
+<form action="{% url 'yfcase:deedtax_edit' yfcase.id %}" method="post" id="editDeedtaxModal" data-townships-url="{% url 'yfcase:ajax_load_townships' %}" >{% csrf_token %}
   <div class="modal-dialog">
     <div class="modal-content">
 
@@ -428,46 +428,6 @@
           {% render_field form.yfcaseDeedtaxCoOwnerMatch|attr:"multiple:multiple"|attr:"data-plugin-multiselect" %} <span style="color:red;">土地 / 建物共有人是否一致</span>
           <span class="help-block">{{ form.yfcaseDeedtaxCoOwnerMatch.error }}</span>
         </div>
-        
-        不動產登記
-        
-        <div class="form-group">
-          <label for="{{ form.yfcaseRealEstateRegistrationRegisteredAgent.id_for_label }}">{{ form.yfcaseRealEstateRegistrationRegisteredAgent.label }}</label>
-          {{ form.yfcaseRealEstateRegistrationRegisteredAgent|add_class:'form-control' }}
-          <span class="help-block">{{ form.yfcaseRealEstateRegistrationRegisteredAgent.error }}</span>
-        </div>
-        
-        <div class="form-group">
-          <label for="{{ form.yfcaseRealEstateRegistrationDateOfCause.id_for_label }}">{{ form.yfcaseRealEstateRegistrationDateOfCause.label }}</label>
-          {{ form.yfcaseRealEstateRegistrationDateOfCause|add_class:'form-control fieldcolor datepicker pt-0' }}
-          <span class="help-block">{{ form.yfcaseRealEstateRegistrationDateOfCause.error }}</span>
-        </div>
-        
-        <div class="form-group">
-          <label for="{{ form.yfcaseRealEstateRegistrationReasonForRegistration.id_for_label }}">{{ form.yfcaseRealEstateRegistrationReasonForRegistration.label }}</label>
-          {{ form.yfcaseRealEstateRegistrationReasonForRegistration|add_class:'form-control' }}
-          <span class="help-block">{{ form.yfcaseRealEstateRegistrationReasonForRegistration.error }}</span>
-        </div>
-        
-        <div class="form-group">
-          <label for="{{ form.yfcaseRealEstateRegistrationRegistrationNote.id_for_label }}">{{ form.yfcaseRealEstateRegistrationRegistrationNote.label }}</label>
-          {{ form.yfcaseRealEstateRegistrationRegistrationNote|add_class:'form-control' }}
-          <span class="help-block">{{ form.yfcaseRealEstateRegistrationRegistrationNote.error }}</span>
-        </div>
-        
-        <div class="form-group">
-          {% render_field form.yfcaseApplyAcrossInstitutions|attr:"multiple:multiple"|attr:"data-plugin-multiselect" %} <span style="color:red;">跨所申請</span>
-          <span class="help-block">{{ form.yfcaseApplyAcrossInstitutions.error }}</span>
-        </div>
-        
-        <div class="form-group">
-          <label for="{{ form.yfcaseAcceptingAuthorityTownship.id_for_label }}">{{ form.yfcaseAcceptingAuthorityTownship.label }}</label>
-          {{ form.yfcaseAcceptingAuthorityTownship|add_class:'form-control' }}
-          <span class="help-block">{{ form.yfcaseAcceptingAuthorityTownship.error }}</span>
-        </div>
-        
-        
-        
 
       </div>
 

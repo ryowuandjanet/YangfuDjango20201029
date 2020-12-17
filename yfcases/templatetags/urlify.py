@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import unicode_literals
 from urllib.parse import quote
 from decimal import *
 from datetime import datetime
@@ -77,4 +79,51 @@ def last_string(string):
 def chinese_year(chinese_date):
   if chinese_date:
     return int(chinese_date.year)-1911
+
+# 數字改為中文    
+@register.filter   
+def num2cn2(number, traditional=False): 
+  """ 
+  數字轉換成中文（簡體和繁體，目前支持到12位數值） 
+  :param number: 
+  :param traditional:
+  :return: 
+  """ 
+  if traditional: 
+    chinese_num = {0: '零', 1: '壹', 2: '貳', 3: '叄', 4: '肆', 5: '伍', 6: '陸', 7: '柒', 8: '捌', 9: '玖'} 
+    chinese_unit = ['仟', '', '拾', '佰'] 
+  else: 
+    chinese_num = {0: '零', 1: '一', 2: '二', 3: '三', 4: '四', 5: '五', 6: '六', 7: '七', 8: '八', 9: '九'} 
+    chinese_unit = ['千', '', '十', '百'] 
+  extra_unit = ['', '萬', '億'] 
+  num_list = list(str(number)) 
+  num_cn = [] 
+  zero_num = 0 # 連續0的個數 
+  prev_num = '' # 遍歷列表中當前元素的前一位 
+  length = len(num_list) 
+  for num in num_list: 
+    tmp = num 
+    if num == '0': # 如果num為0，記錄連續0的數量 
+      zero_num += 1 
+      num = '' 
+    else: 
+      zero = '' 
+      if zero_num > 0: 
+        zero = '零' 
+      zero_num = 0 
+      # 處理前一位數字為0，後一位為1，並且在十位數上的數值
+      if prev_num in ('0', '') and num == '1' and chinese_unit[length % 4] in ('十', '拾'): 
+        num = zero + chinese_unit[length % 4] 
+      else: 
+        num = zero + chinese_num.get(int(num)) + chinese_unit[length % 4] 
+    if length % 4 == 1: # 每隔4位加'萬'、'億'拼接 
+      if num == '零': 
+        num = extra_unit[length // 4] 
+      else: 
+        num += extra_unit[length // 4] 
+    length -= 1 
+    num_cn.append(num) 
+    prev_num = tmp 
+  num_cn = ''.join(num_cn) 
+  return num_cn
 

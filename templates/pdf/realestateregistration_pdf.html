@@ -19,7 +19,7 @@
     body {
       font-family: 'Noto Sans TC', sans-serif;
       font-size: 12pt;
-      font-weight: border;
+      font-weight: 700;
     }
     .page-break {
       page-break-before: always;
@@ -65,12 +65,66 @@
       border:1px solid black;
       padding-top:3px;
     }
+    #realestateregistrationLand {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 18pt;
+      /*border: 1px solid black;*/
+    }
+    #realestateregistrationLand tr th {
+      border: 1px solid black;
+    }
+    #realestateregistrationLand tr td {
+      color: blue;
+      text-align: center;
+      width: 11.7%;
+      border: 1px solid black;
+    }
+    #realestateregistrationBuild {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 18pt;
+      /*border: 1px solid black;*/
+    }
+    #realestateregistrationBuild tr th {
+      border: 1px solid black;
+    }
+    #realestateregistrationBuild tr td {
+      text-align: center;
+      vertical-align: middle;
+      color: blue;
+      width: 18%;
+      border: 1px solid black;
+      height: 38px;
+    }
+    .realestateregistrationSix {
+      border-collapse: collapse;
+      border-top: hidden;
+      font-size: 13pt;
+      width: 100%;
+    }
+    .realestateregistrationSix tr {
+      height: 20px;
+    }
+    .realestateregistrationSix td {
+      border: 1px solid black;
+    }
+    .realestateregistrationSixItem {
+      width: 28%;text-align: left;
+    }
+    .realestateregistrationSixValue {
+      width: 4%;
+      border-left: hidden;
+      text-align: right;
+    }
     .bluefont {
       color: blue;
       font-weight: bolder;
     }
+
   </style>
 </head>
+{{yfcase.cityLastJudgment}}
   <!-- 前導資料 -->
   <div id="firstdata">
     <table style="width:100%;">
@@ -79,7 +133,7 @@
           <table id="firstdata-section1">
             <tr style="height:54px;">
               <td rowspan="2" style="width:9%;">收<br><br>件</td>
-              <td style="width:8%;border:1px solid red;">日期</td>
+              <td style="width:8%;">日期</td>
               <td style="width:50%;text-align:right;">年&emsp;&emsp;月&emsp;&emsp;日&emsp;&emsp;時&emsp;&emsp;分&ensp;</td>
               <td rowspan="2" style="width:12%;">收件<br><br>者章</td>
               <td rowspan="2" style="width:18%;"></td>
@@ -141,17 +195,17 @@
   <!-- (1)受理機關 / (2)原因發生日期 -->
   <table id="realestateregistration12" style="text-align:center;">
     <tr>
-      <td rowspan=2 style="border-top:none;">(1)<br>受理<br>機關</td>
-      <td style="border:none; height:60px;text-align:right;">
-        {% if yfcaseAcceptingAuthorityTownship_city_last_word == "縣" and yfcase.yfcaseApplyAcrossInstitutions %}
-          <sanp class="bluefont">{{ yfcaseAcceptingAuthorityTownship_city }}</sanp><br>
-        {% elif cityLastJudgment == "縣" %}
+      <td rowspan=2 style="border-top:none;width:9%;height:90px;">(1)<br>受理<br>機關</td>
+      <td style="border:none;text-align:right;width:10%;padding-top:20px;">
+        {% if yfcase.yfcaseAcceptingAuthorityTownship_city_last_word == "縣" and yfcase.yfcaseApplyAcrossInstitutions %}
+          <sanp class="bluefont">{{ yfcase.yfcaseAcceptingAuthorityTownship_city }}</sanp><br>
+        {% elif yfcase.cityLastJudgment == "縣" %}
           <sanp class="bluefont">{{ yfcase.yfcaseCity.name }}</sanp><br>
         {% else %}
           <sanp class="bluefont"></sanp>縣<br>
         {% endif %}
       </td>
-      <td style="border:none; height:60px;text-align:right;">
+      <td style="border:none;text-align:right;width:17%;">
         {% if yfcase.yfcaseAcceptingAuthorityTownship and yfcase.yfcaseApplyAcrossInstitutions %}
           <sanp class="bluefont">{{ yfcase.yfcaseAcceptingAuthorityTownship }}</sanp><br>
         {% elif yfcase.yfcaseTownship.land_office %}
@@ -160,27 +214,27 @@
           <sanp  class="bluefont"></sanp>地政事務所
         {% endif %}
       </td>
-      <td rowspan=2 style="border-top:none;">資料管<br>轄機關</td>
-      <td rowspan=2 style="border-top:none;">
-        {% if cityLastJudgment == "縣" %}
+      <td rowspan=2 style="border-top:none;width:6%;">資料管<br>轄機關</td>
+      <td rowspan=2 style="border-top:none;width:21%;text-align:right;">
+        {% if yfcase.cityLastJudgment == "縣" %}
           <sanp class="bluefont">{{ yfcase.yfcaseCity.name }}</sanp><br>
           <sanp class="bluefont"></sanp>市<br>
-        {% elif cityLastJudgment == "市" %}
+        {% elif yfcase.cityLastJudgment == "市" %}
           <sanp class="bluefont"></sanp>縣<br>
           <sanp class="bluefont">{{ yfcase.yfcaseCity.name }}</sanp><br>
         {% endif %}
         <sanp class="bluefont">{{ yfcase.yfcaseTownship.land_office }}</sanp>地政事務所
       </td>
-      <td rowspan=2 style="border-top:none;">(2)原因發生<br>&thinsp;&emsp;日&emsp;&emsp;期</td>
+      <td rowspan=2 style="border-top:none;width:10%;">(2)原因發生<br>&thinsp;&emsp;日&emsp;&emsp;期</td>
       <td rowspan=2 class="bluefont" style="border-top:none;">
         中華民國{{ yfcase.yfcaseRealEstateRegistrationDateOfCause|chinese_year|default_if_none:"" }}年{{ yfcase.yfcaseRealEstateRegistrationDateOfCause|date:"m"|default_if_none:"" }}月{{ yfcase.yfcaseRealEstateRegistrationDateOfCause|date:"d"|default_if_none:"" }}日
       </td>
     </tr>
     <tr style="height:28px;">
       <td style="border-top:none;border-right:none;border-left:none;text-align:right;">
-        {% if yfcaseAcceptingAuthorityTownship_city_last_word == "市" and yfcase.yfcaseApplyAcrossInstitutions %}
-          <sanp class="bluefont">{{ yfcaseAcceptingAuthorityTownship_city }}</sanp><br>
-        {% elif cityLastJudgment == "市" %}
+        {% if yfcase.yfcaseAcceptingAuthorityTownship_city_last_word == "市" and yfcase.yfcaseApplyAcrossInstitutions %}
+          <sanp class="bluefont">{{ yfcase.yfcaseAcceptingAuthorityTownship_city }}</sanp><br>
+        {% elif yfcase.cityLastJudgment == "市" %}
           <sanp class="bluefont">{{ yfcase.yfcaseCity.name }}</sanp><br>
         {% else %}
           <sanp class="bluefont"></sanp>市<br>
@@ -188,7 +242,7 @@
       </td>
       <td style="border-top:none;border-right:none;border-left:none;text-align:right;">
         {% if yfcase.yfcaseApplyAcrossInstitutions %}
-          ■ 跨所申請
+         <span class="bluefont">■ </span> 跨所申請
         {% else %}
           □ 跨所申請
         {% endif %}
@@ -276,13 +330,13 @@
   <table id="realestateregistrationSix">
     <tr>
       <td rowspan="3" style="text-align:center;border-top:none;">(6)<br>附繳<br>證件</td>
-      <td class="realestateregistrationSixItem" style="border-top:none;">
+      <td style="border-top:none;width: 28%;text-align: left;">
         {% if yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "買賣" %}
-          1. <sanp class="bluefont">土地建物買賣契約書正副本各</sanp> 
+          &ensp;1. <sanp class="bluefont">土地建物買賣契約書正副本各</sanp> 
         {% elif yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "拍賣" %}
-          1. <sanp class="bluefont">法院產權移轉證明書正影本各</sanp> 
+          &ensp;1. <sanp class="bluefont">法院產權移轉證明書正影本各</sanp> 
         {% else %}
-          1.
+          &ensp;1.
         {% endif %}
       </td>
       <td class="realestateregistrationSixValue" style="border-left:hidden;border-top:none;">
@@ -291,13 +345,13 @@
         {% endif %}
         份
       </td>
-      <td class="realestateregistrationSixItem" style="border-top:none;">
+      <td style="border-top:none;width: 28%;text-align: left;">
         {% if yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "買賣" %}
-          4. <sanp class="bluefont">契稅繳(免)稅證明</sanp> 
+          &ensp;4. <sanp class="bluefont">契稅繳(免)稅證明</sanp> 
         {% elif yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "拍賣" %}
-          4. <sanp class="bluefont">公司變更登記事項卡</sanp> 
+          &ensp;4. <sanp class="bluefont">公司變更登記事項卡</sanp> 
         {% else %}
-          4.
+          &ensp;4.
         {% endif %}
       </td>
       <td class="realestateregistrationSixValue" style="border-left:hidden;border-top:none;">
@@ -306,8 +360,8 @@
         {% endif %}
         份
       </td>
-      <td class="realestateregistrationSixItem" style="border-top:none;">
-        7. 
+      <td style="border-top:none;width: 28%;text-align: left;">
+        &ensp;7. 
         <sanp class="bluefont">
           {% if yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "買賣" %} 
             印鑑證明
@@ -323,13 +377,13 @@
 
     </tr>
     <tr>
-      <td class="realestateregistrationSixItem">
+      <td style="border-top:none;width: 28%;text-align: left;">
         {% if yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "買賣" %}
-          2. <sanp class="bluefont">土地所有權狀</sanp> 
+          &ensp;2. <sanp class="bluefont">土地所有權狀</sanp> 
         {% elif yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "拍賣" %}
-          2. <sanp class="bluefont">身分證影本</sanp> 
+          &ensp;2. <sanp class="bluefont">身分證影本</sanp> 
         {% else %}
-          2.
+          &ensp;2.
         {% endif %}
       </td>
       <td class="realestateregistrationSixValue" style="border-left:hidden;">
@@ -338,13 +392,13 @@
         {% endif %}
         份
       </td>
-      <td class="realestateregistrationSixItem">
+      <td style="border-top:none;width: 28%;text-align: left;">
         {% if yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "買賣" %}
-          5. <sanp class="bluefont">土地增值稅繳(免)稅證明</sanp> 
+          &ensp;5. <sanp class="bluefont">土地增值稅繳(免)稅證明</sanp> 
         {% elif yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "拍賣" %}
-          5. <sanp class="bluefont">公司負責人身分證明文件</sanp> 
+          &ensp;5. <sanp class="bluefont">公司負責人身分證明文件</sanp> 
         {% else %}
-          5.
+          &ensp;5.
         {% endif %}
       </td>
       <td class="realestateregistrationSixValue" style="border-left:hidden;">
@@ -353,17 +407,17 @@
         {% endif %}
         份
       </td>
-      <td class="realestateregistrationSixItem">8. </td>
+      <td style="border-top:none;width: 28%;text-align: left;">&ensp;8. </td>
       <td class="realestateregistrationSixValue" style="border-left:hidden;"> 份</td>
     </tr>
     <tr>
-      <td class="realestateregistrationSixItem">
+      <td style="border-top:none;width: 28%;text-align: left;">
         {% if yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "買賣" %}
-          3. <sanp class="bluefont">建物所有權狀</sanp> 
+          &ensp;3. <sanp class="bluefont">建物所有權狀</sanp> 
         {% elif yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "拍賣" %}
-          3. <sanp class="bluefont">契稅繳(免)納證明</sanp> 
+          &ensp;3. <sanp class="bluefont">契稅繳(免)納證明</sanp> 
         {% else %}
-          3.
+          &ensp;3.
         {% endif %}
       </td>
       <td class="realestateregistrationSixValue" style="border-left:hidden;">
@@ -372,13 +426,13 @@
         {% endif %}
         份
       </td>
-      <td class="realestateregistrationSixItem">
+      <td style="border-top:none;width: 28%;text-align: left;">
         {% if yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "買賣" %}
-          6. <sanp class="bluefont">身分證影本</sanp> 
+          &ensp;6. <sanp class="bluefont">身分證影本</sanp> 
         {% elif yfcase.yfcaseRealEstateRegistrationReasonForRegistration == "拍賣" %}
-          6. <sanp class="bluefont">授權書</sanp> 
+          &ensp;6. <sanp class="bluefont">授權書</sanp> 
         {% else %}
-          6.
+          &ensp;6.
         {% endif %}
       </td>
       <td class="realestateregistrationSixValue" style="border-left:hidden;">
@@ -389,7 +443,7 @@
         {% endif %}
         份
       </td>
-      <td class="realestateregistrationSixItem">9. </td>
+      <td style="border-top:none;width: 28%;text-align: left;">&ensp;9. </td>
       <td class="realestateregistrationSixValue" style="border-left:hidden;"> 份</td>
     </tr>
   </table>
@@ -397,14 +451,18 @@
   <!-- (7)委任關係 /(8)聯絡方式 /(9)備註-->
   <table id="realestateregistration789" style="text-align:center;border-top:hidden;">
     <tr>
-      <td rowspan=3>(7)<br>委任<br>關係</td>
-      <td rowspan=3>
-      	本土地登記案之申請委託&emsp;<sanp class="bluefont">{{ yfcase.yfcaseRealEstateRegistrationRegisteredAgent|default_if_none:"" }}</sanp>&emsp;代理。&emsp;&emsp;&emsp;
+      <td rowspan=3 style="width:8%;">(7)<br>委任<br>關係</td>
+      <td rowspan=3 style="width:60%;text-align:left;">
+      	本土地登記案之申請委託&emsp;
+      	<sanp class="bluefont">
+      	  {{ yfcase.yfcaseRealEstateRegistrationRegisteredAgent|default_if_none:"" }}
+      	</sanp>
+      	&emsp;代理。&emsp;&emsp;&emsp;
       	複代理。<br>委託人確為登記標的物之權利人或權利關係人，並經核對身分無誤，如有虛偽不實，本代理人(複代理人)願負法律責任。 
       </td>
-      <td rowspan=7>(8)<br>聯<br>絡<br>方<br>式</td>
-      <td>權利人電話</td>
-      <td>
+      <td rowspan=7 style="width:3%;">(8)<br>聯<br>絡<br>方<br>式</td>
+      <td style="width:14%;height:28px;">權利人電話</td>
+      <td style="width:15%;">
         <sanp class="bluefont">
           {% if yfcase.yfcaseCreditor %}
             {{ yfcase.yfcaseDeedtaxCreditorMobilePhone|default_if_none:"" }}
@@ -415,7 +473,7 @@
       </td>
     </tr>
     <tr>
-      <td>義務人電話</td>
+      <td style="height:28px;">義務人電話</td>
       <td>
         <sanp class="bluefont">
           {{ yfcase.yfcaseDeedtaxDebtorMobilePhone|default_if_none:"" }}
@@ -423,64 +481,72 @@
       </td>        	
     </tr>
     <tr>
-      <td>代理人聯絡電話</td>
+      <td style="height:28px;">代理人聯絡電話</td>
       <td>
         <sanp class="bluefont">
-          {{ customuser.userMobilePhone|default_if_none:"" }}
+          {% for user in users %}
+  			    {% if user.userFullName == yfcase.yfcaseRealEstateRegistrationRegisteredAgent %}
+        	    {{ user.userMobilePhone|default_if_none:"" }}
+        	  {% endif %}
+        	{% endfor %}
         </sanp>
       </td>        	
     </tr>
     <tr>
-      <td rowspan=4>(9)<br>備<br><br>註</td>
-      <td rowspan=4></td>
-      <td>傳真電話</td>
+      <td rowspan=4 style="widht:5%;">(9)<br>備<br><br>註</td>
+      <td rowspan=4 style="widht:63%;"></td>
+      <td style="height:28px;">傳真電話</td>
       <td></td>
     </tr>
-    <tr style="height:20px;">
-      <td>電子郵件信箱</td>
+    <tr>
+      <td style="height:28px;">電子郵件信箱</td>
       <td class="bluefont">
         <sanp>
-          {{ customuser.email|default_if_none:"" }}
+          {% for user in users %}
+  			    {% if user.userFullName == yfcase.yfcaseRealEstateRegistrationRegisteredAgent %}
+        	    {{ user.email|default_if_none:"" }}
+        	  {% endif %}
+        	{% endfor %}
         </sanp>
       </td>
     </tr>
-    <tr style="height:20px;">
-      <td>不動產經紀人姓名</td>
+    <tr>
+      <td style="height:28px;">不動產經紀人姓名</td>
       <td></td>
     </tr>
-    <tr style="height:20px;">
-      <td>不動產經紀人電話</td>
+    <tr>
+      <td style="height:28px;">不動產經紀人電話</td>
       <td></td>
     </tr>
   </table>
   
   <!-- (10)-(16) -->
   <div class="page-break">
-    <table id="realestateregistration1016" style="border-collapse: collapse;width:100%;text-align:center;">
+    <table id="realestateregistration1016" style="border-collapse:collapse;width:100%;text-align:center;font-size:14pt;">
       <tr>
-        <td rowspan=6>(10)<br>申<br><br>請<br><br>人</td>
-        <td rowspan=2>(11)<br>權利人<br>或<br>義務人</td>
-        <td rowspan=2>(12)<br>姓  名<br>或<br>名  稱</td>
-        <td rowspan=2>(13)<br>出  生<br><br>年月日</td>
-        <td rowspan=2>(14)<br>統一編號</td>
+        <td rowspan=6 style="width:4%;">(10)<br>申<br><br>請<br><br>人</td>
+        <td rowspan=2 style="width:9%;">(11)<br>權利人<br>或<br>義務人</td>
+        <td rowspan=2 style="width:9%;">(12)<br>姓  名<br>或<br>名  稱</td>
+        <td rowspan=2 style="width:13%;">(13)<br>出  生<br><br>年月日</td>
+        <td rowspan=2 style="width:11%;">(14)<br>統一編號</td>
         <td colspan=11>(15)   住    所</td>
-        <td rowspan=2>(16)<br>簽　章</td>
+        <td rowspan=2 style="width:7%;">(16)<br>簽　章</td>
       </tr>
       <tr style="height:28px;">
-        <td>縣市</td>
-        <td>鄉鎮<br>市區</td>
-        <td>村里</td>
-        <td>鄰</td>
-        <td>街路</td>
-        <td>段</td>
-        <td>巷</td>
-        <td>弄</td>
-        <td>號</td>
-        <td>樓</td>
+        <td style="width:6%;">縣市</td>
+        <td style="width:6%;">鄉鎮<br>市區</td>
+        <td style="width:6%;">村里</td>
+        <td style="width:5%;">鄰</td>
+        <td style="width:5%;">街路</td>
+        <td style="width:3%;">段</td>
+        <td style="width:4%;">巷</td>
+        <td style="width:3%;">弄</td>
+        <td style="width:5%;">號</td>
+        <td style="width:3%;">樓</td>
         <td></td>
       </tr>
       <!--義務人-->
-      <tr style="height:28px;color:blue;">
+      <tr style="height:60px;color:blue;">
         <td>
           <sanp class="bluefont">義務人</sanp>
         </td>
@@ -488,7 +554,7 @@
           <sanp class="bluefont">{{ yfcase.yfcaseDebtor|default_if_none:"" }}</sanp>                
         </td>
         <td>
-          <sanp class="bluefont">
+          <sanp class="bluefont" style="font-size:13pt;">
             {% if yfcase.yfcaseDeedtaxDebtorBirthday %}
               民國{{ yfcase.yfcaseDeedtaxDebtorBirthday|chinese_year }}年{{ yfcase.yfcaseDeedtaxDebtorBirthday|date:"m" }}月{{ yfcase.yfcaseDeedtaxDebtorBirthday|date:"d" }}日
             {% endif %}
@@ -532,7 +598,7 @@
       </tr>
       
       <!--權利人-->
-      <tr style="height:28px;color:blue;">
+      <tr style="height:60px;color:blue;">
         <td>
           <sanp class="bluefont">權利人</sanp>
         </td>
@@ -546,7 +612,7 @@
           </sanp>
         </td>
         <td>
-          <sanp class="bluefont">
+          <sanp class="bluefont" style="font-size:13pt;">
             {% if yfcase.yfcaseCreditor %}
               民國{{ yfcase.yfcaseDeedtaxCreditorBirthday|chinese_year }}年{{ yfcase.yfcaseDeedtaxCreditorBirthday|date:"m" }}月{{ yfcase.yfcaseDeedtaxCreditorBirthday|date:"d" }}日
             {% elif yfcase.yfcaseCompany == "揚富開發有限公司" %}
@@ -651,10 +717,10 @@
       </tr>
       
       <!--法定代理人-->
-      <tr style="height:28px;color:blue;">
+      <tr style="height:60px;color:blue;">
         <td><sanp class="bluefont">法定代理人</sanp></td>
         <td><sanp class="bluefont">陳美純</sanp></td>
-        <td><sanp class="bluefont">民國30年10月31日</sanp></td>
+        <td><sanp class="bluefont" style="font-size:13pt;">民國30年10月31日</sanp></td>
         <td><sanp class="bluefont">L203130632</sanp></td>
         <td><sanp class="bluefont">臺中市</sanp></td>
         <td><sanp class="bluefont">大里區</sanp></td>
@@ -670,91 +736,95 @@
       </tr>
       
       <!--代理人-->
-      <tr style="height:28px;color:blue;">
-        <td>
-          <sanp class="bluefont">
-            代理人
-          </sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userFullName|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">
-            {% if customuser.userFullName %}
-              民國{{ customuser.userBirthday|chinese_year }}年{{ customuser.userBirthday|date:"m" }}月{{ customuser.userBirthday|date:"d" }}日
-            {% endif %}
-          </sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userIdentityCard|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userCountry|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userTownship|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userVillage|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userNeighbor|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userStreet|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userSection|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userLane|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userAlley|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userNumber|default_if_none:"" }}</sanp>
-        </td>
-        <td>
-          <sanp class="bluefont">{{ customuser.userFloor|default_if_none:"" }}</sanp>
-        </td>
-        <td></td>
-      </tr>
+      {% for user in users %}
+  		  {% if user.userFullName == yfcase.yfcaseRealEstateRegistrationRegisteredAgent %}
+          <tr style="height:60px;color:blue;">
+            <td>
+              <sanp class="bluefont">
+                代理人
+              </sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ yfcase.yfcaseRealEstateRegistrationRegisteredAgent|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont" style="font-size:13pt;">
+                {% if user.userBirthday %}
+                  民國{{ user.userBirthday|chinese_year }}年{{ user.userBirthday|date:"m" }}月{{ user.userBirthday|date:"d" }}日
+                {% endif %}
+              </sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userIdentityCard|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userCountry|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userTownship|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userVillage|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userNeighbor|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userStreet|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userSection|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userLane|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userAlley|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userNumber|default_if_none:"" }}</sanp>
+            </td>
+            <td>
+              <sanp class="bluefont">{{ user.userFloor|default_if_none:"" }}</sanp>
+            </td>
+            <td></td>
+          </tr>
+        {% endif %}
+      {% endfor %}
     </table> 
     
     <!-- 本案處理經過情形 -->
-    <table id="processSituation"style="text-align:center;border-top:hidden;">
-      <tr style="height:28px;">
-        <td rowspan=4>本案處理經過情形︵<br>以下各欄<br>申請人請勿填寫<br>︶</td>
-        <td>初           審</td>
-        <td>複            審</td>
-        <td>核           定</td>
-        <td>登  簿</td>
-        <td>校  簿</td>
-        <td>書  狀<br>列  印</td>
-        <td>校  狀</td>
+    <table id="processSituation"style="text-align:center;border-top:hidden;font-size:14pt;">
+      <tr style="height:120px;">
+        <td rowspan=4 style="width:4%;">本案處理經過情形︵<br>以下各欄<br>申請人請勿填寫<br>︶</td>
+        <td style="width:16%;">初           審</td>
+        <td style="width:16%;">複            審</td>
+        <td style="width:17%;">核           定</td>
+        <td style="width:9%;">登  簿</td>
+        <td style="width:10%;">校  簿</td>
+        <td style="width:9%;">書  狀<br>列  印</td>
+        <td style="width:9%;">校  狀</td>
         <td>書  狀<br>用  印</td>
       </tr>
-      <tr style="height:28px;">
+      <tr>
         <td rowspan=3></td>
         <td rowspan=3></td>
         <td rowspan=3></td>
-        <td></td>
+        <td style="height:120px;"></td>
         <td></td>
         <td></td>
         <td></td>
         <td></td>
       </tr>
       <tr>
-        <td>地  價<br>異  動</td>
+        <td style="height:120px;">地  價<br>異  動</td>
         <td>通  知<br>領  狀</td>
         <td>異  動<br>通  知</td>
         <td>交  付<br>發  狀</td>
         <td>歸  檔</td>
       </tr>
-      <tr style="height:28px;">
-        <td></td>
+      <tr>
+        <td style="height:120px;"></td>
         <td></td>
         <td></td>
         <td></td>
@@ -776,9 +846,9 @@
       
       <!--第二行-->
       <tr>
-        <th rowspan=7>土地標示</th>
-        <th rowspan=3>(1)坐落</th>
-        <th>鄉 鎮<br>市 區</th>
+        <th rowspan=7 style="width:3%;">土地標示</th>
+        <th rowspan=3 style="width:3%;">(1)坐落</th>
+        <th style="width:12%;height:100px;">鄉 鎮<br>市 區</th>
         <td class="bluefont">
           {{ yfcase.yfcaseTownship|default_if_none:"" }}
         </td>
@@ -810,7 +880,7 @@
       
       <!--第三行-->
       <tr>
-        <th>段</th>
+        <th style="height:100px;">段</th>
         <td class="bluefont">
           {{ yfcase.yfcaseBigSection|default_if_none:"" }}
         </td>
@@ -836,7 +906,7 @@
       
       <!--第四行-->
       <tr>
-        <th>小段</th>
+        <th style="height:100px;">小段</th>
         <td class="bluefont">
           {{ yfcase.yfcaseSmallSection|default_if_none:"" }}
         </td>
@@ -862,7 +932,7 @@
       
       <!--第五行-->
       <tr>
-        <th colspan=2>(2)地 號</th>
+        <th colspan=2 style="height:100px;">(2)地 號</th>
         <td class="bluefont">
           {{ landRecord1.landNumber|default_if_none:"" }}
         </td>
@@ -882,7 +952,7 @@
       
       <!--第六行-->
       <tr>
-        <th colspan=2>(3)面 積<br>(平方公尺)</th>
+        <th colspan=2 style="height:100px;">(3)面 積<br>(平方公尺)</th>
         <td class="bluefont">
           {{ landRecord1.landArea|default_if_none:"" }}
         </td>
@@ -901,7 +971,7 @@
       </tr>
       <!--第七行-->
       <tr>
-        <th colspan=2>(4)權利範圍</th>
+        <th colspan=2 style="height:100px;">(4)權利範圍</th>
         <td class="bluefont">
           {% if landRecord1 %}
             {{ landRecord1.landHoldingPointPersonal|default_if_none:"" }} / {{ landRecord1.landHoldingPointAll|default_if_none:"" }}
@@ -929,7 +999,7 @@
       
       <!--第八行-->
       <tr>
-        <th colspan=2>(5)備 註</th>
+        <th colspan=2 style="height:100px;">(5)備 註</th>
         <td></td>
         <td></td>
         <td></td>
@@ -946,7 +1016,7 @@
   <div class="page-break">
     <table id="realestateregistrationBuild">
       <tr>
-        <th rowspan=18>建 物 標 示</th>
+        <th rowspan=18 style="width:3%">建 物 標 示</th>
         <th colspan="2">(6)建 號</th>
         <td class="bluefont">
           {{ yfcase.yfcaseBigSection|default_if_none:"" }}{{ buildRecord1.buildNumber|default_if_none:"" }}
@@ -974,8 +1044,8 @@
         </td>
       </tr>
       <tr>
-        <th rowspan=4>(7)<br>門 牌</th>
-        <th>鄉鎮市區</th>
+        <th rowspan=4 style="width:10%">(7)<br>門 牌</th>
+        <th style="width:15%">鄉鎮市區</th>
         <td class="bluefont">
           {{ yfcase.yfcaseTownship|default_if_none:"" }}
         </td>
@@ -1137,7 +1207,7 @@
         <td></td>
         <td></td>
       </tr>
-      <tr>
+      <tr style="height:10px;">
         <th>
           {% if yfcase.yfcaseDeedtaxBuildingTransferArea3 %}
             <span class="bluefont">3 </span>層

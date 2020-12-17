@@ -1,5 +1,5 @@
 {% load widget_tweaks %}
-<form action="{% url 'yfcase:regionalhead_edit' finaldecision.id %}" method="post">{% csrf_token %}
+<form action="{% url 'yfcase:regionalhead_edit' yfcase.id %}" method="post">{% csrf_token %}
 
   <div class="modal-dialog">
     <div class="modal-content">
@@ -14,7 +14,6 @@
       <!-- body -->
       <div class="modal-body">
         
-        {{ form.yfcase|attr:"type:hidden" }}
         {{ form.regionalHead|attr:"type:hidden" }}
         {{ form.regionalHeadWorkArea|attr:"type:hidden" }}
             

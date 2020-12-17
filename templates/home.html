@@ -76,17 +76,85 @@
     table.table td .btn.manage:hover {
       background: #2e9c81;
     }
+    #formItem tr {
+      background-color:transparent;
+    }
+    #formItem td {
+      padding:1px 3px;
+      margin: 0px;
+    }
   </style>
 {% endblock %}
+
 {% block content %}
 
   <div class="table-wrapper">
     <div class="table-title">
       <div class="row">
-        <div class="col-sm-6">
+        
+        <!-- 標題/新增-區塊 -->
+        <div class="col-sm-2">
           <h2><b>案件清單</b></h2>
         </div>
-        <div class="col-sm-6">
+
+        <!-- 篩選-區塊 -->
+        <div class="col-sm-7">
+          <form method="get">
+            <div class="row">
+              <!-- 案號篩選欄位 -->
+              <div class="col-sm px-1">
+                <div class="filter_item">
+                  <div class="input-group mb-3 input-group-sm">
+                    {% render_field myFilter.form.yfcaseCaseNumber type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" style="border:1px solid black;" placeholder="--案號--" %}
+                  </div>
+                </div>
+              </div>
+        
+              <!-- 縣市篩選欄位 -->
+              <div class="col-sm px-1">
+                <div class="filter_item">
+                  <div class="input-group mb-3 input-group-sm">
+                    {% render_field myFilter.form.yfcaseCity class="custom-select" style="border:1px solid black;" placeholder="Category" %}
+                  </div>
+                </div>
+              </div>
+        
+              <!-- 人員篩選欄位 -->
+              <div class="col-sm px-1">
+                <div class="filter_item">
+                  <div class="input-group mb-3 input-group-sm">
+                    {% render_field myFilter.form.user class="custom-select" style="border:1px solid black;" %}
+                  </div>
+                </div>
+              </div>
+        
+              <!-- 最終判定篩選欄位 -->
+              <div class="col-sm px-1">
+                <div class="filter_item">
+                  <div class="input-group mb-3 input-group-sm">
+                    {% render_field myFilter.form.finalDecision class="custom-select" style="border:1px solid black;" %}
+                  </div>
+                </div>
+              </div>
+        
+              <div class="container_button">
+                <div class="row">
+                  <div class="col-sm pr-1">
+                    <button type="submit" class="btn btn-primary btn-md btn-block filter">篩選</button>
+                  </div>
+                  <div class="col-sm px-1">
+                    <input type="button" class="btn btn-primary class_on_first_link btn-md btn-block cancel_filter" value="取消篩選" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+
+
+        <!-- 所有/在案/過往-區塊 -->
+        <div class="col-sm-3">
           <div class="btn-group" data-toggle="buttons">
             <label class="btn btn-info active"> <input type="radio" name="status" value="all" checked="checked" /> 所有 </label>
             <label class="btn btn-success"> <input type="radio" name="status" value="active" /> 在案 </label>
@@ -95,6 +163,8 @@
         </div>
       </div>
     </div>
+
+    
     <table class="table table-striped table-hover">
       <thead>
         <tr>
@@ -143,344 +213,118 @@
               {{ yfcase.user.userFullName }}
             </td>
             <td>
-              {{ yfcase.finaldecisions.first.finalDecision }}
-                {% if yfcase.finaldecisions.first.finalDecision|last_string == "拍進場" %}
-                  {% if yfcase.auctions.first.auctionFloorPriceFirst > 999999 or yfcase.auctions.first.auctionFloorPriceSecond > 999999 or yfcase.auctions.first.auctionFloorPriceThird > 999999 or yfcase.auctions.first.auctionFloorPriceFourth > 999999 %}
-                    {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None and yfcase.finaldecisions.first.subSigntrueB != None %}
-                    	<!--此區：最終判定後面3個字=拍進場 && 拍賣金額>=1000000 && 區域負責人+副署人員1+副署人員2-->
+              {{ yfcase.finalDecision }}
+              
+              <!-- 符合條件，顯示評量表的圖示 -->
+              {% if yfcase.finalDecision|last_string == "拍進場" %}
+                {% if yfcase.auctions.first.auctionFloorPriceFirst > 999999 or yfcase.auctions.first.auctionFloorPriceSecond > 999999 or yfcase.auctions.first.auctionFloorPriceThird > 999999 or yfcase.auctions.first.auctionFloorPriceFourth > 999999 %}
+                  {% if yfcase.regionalHead != None and yfcase.subSigntrueA != None and yfcase.subSigntrueB != None %}
+                  	<!--此區：最終判定後面3個字=拍進場 && 拍賣金額>=1000000 && 區域負責人+副署人員1+副署人員2-->
+                    <a class="btn btn-primary text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=">評</a>  
+                  {% endif %}
+                {% elif yfcase.auctions.first.auctionFloorPriceFirst < 1000000 or yfcase.auctions.first.auctionFloorPriceSecond < 1000000 or yfcase.auctions.first.auctionFloorPriceThird < 1000000 or yfcase.auctions.first.auctionFloorPriceFourth < 1000000 %}
+                  {% if yfcase.auctions.first.auctionFloorPriceFirst > 0 or yfcase.auctions.first.auctionFloorPriceSecond > 0 or yfcase.auctions.first.auctionFloorPriceThird > 0 or yfcase.auctions.first.auctionFloorPriceFourth > 0 %}
+                    {% if yfcase.regionalHead != None and yfcase.subSigntrueA != None %}
+                      <!--此區：拍賣金額<1000000 && 拍賣金額>0 && 區域負責人+副署人員1-->
                       <a class="btn btn-primary text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=">評</a>  
                     {% endif %}
-                  {% elif yfcase.auctions.first.auctionFloorPriceFirst < 1000000 or yfcase.auctions.first.auctionFloorPriceSecond < 1000000 or yfcase.auctions.first.auctionFloorPriceThird < 1000000 or yfcase.auctions.first.auctionFloorPriceFourth < 1000000 %}
-                    {% if yfcase.auctions.first.auctionFloorPriceFirst > 0 or yfcase.auctions.first.auctionFloorPriceSecond > 0 or yfcase.auctions.first.auctionFloorPriceThird > 0 or yfcase.auctions.first.auctionFloorPriceFourth > 0 %}
-                      {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None %}
-                        <!--此區：拍賣金額<1000000 && 拍賣金額>0 && 區域負責人+副署人員1-->
-                        <a class="btn btn-primary text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=">評</a>  
-                      {% endif %}
-                    {% endif %}
-                  {% endif %}
-                {% elif yfcase.finaldecisions.first.finalDecision == "放棄" %}
-                  {% if yfcase.finaldecisions.first.regionalHead != None %}
-                    <!--此區：最終判定=放棄 && 區域負責人-->
-                    <a class="btn btn-primary text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=">評</a>
                   {% endif %}
                 {% endif %}
+              {% elif yfcase.finalDecision == "放棄" %}
+                {% if yfcase.regionalHead != None %}
+                  <!--此區：最終判定=放棄 && 區域負責人-->
+                  <a class="btn btn-primary text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=">評</a>
+                {% endif %}
+              {% endif %}
             </td>
             <td>第三人搶標</td>
             <td>
-              無人優購
+              
+              <table id="formItem">
 
-              <a href="javascript:void(0)" onclick="afterwinner_modal_update('{% url 'yfcase:afterwinner_edit' yfcase.id %}')" style="color:blue;font-size:20pt;" >
-                <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard-data" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                  <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
-                  <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
-                  <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z"/>
-                </svg>
-              </a>
-              <a class="btn btn-danger text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:deedtaxPDF_View' yfcase.pk %}?inline=">契</a>
-              <a class="btn btn-secondary text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:realestateregistrationPDF_View' yfcase.pk %}?inline=">動</a>
-              <a class="btn btn-success text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:complaintPDF_View' yfcase.pk %}?inline=">狀</a>
-              <a class="btn btn-warning text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:letterPDF_View' yfcase.pk %}?inline=">函</a>
-              <a class="btn btn-info text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:commonpropertydivisionPDF_View' yfcase.pk %}?inline=">共</a>
+                <tr>
+                  <td rowspan=2>無人優購</td>
+                  <td>
+                    <a href="javascript:void(0)" onclick="deedtax_modal_update('{% url 'yfcase:deedtax_edit' yfcase.id %}')" style="color:blue;font-size:20pt;" >
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard-data" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                        <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z"/>
+                      </svg>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0)" onclick="realestateregistration_modal_update('{% url 'yfcase:realestateregistration_edit' yfcase.id %}')" style="color:blue;font-size:20pt;" >
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard-data" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                        <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z"/>
+                      </svg>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0)" onclick="complaint_modal_update('{% url 'yfcase:complaint_edit' yfcase.id %}')" style="color:blue;font-size:20pt;" >
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard-data" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                        <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z"/>
+                      </svg>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0)" onclick="letter_modal_update('{% url 'yfcase:letter_edit' yfcase.id %}')" style="color:blue;font-size:20pt;" >
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard-data" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                        <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z"/>
+                      </svg>
+                    </a>
+                  </td>
+                  <td>
+                    <a href="javascript:void(0)" onclick="commonpropertydivision_modal_update('{% url 'yfcase:commonpropertydivision_edit' yfcase.id %}')" style="color:blue;font-size:20pt;" >
+                      <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-clipboard-data" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd" d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1v-1z"/>
+                        <path fill-rule="evenodd" d="M9.5 1h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3z"/>
+                        <path d="M4 11a1 1 0 1 1 2 0v1a1 1 0 1 1-2 0v-1zm6-4a1 1 0 1 1 2 0v5a1 1 0 1 1-2 0V7zM7 9a1 1 0 0 1 2 0v3a1 1 0 1 1-2 0V9z"/>
+                      </svg>
+                    </a>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <a class="btn btn-danger text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:deedtaxPDF_View' yfcase.pk %}?inline=">契</a>
+                  </td>
+                  <td>
+                    <a class="btn btn-secondary text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:realestateregistrationPDF_View' yfcase.pk %}?inline=">動</a>
+                  </td>
+                  <td>
+                    <a class="btn btn-success text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:complaintPDF_View' yfcase.pk %}?inline=">狀</a>
+                  </td>
+                  <td>
+                    <a class="btn btn-warning text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:letterPDF_View' yfcase.pk %}?inline=">函</a>
+                  </td>
+                  <td>
+                    <a class="btn btn-info text-white" style="padding:0px 5px;font-size:14pt;box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.7);" href="{% url 'yfcase:commonpropertydivisionPDF_View' yfcase.pk %}?inline=">共</a>
+                  </td>
+                </tr>
+              </table>
+
             </td>
             <td>KH001</td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
-  </div>
-      
-      
-      
-        
-  <h1 style="text-align: center;">案件清單</h1>
-  <div style="margin-bottom:3px;">
-
-  <form method="get">
-    <div class="row">
-      <div class="condition" style="padding-left:15px;padding-right:0px;margin-right:0px;">
-        <h3 style="padding-right:5px;">篩選條件</h3>
-      </div>
-      <div class="condition-item col">
-        
-        <div class="filter_item">
-        <!-- 案號篩選欄位 -->
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text bg-primary text-white" id="inputGroup-sizing-default" style="border:1px solid black;">案號</span>
-          </div>
-          {% render_field myFilter.form.yfcaseCaseNumber type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" style="border:1px solid black;" %}
-        </div>
-      </div>
-
-        <div class="filter_item">
-          <!-- 縣市篩選欄位 -->
-          <div class="input-group mb-3">
-            <div class="input-group-prepend" >
-              <label class="input-group-text bg-success text-white" for="id_yfcaseCity" style="border:1px solid black;">縣市</label>
-            </div>
-            {% render_field myFilter.form.yfcaseCity class="custom-select" style="border:1px solid black;" %}
-          </div>
-        </div>
-  
-        <div class="filter_item">
-          <!-- 人員篩選欄位 -->
-          <div class="input-group mb-3">
-            <div class="input-group-prepend" >
-              <label class="input-group-text bg-info text-white" for="id_yfcaseCity" style="border:1px solid black;">人員</label>
-            </div>
-            {% render_field myFilter.form.user class="custom-select" style="border:1px solid black;" %}
-          </div>
-        </div>
-  
-        <div class="filter_item">
-          <!-- 最終判定篩選欄位 -->
-          <div class="input-group mb-3">
-            <div class="input-group-prepend" >
-              <label class="input-group-text bg-warning text-white" for="id_yfcaseCity" style="border:1px solid black;">最終判定</label>
-            </div>
-            <!--{% render_field myFilter.form.yfcaseFinalDecision class="custom-select" style="border:1px solid black;" %}-->
-          </div>
-        </div>
-  
-        <div class="container_button">
-          <div class="row">
-            <div class="col">
-              <button type="submit" class="btn btn-primary btn-md btn-block filter" >篩選</button>
-            </div>
-            <div class="col">
-              <input type ="button"  class="btn btn-primary class_on_first_link btn-md btn-block cancel_filter" value="取消篩選"></input>
-            </div>
-          </div>
-        </div>
-      </div>
-    
-    </div>
-  </form>
-  <br>
-
-
-  <table class="table">
-    <thead>
-      <tr>
-        {% if request.user.userFullName == "管理者" %}
-          <th>操作</th>
-        {% endif %}
-        <th>案號</th>
-        <th>兩週內提醒</th>
-        <th>負責人</th>
-        <th>最終判定</th>
-        <th>執行結果</th>
-        <th>優購結果</th>
-        <th>標的編號</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for yfcase in object_list %}
-      <tr>
-        {% if request.user.userFullName == "管理者" %}
-          <td data-label="操作">
-            <a href="javascript:void(0)" onclick="yfcase_modal_delete('{% url 'yfcase:yfcase_delete' yfcase.id %}')" class="btn btn-outline-danger btn-sm delete-btn">
-              <i class="fas fa-trash-alt fa-lg"></i>
-            </a>
-          </td>
-        {% endif %}
-        <td data-label="案號">
-          <a href="{% url 'yfcase:yfcase_detail' yfcase.id %}">{{yfcase.yfcaseCaseNumber}}</a><br>
-          &emsp;&#10149;{{yfcase.yfcaseCity|default_if_none:""}}{{yfcase.yfcaseTownship|default_if_none:""}}{{yfcase.yfcaseBigSection|default_if_none:""}}{{yfcase.yfcaseSmallSectiion|default_if_none:""}}{{yfcase.yfcaseOtherAddress|default_if_none:""}}
-        </td>
-        <td data-label="兩週內提醒">
-          <span style="color:red;">
-            {% if yfcase.finaldecisions.first.finalDecision == "1拍進場" and yfcase.auctions.first.auctionDateFirst != "" %}
-              {{ yfcase.auctions.first.auctionDateFirst|less_two_week|default_if_none:"" }}<br>
-            {% elif yfcase.finaldecisions.first.finalDecision == "2拍進場" and yfcase.auctions.first.auctionDateSecond != "" %}
-              {{ yfcase.auctions.first.auctionDateSecond|less_two_week|default_if_none:"" }}<br>
-            {% elif yfcase.finaldecisions.first.finalDecision == "3拍進場" and yfcase.auctions.first.auctionDateThird != "" %}
-              {{ yfcase.auctions.first.auctionDateThird|less_two_week|default_if_none:"" }}<br>
-            {% elif yfcase.finaldecisions.first.finalDecision == "4拍進場" and yfcase.auctions.first.auctionDateFourth != "" %}
-              {{ yfcase.auctions.first.auctionDateFourth|less_two_week|default_if_none:"" }}<br>
-            {% endif %}
-          </span>
-        </td>
-        <td data-label="負責人">
-          {{ yfcase.user.userFullName }}
-          <a href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=" class="block_blue">評</a>  
-        </td>
-        <td data-label="最終判定">
-          {{ yfcase.finaldecisions.first.finalDecision }}
-          {% if yfcase.finaldecisions.first.finalDecision|last_string == "拍進場" %}
-            {% if yfcase.auctions.first.auctionFloorPriceFirst > 999999 or yfcase.auctions.first.auctionFloorPriceSecond > 999999 or yfcase.auctions.first.auctionFloorPriceThird > 999999 or yfcase.auctions.first.auctionFloorPriceFourth > 999999 %}
-              {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None and yfcase.finaldecisions.first.subSigntrueB != None %}
-              	<!--此區：最終判定後面3個字=拍進場 && 拍賣金額>=1000000 && 區域負責人+副署人員1+副署人員2-->
-                <a href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}" class="block_blue">評</a>
-              {% endif %}
-            {% elif yfcase.auctions.first.auctionFloorPriceFirst < 1000000 or yfcase.auctions.first.auctionFloorPriceSecond < 1000000 or yfcase.auctions.first.auctionFloorPriceThird < 1000000 or yfcase.auctions.first.auctionFloorPriceFourth < 1000000 %}
-              {% if yfcase.auctions.first.auctionFloorPriceFirst > 0 or yfcase.auctions.first.auctionFloorPriceSecond > 0 or yfcase.auctions.first.auctionFloorPriceThird > 0 or yfcase.auctions.first.auctionFloorPriceFourth > 0 %}
-                {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None %}
-                  <!--此區：拍賣金額<1000000 && 拍賣金額>0 && 區域負責人+副署人員1-->
-                  <a href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}" class="block_blue">評</a>
-                {% endif %}
-              {% endif %}
-            {% endif %}
-          {% elif yfcase.finaldecisions.first.finalDecision == "放棄" %}
-            {% if yfcase.finaldecisions.first.regionalHead != None %}
-              <!--此區：最終判定=放棄 && 區域負責人-->
-              <a href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}" class="block_blue">評</a>  
-              
-            {% endif %}
-          {% endif %}
-        </td>
-        <td data-label="執行結果">
-          第三人搶標
-        </td>
-        <td data-label="優購結果">
-          無人優購
-          <a href="javascript:void(0)" onclick="afterwinner_modal_update('{% url 'yfcase:afterwinner_edit' yfcase.id %}')" class="btn-sm p-0 m-0">
-            <i class="fas fa-list-alt fa-2x"></i>
-          </a>
-          <a href="{% url 'yfcase:deedtaxPDF_View' yfcase.pk %}" class="block_red">契</a>
-          <a href="{% url 'yfcase:realestateregistrationPDF_View' yfcase.pk %}" class="block_green">動</a>
-          <a href="{% url 'yfcase:complaintPDF_View' yfcase.pk %}" class="block_black">狀</a>
-          <a href="{% url 'yfcase:letterPDF_View' yfcase.pk %}" class="block_indigo">函</a>
-          <a href="{% url 'yfcase:commonpropertydivisionPDF_View' yfcase.pk %}" class="block_orangered">共</a>
-        </td>
-        <td data-label="標的編號">KH001</td>
-      </tr>
-      {% endfor %}
-     
     </tbody>
   </table>
   
-  
-  
-  <div class="table-wrapper">
-    <div class="table-title">
-      <div class="row" style="margin-bottom:0px;">
-        <div class="col-sm-6"><h2><b>案件清單</b></h2></div>
-        <div class="col-sm-6">
-          <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-info active">
-              <input type="radio" name="status" value="all" checked="checked"> 在案
-            </label>
-            <label class="btn btn-success">
-              <input type="radio" name="status" value="active"> 過往
-            </label>
-            <label class="btn btn-warning">
-              <input type="radio" name="status" value="inactive"> 所有
-            </label>
-          </div>
-        </div>
-      </div>
-    </div>
-    <table class="table table-striped table-hover">
-      <thead>
-        <tr>
-          {% if request.user.userFullName == "管理者" %}
-            <th>操作</th>
-          {% endif %}
-          <th>ID</th>
-          <th>案號</th>
-          <th>兩週內提醒</th>
-          <th>負責人</th>
-          <th>最終判定</th>
-          <th>執行結果</th>
-          <th>優購結果</th>
-          <th>標的編號</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for yfcase in object_list %}
-          <tr data-status="active">
-            {% if request.user.userFullName == "管理者" %}
-              <td data-label="操作">
-                <a href="javascript:void(0)" onclick="yfcase_modal_delete('{% url 'yfcase:yfcase_delete' yfcase.id %}')" class="btn btn-outline-danger btn-sm delete-btn">
-                  <i class="fas fa-trash-alt fa-lg"></i>
-                </a>
-              </td>
-            {% endif %}
-            <td>{{ yfcase.id}}</td>
-            <td>
-              <a href="{% url 'yfcase:yfcase_detail' yfcase.id %}">{{yfcase.yfcaseCaseNumber}}</a><br>
-              &emsp;&#10149;{{yfcase.yfcaseCity|default_if_none:""}}{{yfcase.yfcaseTownship|default_if_none:""}}{{yfcase.yfcaseBigSection|default_if_none:""}}{{yfcase.yfcaseSmallSectiion|default_if_none:""}}{{yfcase.yfcaseOtherAddress|default_if_none:""}}
-            </td>
-            <td>
-              <span style="color:red;">
-                {% if yfcase.finaldecisions.first.finalDecision == "1拍進場" and yfcase.auctions.first.auctionDateFirst != "" %}
-                  {{ yfcase.auctions.first.auctionDateFirst|less_two_week|default_if_none:"" }}<br>
-                {% elif yfcase.finaldecisions.first.finalDecision == "2拍進場" and yfcase.auctions.first.auctionDateSecond != "" %}
-                  {{ yfcase.auctions.first.auctionDateSecond|less_two_week|default_if_none:"" }}<br>
-                {% elif yfcase.finaldecisions.first.finalDecision == "3拍進場" and yfcase.auctions.first.auctionDateThird != "" %}
-                  {{ yfcase.auctions.first.auctionDateThird|less_two_week|default_if_none:"" }}<br>
-                {% elif yfcase.finaldecisions.first.finalDecision == "4拍進場" and yfcase.auctions.first.auctionDateFourth != "" %}
-                  {{ yfcase.auctions.first.auctionDateFourth|less_two_week|default_if_none:"" }}<br>
-                {% endif %}
-              </span>
-            </td>
-            <td>
-              {{ yfcase.user.userFullName }}
-            </td>
-            <td>
-              {{ yfcase.finaldecisions.first.finalDecision }}
-                {% if yfcase.finaldecisions.first.finalDecision|last_string == "拍進場" %}
-                  {% if yfcase.auctions.first.auctionFloorPriceFirst > 999999 or yfcase.auctions.first.auctionFloorPriceSecond > 999999 or yfcase.auctions.first.auctionFloorPriceThird > 999999 or yfcase.auctions.first.auctionFloorPriceFourth > 999999 %}
-                    {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None and yfcase.finaldecisions.first.subSigntrueB != None %}
-                    	<!--此區：最終判定後面3個字=拍進場 && 拍賣金額>=1000000 && 區域負責人+副署人員1+副署人員2-->
-                      <a class="waves-effect waves-light btn-small blue text-white" style="padding:0px 5px;font-size:14pt;" href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=">評</a>  
-                    {% endif %}
-                  {% elif yfcase.auctions.first.auctionFloorPriceFirst < 1000000 or yfcase.auctions.first.auctionFloorPriceSecond < 1000000 or yfcase.auctions.first.auctionFloorPriceThird < 1000000 or yfcase.auctions.first.auctionFloorPriceFourth < 1000000 %}
-                    {% if yfcase.auctions.first.auctionFloorPriceFirst > 0 or yfcase.auctions.first.auctionFloorPriceSecond > 0 or yfcase.auctions.first.auctionFloorPriceThird > 0 or yfcase.auctions.first.auctionFloorPriceFourth > 0 %}
-                      {% if yfcase.finaldecisions.first.regionalHead != None and yfcase.finaldecisions.first.subSigntrueA != None %}
-                        <!--此區：拍賣金額<1000000 && 拍賣金額>0 && 區域負責人+副署人員1-->
-                        <a class="waves-effect waves-light btn-small blue text-white" style="padding:0px 5px;font-size:14pt;" href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=">評</a>  
-                      {% endif %}
-                    {% endif %}
-                  {% endif %}
-                {% elif yfcase.finaldecisions.first.finalDecision == "放棄" %}
-                  {% if yfcase.finaldecisions.first.regionalHead != None %}
-                    <!--此區：最終判定=放棄 && 區域負責人-->
-                    <a class="waves-effect waves-light btn-small blue text-white" style="padding:0px 5px;font-size:14pt;" href="{% url 'yfcase:yfratingscalePDF_View' yfcase.pk %}?inline=">評</a>  
-                  {% endif %}
-                {% endif %}
-            </td>
-            <td>第三人搶標</td>
-            <td>
-              無人優購
-
-              <a href="javascript:void(0)" onclick="afterwinner_modal_update('{% url 'yfcase:afterwinner_edit' yfcase.id %}')" >
-                <i class="small material-icons" style="margin-top:10px;">assignment</i>
-              </a>
-              <a class="waves-effect waves-light btn-small red text-white" style="padding:0px 5px;font-size:14pt;" href="{% url 'yfcase:deedtaxPDF_View' yfcase.pk %}">契</a>
-              <a class="waves-effect waves-light btn-small green text-white" style="padding:0px 5px;font-size:14pt;" href="{% url 'yfcase:realestateregistrationPDF_View' yfcase.pk %}">動</a>
-              <a class="waves-effect waves-light btn-small black text-white" style="padding:0px 5px;font-size:14pt;" href="{% url 'yfcase:complaintPDF_View' yfcase.pk %}">狀</a>
-              <a class="waves-effect waves-light btn-small purple text-white" style="padding:0px 5px;font-size:14pt;" href="{% url 'yfcase:letterPDF_View' yfcase.pk %}">函</a>
-              <a class="waves-effect waves-light btn-small brown text-white" style="padding:0px 5px;font-size:14pt;" href="{% url 'yfcase:commonpropertydivisionPDF_View' yfcase.pk %}">共</a>
-            </td>
-            <td>KH001</td>
-
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div> 
-  
-  
-  
   <div class="modal fade" id="createModal" role="dialog"></div>
   <div class="modal fade" id="deleteYfcaseModal" role="dialog"></div>
-  <div class="modal fade" id="editAfterWinnerModal" role="dialog"></div>
-  
-   <!-- Modal Trigger -->
-  <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
-
-  <!-- Modal Structure -->
-  <div id="modal1" class="modal">
-    <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
-    </div>
-  </div>
+  <div class="modal fade" id="editDeedtaxModal" role="dialog"></div>
+  <div class="modal fade" id="editRealestateregistrationModal" role="dialog"></div>
+  <div class="modal fade" id="editComplaintModal" role="dialog"></div>
+  <div class="modal fade" id="editLetterModal" role="dialog"></div>
+  <div class="modal fade" id="editCommonpropertydivisionModal" role="dialog"></div>
   
 {% endblock %}
 
@@ -505,8 +349,28 @@
       })
     }
     
-    function afterwinner_modal_update(url) {
-      $('#editAfterWinnerModal').load(url,function() {
+    function deedtax_modal_update(url) {
+      $('#editDeedtaxModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function realestateregistration_modal_update(url) {
+      $('#editRealestateregistrationModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function complaint_modal_update(url) {
+      $('#editComplaintModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function letter_modal_update(url) {
+      $('#editLetterModal').load(url,function() {
+        $(this).modal('show')
+      })
+    }
+    function commonpropertydivision_modal_update(url) {
+      $('#editCommonpropertydivisionModal').load(url,function() {
         $(this).modal('show')
       })
     }

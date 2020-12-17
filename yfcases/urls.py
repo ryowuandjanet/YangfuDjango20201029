@@ -43,7 +43,13 @@ urlpatterns = [
   path('subsigntrueb/<int:pk>/edit/',views.SubSigntrueBUpdateView.as_view(),name="subsigntrueb_edit" ),
   path('subsigntrueb/<int:pk>/delete/',views.SubSigntrueBDeleteView.as_view(),name="subsigntrueb_delete" ),
   path('ajax/load-townships/', views.load_townships, name='ajax_load_townships'),
-  path('afterwinner/<int:pk>/edit/', views.AfterWinnerUpdateView.as_view(), name='afterwinner_edit'),
+  
+  path('deedtax/<int:pk>/edit/', views.DeedtaxUpdateView.as_view(), name='deedtax_edit'),
+  path('realestateregistration/<int:pk>/edit/', views.RealestateregistrationUpdateView.as_view(), name='realestateregistration_edit'),
+  path('complaint/<int:pk>/edit/', views.ComplaintUpdateView.as_view(), name='complaint_edit'),
+  path('letter/<int:pk>/edit/', views.LetterUpdateView.as_view(), name='letter_edit'),
+  path('commonpropertydivision/<int:pk>/edit/', views.CommonpropertydivisionUpdateView.as_view(), name='commonpropertydivision_edit'),
+  
   path('yfratingscalePDFView/<int:pk>/', views.yfratingscalePDFView.as_view(),name="yfratingscalePDF_View"),
   path('deedtaxPDFView/<int:pk>/', views.deedtaxPDFView.as_view(),name="deedtaxPDF_View"),
   path('realestateregistrationPDFView/<int:pk>/', views.realestateregistrationPDFView.as_view(),name="realestateregistrationPDF_View"),

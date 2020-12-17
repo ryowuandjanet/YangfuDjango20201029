@@ -50,6 +50,17 @@ class Yfcase(models.Model):
   yfcaseDebtor=models.CharField(u'債務人',max_length=10,null=True,blank=True)
   yfcaseCreditor=models.CharField(u'債權人',max_length=10,null=True,blank=True)
   user = models.ForeignKey('users.CustomUser',verbose_name = u'區域負責人', on_delete=models.CASCADE)
+  # 最終判定
+  finalDecision = models.CharField(u'最終判定',max_length=10,null=True,blank=True)
+  regionalHead = models.CharField(u'區域負責人',max_length=10,null=True,blank=True)
+  subSigntrueA = models.CharField(u'副署人員1',max_length=10,null=True,blank=True)
+  subSigntrueB = models.CharField(u'副署人員2',max_length=10,null=True,blank=True)
+  regionalHeadDate = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
+  subSigntrueDateA = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
+  subSigntrueDateB = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
+  regionalHeadWorkArea = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
+  subSigntrueWorkAreaA = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
+  subSigntrueWorkAreaB = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
   # 契稅申請單欄位
   yfcaseDeedtaxHouseTaxRegistrationNumber=models.CharField(u'房屋稅籍編號',max_length=100,null=True,blank=True)
   yfcaseDeedtaxEstablishmentDate=models.DateField(u'契稅建立日期',null=True,blank=True)
@@ -293,11 +304,25 @@ class Yfcase(models.Model):
   # 在編輯finalDecision設定
   # 取得區域負責人的全名
   def get_regionalHead_username(self):
-      return self.finaldecisions.regionalHead
+      return self.regionalHead
 
   # 取得當前登錄人員的全名
   def get_user_username(self):
     return self.user.userFullName
+  
+  # 取得"沒有"跨所申請鄉鎮對應的縣市，並判定最後一個字是為"縣"或"市"
+  def cityLastJudgment(self):
+    return self.yfcaseTownship.city_name[2:]
+  
+  # 取得"有"跨所申請鄉鎮對應的縣市
+  def yfcaseAcceptingAuthorityTownship_city(self):
+    township_name=self.yfcaseAcceptingAuthorityTownship
+    return Township.objects.get(name=township_name).city_name
+    
+  # 取得"有"跨所申請鄉鎮對應的縣市，並判定最後一個字是為"縣"或"市"
+  def yfcaseAcceptingAuthorityTownship_city_last_word(self):
+    township_name=self.yfcaseAcceptingAuthorityTownship
+    return Township.objects.get(name=township_name).city_name[2:]
 
     
 class Land(models.Model):
@@ -595,7 +620,7 @@ class ObjectBuild(models.Model):
   objectBuildBuildArea=models.DecimalField(u'建坪(坪)',default=0,max_digits=10,decimal_places=2,null=True,blank=True)
   objectBuildHouseAge=models.DecimalField(u'屋齡(年)',default=0,max_digits=5,decimal_places=2,null=True,blank=True)
   objectBuildFloorHeight = models.CharField(u'樓高',max_length=100,null=True,blank=True)
-  objectBuildStatus = models.CharField(u'狀態',max_length=100,null=True,blank=True)
+  objectBuildGoogleMap = models.URLField(u'Google地圖',max_length=200,null=True,blank=True)
   objectBuildTransactionDate = models.CharField(u'成交日期',max_length=100,null=True,blank=True)
   objectBuildUrl =models.URLField(u'附件',max_length=200,null=True,blank=True)
   objectBuildScorerA = models.CharField(u'勘查員A',max_length=100,null=True,blank=True)
@@ -758,34 +783,34 @@ class ObjectBuild(models.Model):
       newlist.append(0)
 
     
-class FinalDecision(models.Model):
-  yfcase=models.ForeignKey(Yfcase,related_name='finaldecisions',on_delete=models.CASCADE)
-  finalDecision = models.CharField(u'最終判定',max_length=10,null=True,blank=True)
-  regionalHead = models.CharField(u'區域負責人',max_length=10,null=True,blank=True)
-  subSigntrueA = models.CharField(u'副署人員1',max_length=10,null=True,blank=True)
-  subSigntrueB = models.CharField(u'副署人員2',max_length=10,null=True,blank=True)
-  regionalHeadDate = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
-  subSigntrueDateA = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
-  subSigntrueDateB = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
-  regionalHeadWorkArea = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
-  subSigntrueWorkAreaA = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
-  subSigntrueWorkAreaB = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
+# class FinalDecision(models.Model):
+#   yfcase=models.ForeignKey(Yfcase,related_name='finaldecisions',on_delete=models.CASCADE)
+#   finalDecision = models.CharField(u'最終判定',max_length=10,null=True,blank=True)
+#   regionalHead = models.CharField(u'區域負責人',max_length=10,null=True,blank=True)
+#   subSigntrueA = models.CharField(u'副署人員1',max_length=10,null=True,blank=True)
+#   subSigntrueB = models.CharField(u'副署人員2',max_length=10,null=True,blank=True)
+#   regionalHeadDate = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
+#   subSigntrueDateA = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
+#   subSigntrueDateB = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
+#   regionalHeadWorkArea = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
+#   subSigntrueWorkAreaA = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
+#   subSigntrueWorkAreaB = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
 
-  def __str__(self):
-    return self.finalDecision
+#   def __str__(self):
+#     return self.finalDecision
 
-  def other_day_to_today(self):
-    # 取得目前的日期，要用form dateteim import datetime,不可用import datetime
-    today = datetime.now()
-    # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
-    other_day = datetime.strptime(self.regionalHeadDate,'%m/%d/%Y')
-    result = other_day - today
-    return str(result.days)
+#   def other_day_to_today(self):
+#     # 取得目前的日期，要用form dateteim import datetime,不可用import datetime
+#     today = datetime.now()
+#     # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
+#     other_day = datetime.strptime(self.regionalHeadDate,'%m/%d/%Y')
+#     result = other_day - today
+#     return str(result.days)
     
-  # def get_regionalhead_first_name(self):
-  #   return self.regionalHead[:1]
+#   # def get_regionalhead_first_name(self):
+#   #   return self.regionalHead[:1]
 
-  # def get_regionalhead_last_name(self):
-  #   return self.regionalHead[1:]
+#   # def get_regionalhead_last_name(self):
+#   #   return self.regionalHead[1:]
   
 

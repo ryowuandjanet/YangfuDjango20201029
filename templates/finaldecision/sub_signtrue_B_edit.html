@@ -1,5 +1,5 @@
 {% load widget_tweaks %}
-<form action="{% url 'yfcase:subsigntrueb_edit' finaldecision.id %}" method="post">{% csrf_token %}
+<form action="{% url 'yfcase:subsigntrueb_edit' yfcase.id %}" method="post">{% csrf_token %}
 
   <div class="modal-dialog">
     <div class="modal-content">
@@ -15,7 +15,6 @@
       <!-- body -->
       <div class="modal-body">
 
-        {{ form.yfcase|attr:"type:hidden" }}
         {{ form.subSigntrueB|attr:"type:hidden" }}
         {{ form.subSigntrueWorkAreaB|attr:"type:hidden" }}
 
@@ -42,7 +41,8 @@
 <script>
  $(function() {
     $( ".datepicker" ).datepicker({
-      dateFormat: "yy-mm-dd"
+      dateFormat: "yy-mm-dd",
+      minDate: '+0d'
     });
   });
 
