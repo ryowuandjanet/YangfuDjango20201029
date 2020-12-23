@@ -67,6 +67,7 @@
 {% block javascript %}
 <!--為防止在運行jquery程式碼時出錯Uncaught ReferenceError: $ is not defined，所以要加上-->
 <script>
+  /*global $*/
   $(document).ready(function(){
     // 此為欄位驗証的JS
     $('#landCreateForm').bootstrapValidator({
@@ -135,11 +136,8 @@
   });
 
   function get_land_yfcase() {
-    
       var url = (window.location.pathname).replace("/yfcase/","").replace("/",""); 
-      console.log(url)
       document.getElementById("id_yfcase").value = url;
-  
   }
 </script>
 {% endblock %}

@@ -1,6 +1,10 @@
 from django import forms
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import Layout, Field, Fieldset, Div, HTML, ButtonHolder, Submit
 from .models import *
 from users.models import *
+from django.forms.models import inlineformset_factory
+from .custom_layout_object import *
 
 COMPANY_LIST = [
   ("",""),
@@ -458,7 +462,7 @@ class YfcaseForm(forms.ModelForm):
   yfcaseCompany = forms.ChoiceField(label="所屬公司",choices=COMPANY_LIST, required=False)
   class Meta:
     model=Yfcase
-    fields =['yfcaseCaseNumber','yfcaseCompany','yfcaseCity','yfcaseTownship','yfcaseBigSection','yfcaseSmallSection',"yfcaseVillage","yfcaseNeighbor","yfcaseStreet","yfcaseSection","yfcaseLane","yfcaseAlley","yfcaseNumber","yfcaseFloor",'yfcaseDebtor','yfcaseCreditor','user'] 
+    fields =['yfcaseCaseNumber','yfcaseCompany','yfcaseCity','yfcaseTownship','yfcaseBigSection','yfcaseSmallSection',"yfcaseVillage","yfcaseNeighbor","yfcaseStreet","yfcaseSection","yfcaseLane","yfcaseAlley","yfcaseNumber","yfcaseFloor",'yfcaseDebtor','yfcaseCreditor','user', 'yfcaseStatus'] 
     
     
 
@@ -594,6 +598,22 @@ class SubSigntrueBForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
     super().__init__(*args, **kwargs)
 
+
+# 共有人資訊
+class CoOwnerInfoForm(forms.ModelForm):
+  class Meta:
+    model = CoOwnerInfo
+    exclude = ()
+
+CoOwnerInfoFormSet = inlineformset_factory(
+  Yfcase, 
+  CoOwnerInfo, 
+  form=CoOwnerInfoForm,
+  fields=["coOwnerName","coOwnerAddress","coOwnerLandHPPersonnal","coOwnerLandHPAll","coOwnerBuildHPPersonnal","coOwnerBuildHPAll"], 
+  extra=0, 
+  can_delete=True
+  )
+  
 # 契稅申請單-Modal(Form)
 class DeedtaxForm(forms.ModelForm):
   yfcaseDeedtaxReclaimMethod = forms.ChoiceField(label="契稅領回方式",choices=DEED_TAX_RECLAIM_METHOD_LIST, required=False)
@@ -627,48 +647,38 @@ class RealestateregistrationForm(forms.ModelForm):
     
 # 訴訟狀-Modal(Form)
 class ComplaintForm(forms.ModelForm):
-  yfcaseDeedtaxReclaimMethod = forms.ChoiceField(label="契稅領回方式",choices=DEED_TAX_RECLAIM_METHOD_LIST, required=False)
-  yfcaseDeedtaxClosingNewsletter = forms.ChoiceField(label="契稅結案簡訊",choices=DEED_TAX_CLOSING_NEWSLETTER_LIST, required=False)
-  yfcaseDeedtaxReportAttached = forms.ChoiceField(label="契稅報附聯",choices=DEED_TAX_REPORT_ATTACHED_LIST, required=False)
-  yfcaseRealEstateRegistrationReasonForRegistration = forms.ChoiceField(label="登記原因",choices=REAL_ESTATE_REGISTRATION_REASON_FOR_REGISTRATION, required=False)
-  yfcaseAcceptingAuthorityTownship = forms.ChoiceField(label="受理機關-鄉鎮",choices=ACCEPTING_AUTHORITY_TOWNSHIP_LIST, required=False)
-  yfcaseDeedtaxClient = forms.ModelChoiceField(label="契稅委託人",queryset=CustomUser.objects.filter(userRole=0), required=False)
+  yfcaseComplaintLitigationAgent = forms.ModelChoiceField(label="契稅委託人",queryset=CustomUser.objects.filter(userRole=0), required=False)
   class Meta:
     model=Yfcase
     fields =[
-      "yfcaseDeedtaxHouseTaxRegistrationNumber","yfcaseDeedtaxEstablishmentDate","yfcaseDeedtaxDeclarationDate","yfcaseDeedtaxClient","yfcaseDeedtaxTransferPrice","yfcaseDeedtaxReclaimMethod","yfcaseDeedtaxClosingNewsletter","yfcaseDeedtaxRemarks","yfcaseDeedtaxReportAttached", \
-      "yfcaseDeedtaxDebtorIdentityCard","yfcaseDeedtaxDebtorBirthday","yfcaseDeedtaxDebtorLocalPhone","yfcaseDeedtaxDebtorMobilePhone","yfcaseDeedtaxDebtorCity","yfcaseDeedtaxDebtorTownship","yfcaseDeedtaxDebtorVillage","yfcaseDeedtaxDebtorNeighbor","yfcaseDeedtaxDebtorStreet","yfcaseDeedtaxDebtorSection","yfcaseDeedtaxDebtorLane","yfcaseDeedtaxDebtorAlley","yfcaseDeedtaxDebtorNumber","yfcaseDeedtaxDebtorFloor","yfcaseDeedtaxDebtorLandHoldingPointPersonal","yfcaseDeedtaxDebtorLandHoldingPointAll","yfcaseDeedtaxDebtorBuildHoldingPointPersonal","yfcaseDeedtaxDebtorBuildHoldingPointAll", \
-      "yfcaseDeedtaxCreditorIdentityCard","yfcaseDeedtaxCreditorBirthday","yfcaseDeedtaxCreditorLocalPhone","yfcaseDeedtaxCreditorMobilePhone","yfcaseDeedtaxCreditorCity","yfcaseDeedtaxCreditorTownship","yfcaseDeedtaxCreditorVillage","yfcaseDeedtaxCreditorNeighbor","yfcaseDeedtaxCreditorStreet","yfcaseDeedtaxCreditorSection","yfcaseDeedtaxCreditorLane","yfcaseDeedtaxCreditorAlley","yfcaseDeedtaxCreditorNumber","yfcaseDeedtaxCreditorFloor","yfcaseDeedtaxCreditorLandHoldingPointPersonal","yfcaseDeedtaxCreditorLandHoldingPointAll","yfcaseDeedtaxCreditorBuildHoldingPointPersonal","yfcaseDeedtaxCreditorBuildHoldingPointAll", \
-      "yfcaseDeedtaxBuildingTransferLevel1","yfcaseDeedtaxBuildingTransferLevel2","yfcaseDeedtaxBuildingTransferLevel3","yfcaseDeedtaxBuildingTransferLevel4","yfcaseDeedtaxBuildingTransferLevel5","yfcaseDeedtaxBuildingTransferLevel6", \
-      "yfcaseDeedtaxBuildingTransferStructure1","yfcaseDeedtaxBuildingTransferStructure2","yfcaseDeedtaxBuildingTransferStructure3","yfcaseDeedtaxBuildingTransferStructure4","yfcaseDeedtaxBuildingTransferStructure5","yfcaseDeedtaxBuildingTransferStructure6", \
-      "yfcaseDeedtaxBuildingTransferArea1","yfcaseDeedtaxBuildingTransferArea2","yfcaseDeedtaxBuildingTransferArea3","yfcaseDeedtaxBuildingTransferArea4","yfcaseDeedtaxBuildingTransferArea5","yfcaseDeedtaxBuildingTransferArea6", \
-      "yfcaseDeedtaxBuildingTransferPublicBuildingNumber1","yfcaseDeedtaxBuildingTransferPublicBuildingNumber2","yfcaseDeedtaxBuildingTransferPublicBuildingNumber3","yfcaseDeedtaxBuildingTransferPublicBuildingNumber4", \
-      "yfcaseDeedtaxBuildingTransferPublicHoldings1","yfcaseDeedtaxBuildingTransferPublicHoldings2","yfcaseDeedtaxBuildingTransferPublicHoldings3","yfcaseDeedtaxBuildingTransferPublicHoldings4", \
-      "yfcaseRealEstateRegistrationRegisteredAgent","yfcaseRealEstateRegistrationDateOfCause","yfcaseRealEstateRegistrationReasonForRegistration","yfcaseRealEstateRegistrationRegistrationNote", \
-      "yfcaseDeedtaxCoOwnerMatch","yfcaseApplyAcrossInstitutions","yfcaseAcceptingAuthorityTownship"
+      "yfcaseComplaintComplaintDate","yfcaseComplaintLitigationAgent","yfcaseComplaintPresentValueOfLandAnnouncement","yfcaseComplaintPresentValueOfHouseTax","yfcaseComplaintRefereeFee","yfcaseComplaintUnsuccessfulDate","yfcaseComplaintLandWidth","yfcaseComplaintLandDepth","yfcaseComplaintExhibit1","yfcaseComplaintExhibit2","yfcaseComplaintExhibit3","yfcaseComplaintExhibit4"
     ] 
+    
+  def __init__(self, *args, **kwargs):
+    super(ComplaintForm, self).__init__(*args, **kwargs)
+    self.helper = FormHelper()
+    self.helper.form_tag = True
+    self.helper.form_class = 'form-horizontal'
+    self.helper.label_class = 'col-md-2 create-label'
+    self.helper.field_class = 'col-md-10'
+    self.helper.layout = Layout(
+      Div(
+        Fieldset('新增(編輯)共有人資訊',
+          Formset('titles'),
+        ),
+        HTML("<br>"),
+        )
+      )
+    
 # 存證信函-Modal(Form)
 class LetterForm(forms.ModelForm):
-  yfcaseDeedtaxReclaimMethod = forms.ChoiceField(label="契稅領回方式",choices=DEED_TAX_RECLAIM_METHOD_LIST, required=False)
-  yfcaseDeedtaxClosingNewsletter = forms.ChoiceField(label="契稅結案簡訊",choices=DEED_TAX_CLOSING_NEWSLETTER_LIST, required=False)
-  yfcaseDeedtaxReportAttached = forms.ChoiceField(label="契稅報附聯",choices=DEED_TAX_REPORT_ATTACHED_LIST, required=False)
-  yfcaseRealEstateRegistrationReasonForRegistration = forms.ChoiceField(label="登記原因",choices=REAL_ESTATE_REGISTRATION_REASON_FOR_REGISTRATION, required=False)
-  yfcaseAcceptingAuthorityTownship = forms.ChoiceField(label="受理機關-鄉鎮",choices=ACCEPTING_AUTHORITY_TOWNSHIP_LIST, required=False)
-  yfcaseDeedtaxClient = forms.ModelChoiceField(label="契稅委託人",queryset=CustomUser.objects.filter(userRole=0), required=False)
+  yfcaseLetterAgent = forms.ModelChoiceField(label="存證信函代理人",queryset=CustomUser.objects.filter(userRole=0), required=False)
   class Meta:
     model=Yfcase
     fields =[
-      "yfcaseDeedtaxHouseTaxRegistrationNumber","yfcaseDeedtaxEstablishmentDate","yfcaseDeedtaxDeclarationDate","yfcaseDeedtaxClient","yfcaseDeedtaxTransferPrice","yfcaseDeedtaxReclaimMethod","yfcaseDeedtaxClosingNewsletter","yfcaseDeedtaxRemarks","yfcaseDeedtaxReportAttached", \
-      "yfcaseDeedtaxDebtorIdentityCard","yfcaseDeedtaxDebtorBirthday","yfcaseDeedtaxDebtorLocalPhone","yfcaseDeedtaxDebtorMobilePhone","yfcaseDeedtaxDebtorCity","yfcaseDeedtaxDebtorTownship","yfcaseDeedtaxDebtorVillage","yfcaseDeedtaxDebtorNeighbor","yfcaseDeedtaxDebtorStreet","yfcaseDeedtaxDebtorSection","yfcaseDeedtaxDebtorLane","yfcaseDeedtaxDebtorAlley","yfcaseDeedtaxDebtorNumber","yfcaseDeedtaxDebtorFloor","yfcaseDeedtaxDebtorLandHoldingPointPersonal","yfcaseDeedtaxDebtorLandHoldingPointAll","yfcaseDeedtaxDebtorBuildHoldingPointPersonal","yfcaseDeedtaxDebtorBuildHoldingPointAll", \
-      "yfcaseDeedtaxCreditorIdentityCard","yfcaseDeedtaxCreditorBirthday","yfcaseDeedtaxCreditorLocalPhone","yfcaseDeedtaxCreditorMobilePhone","yfcaseDeedtaxCreditorCity","yfcaseDeedtaxCreditorTownship","yfcaseDeedtaxCreditorVillage","yfcaseDeedtaxCreditorNeighbor","yfcaseDeedtaxCreditorStreet","yfcaseDeedtaxCreditorSection","yfcaseDeedtaxCreditorLane","yfcaseDeedtaxCreditorAlley","yfcaseDeedtaxCreditorNumber","yfcaseDeedtaxCreditorFloor","yfcaseDeedtaxCreditorLandHoldingPointPersonal","yfcaseDeedtaxCreditorLandHoldingPointAll","yfcaseDeedtaxCreditorBuildHoldingPointPersonal","yfcaseDeedtaxCreditorBuildHoldingPointAll", \
-      "yfcaseDeedtaxBuildingTransferLevel1","yfcaseDeedtaxBuildingTransferLevel2","yfcaseDeedtaxBuildingTransferLevel3","yfcaseDeedtaxBuildingTransferLevel4","yfcaseDeedtaxBuildingTransferLevel5","yfcaseDeedtaxBuildingTransferLevel6", \
-      "yfcaseDeedtaxBuildingTransferStructure1","yfcaseDeedtaxBuildingTransferStructure2","yfcaseDeedtaxBuildingTransferStructure3","yfcaseDeedtaxBuildingTransferStructure4","yfcaseDeedtaxBuildingTransferStructure5","yfcaseDeedtaxBuildingTransferStructure6", \
-      "yfcaseDeedtaxBuildingTransferArea1","yfcaseDeedtaxBuildingTransferArea2","yfcaseDeedtaxBuildingTransferArea3","yfcaseDeedtaxBuildingTransferArea4","yfcaseDeedtaxBuildingTransferArea5","yfcaseDeedtaxBuildingTransferArea6", \
-      "yfcaseDeedtaxBuildingTransferPublicBuildingNumber1","yfcaseDeedtaxBuildingTransferPublicBuildingNumber2","yfcaseDeedtaxBuildingTransferPublicBuildingNumber3","yfcaseDeedtaxBuildingTransferPublicBuildingNumber4", \
-      "yfcaseDeedtaxBuildingTransferPublicHoldings1","yfcaseDeedtaxBuildingTransferPublicHoldings2","yfcaseDeedtaxBuildingTransferPublicHoldings3","yfcaseDeedtaxBuildingTransferPublicHoldings4", \
-      "yfcaseRealEstateRegistrationRegisteredAgent","yfcaseRealEstateRegistrationDateOfCause","yfcaseRealEstateRegistrationReasonForRegistration","yfcaseRealEstateRegistrationRegistrationNote", \
-      "yfcaseDeedtaxCoOwnerMatch","yfcaseApplyAcrossInstitutions","yfcaseAcceptingAuthorityTownship"
+      "yfcaseLetterAgent"
     ] 
+    
 # 共有人分割-Modal(Form)
 class CommonpropertydivisionForm(forms.ModelForm):
   yfcaseDeedtaxReclaimMethod = forms.ChoiceField(label="契稅領回方式",choices=DEED_TAX_RECLAIM_METHOD_LIST, required=False)
@@ -691,6 +701,10 @@ class CommonpropertydivisionForm(forms.ModelForm):
       "yfcaseRealEstateRegistrationRegisteredAgent","yfcaseRealEstateRegistrationDateOfCause","yfcaseRealEstateRegistrationReasonForRegistration","yfcaseRealEstateRegistrationRegistrationNote", \
       "yfcaseDeedtaxCoOwnerMatch","yfcaseApplyAcrossInstitutions","yfcaseAcceptingAuthorityTownship"
     ] 
+  
+
+  
+
 
 
 

@@ -49,6 +49,7 @@ class Yfcase(models.Model):
   yfcaseFloor=models.CharField(u'樓(含之幾)',max_length=100,null=True,blank=True)
   yfcaseDebtor=models.CharField(u'債務人',max_length=10,null=True,blank=True)
   yfcaseCreditor=models.CharField(u'債權人',max_length=10,null=True,blank=True)
+  yfcaseStatus = models.BooleanField(u'案件狀態',default=False)
   user = models.ForeignKey('users.CustomUser',verbose_name = u'區域負責人', on_delete=models.CASCADE)
   # 最終判定
   finalDecision = models.CharField(u'最終判定',max_length=10,null=True,blank=True)
@@ -142,7 +143,22 @@ class Yfcase(models.Model):
   yfcaseRealEstateRegistrationRegistrationNote = models.CharField(u'登記備註',max_length=100,null=True,blank=True)
   yfcaseApplyAcrossInstitutions = models.BooleanField(u'跨所申請',default=False)
   yfcaseAcceptingAuthorityTownship = models.CharField(u'鄉鎮區里',max_length=100,null=True,blank=True)
-
+  # 訢訟狀  
+  yfcaseComplaintComplaintDate = models.DateField(u'起訴狀填寫日期',null=True,blank=True)
+  yfcaseComplaintLitigationAgent= models.CharField(u'訴訟代理人',max_length=100,null=True,blank=True)
+  yfcaseComplaintPresentValueOfLandAnnouncement = models.DecimalField(u'土地公告現值',default=0,max_digits=8,decimal_places=0,null=True,blank=True)
+  yfcaseComplaintPresentValueOfHouseTax= models.DecimalField(u'房屋課稅現值',default=0,max_digits=8,decimal_places=2,null=True,blank=True)
+  yfcaseComplaintRefereeFee = models.DecimalField(u'裁判費',default=0,max_digits=10,decimal_places=2,null=True,blank=True)
+  yfcaseComplaintUnsuccessfulDate = models.DateField(u'分割未果日期',null=True,blank=True)
+  yfcaseComplaintLandWidth = models.DecimalField(u'土地面寬',default=0,max_digits=4,decimal_places=2,null=True,blank=True)
+  yfcaseComplaintLandDepth = models.DecimalField(u'土地深度',default=0,max_digits=4,decimal_places=2,null=True,blank=True)
+  yfcaseComplaintExhibit1 = models.CharField(u'證物1',max_length=100,null=True,blank=True)
+  yfcaseComplaintExhibit2 = models.CharField(u'證物2',max_length=100,null=True,blank=True)
+  yfcaseComplaintExhibit3 = models.CharField(u'證物3',max_length=100,null=True,blank=True)
+  yfcaseComplaintExhibit4 = models.CharField(u'證物4',max_length=100,null=True,blank=True)
+  # 存證信函
+  yfcaseLetterAgent = models.CharField(u'存證信函代理人',max_length=100,null=True,blank=True)
+  
   def __str__(self):  
     return self.yfcaseCaseNumber
     
@@ -151,7 +167,7 @@ class Yfcase(models.Model):
     db_table = 'yfcase_yfcase'
   
   # 在編輯Land設定
-  # 得到所有地號面積的總和
+  # 得到所有地號持分面積的總和
   def get_land_holding_point_area_total(self):
     newlist=[]
     try:
@@ -161,6 +177,27 @@ class Yfcase(models.Model):
       return landTotal
     except:
       newlist.append(0)
+  
+  # 得到所有地號總面積(未計算債務人持分前)
+  def get_land_area_total(self):
+    newlist=[]
+    try:
+      landTotal = 0
+      for land_item in self.lands.exclude(landHoldingPointAll=0):
+        landTotal += land_item.landArea
+      return landTotal
+    except:
+      newlist.append(0)
+  
+  # 取得第一筆地號換算後持分的數值
+  def get_first_land_holding_point_value(self):
+    try:
+      if self.lands.first():
+        getFirstHoldingPointPersonnal = self.lands.first().landHoldingPointPersonal
+        getFirstHoldingPointAll = self.lands.first().landHoldingPointAll
+        return getFirstHoldingPointPersonnal / getFirstHoldingPointAll
+    except ZeroDivisionError:
+      return 0
 
   # 在編輯Build設定
   # 第一筆建物(非公設、非增建)各別面積
@@ -176,7 +213,7 @@ class Yfcase(models.Model):
     except ZeroDivisionError:
       return 0
       
-  # 取得第一筆非公設、非增建的持分比
+  # 取得第一筆非公設、非增建的所有持分
   def get_first_not_add_and_not_public_holding_point_all_rate(self):
     try:
       if self.builds.exclude(buildTypeUse="增建-持分後坪數打對折").exclude(buildTypeUse="公設").first():
@@ -323,6 +360,40 @@ class Yfcase(models.Model):
   def yfcaseAcceptingAuthorityTownship_city_last_word(self):
     township_name=self.yfcaseAcceptingAuthorityTownship
     return Township.objects.get(name=township_name).city_name[2:]
+    
+  # 共有人+債權人土地持分合計
+  def get_coownerinfo_land_holding_point_total(self):
+    newlist=[]
+    try:
+      getCoOwnerInfosLandHPPersonnalTotal=0
+      for getCoOwnerLandHP in self.coownerinfos.filter(coOwnerLandHPPersonnal__gt=0).filter(coOwnerLandHPAll__gt=0):
+        getCoOwnerInfosLandHPPersonnalTotal = getCoOwnerInfosLandHPPersonnalTotal + ( getCoOwnerLandHP.coOwnerLandHPPersonnal / getCoOwnerLandHP.coOwnerLandHPAll )
+      return getCoOwnerInfosLandHPPersonnalTotal + self.get_first_land_holding_point_value()
+    except:
+      newlist.append(0)
+    
+  # 共有人+債權人建物持分合計
+  def get_coownerinfo_build_holding_point_total(self):
+    newlist=[]
+    try:
+      getCoOwnerInfosBuildHPPersonnalTotal=0
+      for getCoOwnerBuildHP in self.coownerinfos.filter(coOwnerBuildHPPersonnal__gt=0).filter(coOwnerBuildHPAll__gt=0):
+        getCoOwnerInfosBuildHPPersonnalTotal = getCoOwnerInfosBuildHPPersonnalTotal + ( getCoOwnerBuildHP.coOwnerBuildHPPersonnal / getCoOwnerBuildHP.coOwnerBuildHPAll )
+      return getCoOwnerInfosBuildHPPersonnalTotal + self.get_first_not_add_and_not_public_holding_point_rate()
+    except:
+      newlist.append(0)
+    
+  # 訴訟標的價額  
+  def get_litigation_subject_price(self):
+    # 土地公告現值
+    PresentValueOfLandAnnouncement = self.yfcaseComplaintPresentValueOfLandAnnouncement
+    # 土地總面積 * 土地原告應有持分
+    LandHPTotalArea = self.get_land_holding_point_area_total()
+    # 系爭房屋課稅現值
+    PresentValueOfHouseTax = self.yfcaseComplaintPresentValueOfHouseTax
+    # 房屋原告應有持分
+    BuildHP = self.get_first_not_add_and_not_public_holding_point_personnal_rate() / self.get_first_not_add_and_not_public_holding_point_all_rate()
+    return (PresentValueOfLandAnnouncement * LandHPTotalArea) + (PresentValueOfHouseTax * BuildHP)
 
     
 class Land(models.Model):
@@ -783,34 +854,19 @@ class ObjectBuild(models.Model):
       newlist.append(0)
 
     
-# class FinalDecision(models.Model):
-#   yfcase=models.ForeignKey(Yfcase,related_name='finaldecisions',on_delete=models.CASCADE)
-#   finalDecision = models.CharField(u'最終判定',max_length=10,null=True,blank=True)
-#   regionalHead = models.CharField(u'區域負責人',max_length=10,null=True,blank=True)
-#   subSigntrueA = models.CharField(u'副署人員1',max_length=10,null=True,blank=True)
-#   subSigntrueB = models.CharField(u'副署人員2',max_length=10,null=True,blank=True)
-#   regionalHeadDate = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
-#   subSigntrueDateA = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
-#   subSigntrueDateB = models.CharField(u'簽核日期',max_length=10,null=True,blank=True)
-#   regionalHeadWorkArea = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
-#   subSigntrueWorkAreaA = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
-#   subSigntrueWorkAreaB = models.CharField(u'服務轄區',max_length=10,null=True,blank=True)
-
-#   def __str__(self):
-#     return self.finalDecision
-
-#   def other_day_to_today(self):
-#     # 取得目前的日期，要用form dateteim import datetime,不可用import datetime
-#     today = datetime.now()
-#     # 取得要計算的日期，要用form dateteim import datetime,不可用import datetime
-#     other_day = datetime.strptime(self.regionalHeadDate,'%m/%d/%Y')
-#     result = other_day - today
-#     return str(result.days)
-    
-#   # def get_regionalhead_first_name(self):
-#   #   return self.regionalHead[:1]
-
-#   # def get_regionalhead_last_name(self):
-#   #   return self.regionalHead[1:]
+class CoOwnerInfo(models.Model):
+  yfcase=models.ForeignKey(Yfcase,related_name='coownerinfos',on_delete=models.CASCADE)
+  coOwnerName = models.CharField(u'姓名',max_length=10,null=True,blank=True)
+  coOwnerAddress = models.CharField(u'住址',max_length=50,null=True,blank=True)
+  coOwnerLandHPPersonnal=models.DecimalField(u'土地個人持分',default=0,max_digits=8,decimal_places=0,null=True,blank=True)
+  coOwnerLandHPAll=models.DecimalField(u'土地所有持分',default=0,max_digits=8,decimal_places=0,null=True,blank=True)
+  coOwnerBuildHPPersonnal=models.DecimalField(u'建物個人持分',default=0,max_digits=8,decimal_places=0,null=True,blank=True)
+  coOwnerBuildHPAll=models.DecimalField(u'建物所有持分',default=0,max_digits=8,decimal_places=0,null=True,blank=True)
   
+  def __str__(self):
+    return self.coOwnerName
+    
+
+
+
 

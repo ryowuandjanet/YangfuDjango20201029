@@ -289,54 +289,58 @@
     </tr>
   
     <!--第四行-->
-    <tr>
-      <td class="lettertdTitle">四</td>
-      <td class="lettertd">十</td>
-      <td class="lettertd">日</td>
-      <td class="lettertd">內</td>
-      <td class="lettertd">與</td>
-      <td class="lettertd">揚</td>
-      <td class="lettertd">富</td>
-      <td class="lettertd">開</td>
-      <td class="lettertd">發</td>
-      <td class="lettertd">有</td>
-      <td class="lettertd">限</td>
-      <td class="lettertd">公</td>
-      <td class="lettertd">司</td>
-      <td class="lettertd"></td>
-      <td class="lettertd"></td>
-      <td class="lettertd"></td>
-      <td class="lettertd">先</td>
-      <td class="lettertd">生</td>
-      <td class="lettertd">(</td>
-      <td class="lettertd"></td>
-      <td class="lettertd"></td>
-    </tr>
-  
-    <!--第五行-->
-    <tr>
-      <td class="lettertdTitle">五</td>
-      <td class="lettertd"></td>
-      <td class="lettertd"></td>
-      <td class="lettertd">-</td>
-      <td class="lettertd"></td>
-      <td class="lettertd"></td>
-      <td class="lettertd"></td>
-      <td class="lettertd"></td>
-      <td class="lettertd"></td>
-      <td class="lettertd"></td>
-      <td class="lettertd">)</td>
-      <td class="lettertd">聯</td>
-      <td class="lettertd">繫</td>
-      <td class="lettertd">並</td>
-      <td class="lettertd">完</td>
-      <td class="lettertd">成</td>
-      <td class="lettertd">協</td>
-      <td class="lettertd">議</td>
-      <td class="lettertd">，</td>
-      <td class="lettertd">倘</td>
-      <td class="lettertd">協</td>
-    </tr>
+    {% for user in users %}
+      {% if user.userFullName == yfcase.yfcaseLetterAgent %}
+        <tr>
+          <td class="lettertdTitle">四</td>
+          <td class="lettertd">十</td>
+          <td class="lettertd">日</td>
+          <td class="lettertd">內</td>
+          <td class="lettertd">與</td>
+          <td class="lettertd">揚</td>
+          <td class="lettertd">富</td>
+          <td class="lettertd">開</td>
+          <td class="lettertd">發</td>
+          <td class="lettertd">有</td>
+          <td class="lettertd">限</td>
+          <td class="lettertd">公</td>
+          <td class="lettertd">司</td>
+          <td class="lettertd bluefont">{{ user.userFullName|slice:"0:1"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">{{ user.userFullName|slice:"1:2"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">{{ user.userFullName|slice:"2:3"|default_if_none:"" }}</td>
+          <td class="lettertd">先</td>
+          <td class="lettertd">生</td>
+          <td class="lettertd">(</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"0:1"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"1:2"|default_if_none:"" }}</td>
+        </tr>
+      
+        <!--第五行-->
+        <tr>
+          <td class="lettertdTitle">五</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"2:3"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"3:4"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">-</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"4:5"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"5:6"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"6:7"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"7:8"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"8:9"|default_if_none:"" }}</td>
+          <td class="lettertd bluefont">{{ user.userMobilePhone|slice:"9:10"|default_if_none:"" }}</td>
+          <td class="lettertd">)</td>
+          <td class="lettertd">聯</td>
+          <td class="lettertd">繫</td>
+          <td class="lettertd">並</td>
+          <td class="lettertd">完</td>
+          <td class="lettertd">成</td>
+          <td class="lettertd">協</td>
+          <td class="lettertd">議</td>
+          <td class="lettertd">，</td>
+          <td class="lettertd">倘</td>
+          <td class="lettertd">協</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
   
     <!--第六行-->
     <tr>
@@ -591,6 +595,9 @@
       <tr>
         <th style="border: 1px solid black;" rowspan="3">共有人設籍<br /></th>
         <th style="border: 1px solid black;" colspan="2">
+          <span class="bluefont">
+            {{yfcase.yfcaseCity|default_if_none:""}}{{yfcase.yfcaseTownship|default_if_none:""}}{{yfcase.yfcaseVillage|default_if_none:""}}{{yfcase.yfcaseNeighbor|default_if_none:""}}{{yfcase.yfcaseStreet|default_if_none:""}}{{yfcase.yfcaseSection|default_if_none:""}}{{yfcase.yfcaseLane|default_if_none:""}}{{yfcase.yfcaseAlley|default_if_none:""}}{{yfcase.yfcaseNumber|default_if_none:""}}{{yfcase.yfcaseFloor|default_if_none:""}}
+          </span>
           <br />
           房地應有部分比例
         </th>
@@ -600,42 +607,94 @@
         <th style="border: 1px solid black;">建號</th>
       </tr>
       <tr>
-        <th style="border: 1px solid black;"></th>
-        <th style="border: 1px solid black;"></th>
+        <th style="border: 1px solid black;">
+          {% for land in yfcase.lands.all %}
+            <span class="bluefont">{{yfcase.yfcaseBigSection|default_if_none:""}}{{land.landNumber|default_if_none:""}}</span><br>
+          {% endfor %}
+        </th>
+        <th style="border: 1px solid black;">
+          {% for build in yfcase.builds.all %}
+            <span class="bluefont">{{yfcase.yfcaseBigSection|default_if_none:""}}{{build.buildNumber|default_if_none:""}}</span><br>
+          {% endfor %}
+        </th>
       </tr>
   
       <!--共有人 : 房地應有部分比例-->
-  
+      {% for coownerinfo in yfcase.coownerinfos.all %}
       <tr style="font-size: 12pt;">
         <td style="border: 1px solid black; text-align: left;">
-          <span class="bluefont"> </span>
+          <span class="bluefont">
+            {{ coownerinfo.coOwnerName }}<br>
+            {{ coownerinfo.coOwnerAddress }}
+          </span>
         </td>
         <td style="border: 1px solid black; text-align: center;">
-          <span class="bluefont"> </span>
+          <span class="bluefont">
+            {% if coownerinfo.coOwnerLandHPPersonnal and coownerinfo.coOwnerLandHPAll %}
+              {{ coownerinfo.coOwnerLandHPAll|num2cn2 }}分之{{coownerinfo.coOwnerLandHPPersonnal|num2cn2 }}
+            {% endif%}
+          </span>
         </td>
         <td style="border: 1px solid black; text-align: center;">
-          <span class="bluefont"> </span>
+          <span class="bluefont">
+            {% if coownerinfo.coOwnerBuildHPPersonnal and coownerinfo.coOwnerBuildHPAll %}
+              {{coownerinfo.coOwnerBuildHPAll|num2cn2 }}分之{{ coownerinfo.coOwnerBuildHPPersonnal|num2cn2 }}
+            {% endif%}
+          </span>
         </td>
       </tr>
-  
+      {% endfor %}
+      
+
       <!--權利人 : 房地應有部分比例-->
       <tr></tr>
-      <tr style="font-size: 14.5pt;">
+      <tr style="font-size: 12pt;">
         <td style="border: 1px solid black; text-align: left;">
-          <span class="bluefont"> </span>
+          <span class="bluefont">
+            {% if yfcase.yfcaseCreditor %}
+              {{ yfcase.yfcaseCreditor }}
+            {% else %}
+              {{ yfcase.yfcaseCompany }}<br>
+              {% if yfcase.yfcaseCompany == "揚富開發有限公司" %}
+    						臺中市大里區西榮里新仁路三段49號1樓
+    					{% elif yfcase.yfcaseCompany == "鉅鈦開發有限公司"%}
+    						臺中市大里區西榮里新仁路三段72巷3號1樓
+    					{% endif %}
+            {% endif %}
+          </span>
         </td>
         <td style="border: 1px solid black; text-align: center;">
-          <span class="bluefont"> </span>
+          <span class="bluefont">
+            {% for land in yfcase.lands.all %}
+              {{ land.landHoldingPointAll|num2cn2 }}分之{{ land.landHoldingPointPersonal|num2cn2 }}
+            {% endfor %}
+          </span>
         </td>
         <td style="border: 1px solid black; text-align: center;">
-          <span class="bluefont"> </span>
+          <span class="bluefont">
+            {% if yfcase.get_first_not_add_and_not_public_holding_point_personnal_rate and yfcase.get_first_not_add_and_not_public_holding_point_all_rate %}
+              {{ yfcase.get_first_not_add_and_not_public_holding_point_all_rate|num2cn2 }}分之{{ yfcase.get_first_not_add_and_not_public_holding_point_personnal_rate|num2cn2 }}
+            {% endif %}
+          </span>
         </td>
       </tr>
-  
+      
       <tr>
         <th style="border: 1px solid black;">合計</th>
-        <th style="border: 1px solid black;"></th>
-        <th style="border: 1px solid black;"></th>
+        <th style="border: 1px solid black;">
+          {% if yfcase.get_coownerinfo_land_holding_point_total == 1 %}
+            <span class="bluefont">全部</span>
+          {% else %}
+            <span style="color:red;">持分比例有誤({{ yfcase.get_coownerinfo_land_holding_point_total|floatformat:"2" }})</span>
+          {% endif %}
+        </th>
+        <th style="border: 1px solid black;">
+          {% if yfcase.get_coownerinfo_build_holding_point_total == 1 %}
+            <span class="bluefont">全部</span>
+          {% else %}
+            <span style="color:red;">持分比例有誤({{ yfcase.get_coownerinfo_build_holding_point_total|floatformat:"2" }})</span>
+          {% endif %}
+        </th>
       </tr>
     </table>
   </div>

@@ -20,6 +20,7 @@ from .forms import *
 from .filters import YfcaseFilter
 from wkhtmltopdf.views import PDFTemplateView
 from django_pdfkit import PDFView
+from django.db import transaction
 
 
 def font_path():
@@ -511,11 +512,26 @@ class ComplaintUpdateView(UpdateView):
   success_url = reverse_lazy('yfcase:home')
 
   def get_context_data(self, **kwargs):
-    context = super(ComplaintUpdateView,self).get_context_data(**kwargs)
-    context["author_id"]=self.request.user.id
-    context['value'] = '編輯'
-    context['title'] = '編輯得標後相關資料'
-    return context 
+    data = super(ComplaintUpdateView,self).get_context_data(**kwargs)
+    if self.request.POST:
+      data['titles'] = CoOwnerInfoFormSet(self.request.POST,instance=self.object)
+    else:
+      data['titles'] = CoOwnerInfoFormSet(instance=self.object)
+    data["author_id"]=self.request.user.id
+    data['value'] = '編輯'
+    data['title'] = '編輯得標後相關資料'
+    return data 
+  
+  def form_valid(self, form):
+    context = self.get_context_data()
+    titles = context['titles']
+    with transaction.atomic():
+      form.instance.created_by = self.request.user
+      self.object = form.save()
+      if titles.is_valid():
+        titles.instance = self.object
+        titles.save()
+    return super(ComplaintUpdateView, self).form_valid(form)
 
 # 存證信函-Modal(Form)
 class LetterUpdateView(UpdateView):
@@ -598,8 +614,10 @@ class complaintPDFView(PDFView):
     context = super().get_context_data(**kwargs)
     pk = kwargs.get('pk')
     yfcase = Yfcase.objects.get(pk=pk)
+    users = CustomUser.objects.all()
     context.update({
         'yfcase': yfcase,
+        'users': users,
     })
     return context
     
@@ -611,8 +629,10 @@ class letterPDFView(PDFView):
     context = super().get_context_data(**kwargs)
     pk = kwargs.get('pk')
     yfcase = Yfcase.objects.get(pk=pk)
+    users = CustomUser.objects.all()
     context.update({
         'yfcase': yfcase,
+        'users': users,
     })
     return context
 
